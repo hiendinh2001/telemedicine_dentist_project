@@ -1,0 +1,49 @@
+
+    
+	  <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	    <div class="container">
+	      <a class="navbar-brand" href="/">🦷 <span>Bright Smile Dental</span></a>
+	      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+	        <span class="oi oi-menu"></span> Menu
+	      </button>
+
+	      <div class="collapse navbar-collapse" id="ftco-nav">
+	        <ul class="navbar-nav ml-auto">
+	          <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+	          <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{{ url_for('services') }}" class="nav-link">Services</a></li>
+	          <li class="nav-item"><a href="{{ url_for('doctors') }}" class="nav-link">Doctors</a></li>
+	          <li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+				{% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('patient_list') }}">Liste des patients</a>
+      </li>
+
+      <!-- Avatar + Nom Prénom -->
+      <li class="nav-item">
+        <a class="nav-link" href="{{ url_for('info_perso') }}">
+          {% if current_user.avatar %}
+            <img src="{{ current_user.avatar }}" class="rounded-circle" width="20" alt="{{ current_user.name }}"/>
+          {% else %}
+            <img src="{{ url_for('static', filename='images/avatar.png') }}" class="rounded-circle" width="20" alt="{{ current_user.name }}"/>
+          {% endif %}
+          {{ current_user.name }}
+        </a>
+      </li>
+
+      <!-- Bouton Déconnexion -->
+      <li class="nav-item cta">
+        <a class="nav-link" href="{{ url_for('user_signout') }}"><span>Logout</span></a>
+      </li>
+					          <li class="nav-item cta"><a href="" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
+
+{% else %}
+				<li class="nav-item cta"><a href="{{ url_for('user_signin') }}" class="nav-link"><span>Sign in</span></a></li>
+            <li class="nav-item cta ml-3"><a href="{{ url_for('user_register') }}" class="nav-link"><span>Sign up free</span></a></li>
+{% endif %}
+	        </ul>
+	      </div>
+	    </div>
+	  </nav>
+    <!-- END nav -->

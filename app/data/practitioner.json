@@ -1,0 +1,50 @@
+[
+  {
+    "resourceType": "Practitioner",
+    "id": 4,
+    "meta": {
+      "lastUpdated": "2023-04-03T11:20:03+01:00"
+    },
+    "identifier": 1,
+    "active": true,
+    "name": "Nada",
+    "gender": "Femme",
+    "birthDate": "29/08/1987",
+    "address": "Paris, France",
+    "communication": {
+      "language": "Francais, Anglais, Arabe"
+    }
+  },
+  {
+    "resourceType": "Practitioner",
+    "id": 4,
+    "meta": {
+      "lastUpdated": "2023-03-07T17:20:03+01:00"
+    },
+    "identifier": 2,
+    "active": true,
+    "name": "Hien",
+    "gender": "Femme",
+    "birthDate": "25/04/2001",
+    "address": "Paris, France",
+    "communication": {
+      "language": "Francais, Anglais, Vietnamien"
+    }
+  },
+  {
+    "resourceType": "Practitioner",
+    "id": 4,
+    "meta": {
+      "lastUpdated": "2023-03-07T17:20:03+01:00"
+    },
+    "identifier": 3,
+    "active": true,
+    "name": "Thomas",
+    "gender": "Homme",
+    "birthDate": "21/03/1963",
+    "address": "Paris, France",
+    "communication": {
+      "language": "Francais, Anglais, Espagnol"
+    }
+  }
+]

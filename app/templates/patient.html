@@ -1,0 +1,60 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Liste des patients {% endblock %}
+
+{% block content %}
+<h1 class="subject mt-5 mb-5">Liste des patients</h1>
+
+{% if patients %}
+<form class="row justify-content-center ml-5 mr-5 mb-5">
+  <div class="col-md-3 form-group mr-sm-2">
+    <input type="text" class="form-control" name="name" placeholder="Entrez le nom du patient..." />
+  </div>
+  <div class="col-md-3 form-group mr-sm-2">
+    <input type="text" class="form-control" name="gender" placeholder="Entrez le sexe du patient..." />
+  </div>
+  <input type="submit" value="Rechercher" class="my-2 my-sm-0 btn btn-success" size="sm">
+</form>
+
+
+<div class="row justify-content-center">
+  <div class="col-md-10 col-xs-12 mb-5">
+    <table class="table table-hover table-bordered">
+      <tr class="bg-light">
+        <th class="text-center">Id du patient</th>
+        <th class="text-center">Nom et Prénom</th>
+        <th class="text-center">Sexe</th>
+      </tr>
+      {% for p in patients %}
+      <tr>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark"
+            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.identifier }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark"
+            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.name }}</a>
+        </td>
+        <td class="text-center" class="my-date">
+          <a class="mt-2 text-decoration-none text-dark"
+            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.gender }}</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+
+  {% else %}
+  <p class="text-center"><i>Aucun résultats retourné!!!</i></p>
+  {% endif %}
+
+  <script>
+    window.onload = function () {
+      let d = document.getElementsByClassName('my-date')
+      for (let i = 0; i < d.length; i++)
+        d[i].innerText = moment(d[i].innerText).locale('fr').fromNow()
+    }
+
+  </script>
+
+  {% endblock %}

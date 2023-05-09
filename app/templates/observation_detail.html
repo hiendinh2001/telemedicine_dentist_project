@@ -1,0 +1,46 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Température de {{ observation.subject.display }} {% endblock %}
+
+{% block content %}
+<h1 class="subject mt-5 mb-5">Température de {{ observation.subject.display }}</h1>
+
+{% if observation %}
+
+<div class="row justify-content-center">
+  <div class="col-md-10 col-xs-12 mb-5">
+    <table class="table table-hover table-bordered">
+      <tr class="bg-light">
+        <th class="text-center">Id</th>
+        <th class="text-center">Statut</th>
+        <th class="text-center">Date d'effectuation</th>
+        <th class="text-center">Température</th>
+      </tr>
+      <tr>
+        <td class="text-center">{{ observation.identifier }}</td>
+        <td class="text-center">{{ observation.status }}</td>
+        <td class="text-center" class="my-date">{{ observation.effectiveDateTime }}</td>
+        <td class="text-center">{{ observation.valueQuantity.value }} {{ observation.valueQuantity.unit }}</td>
+      </tr>
+    </table>
+  </div>
+</div>
+<div class="row justify-content-center mb-5">
+  <a class="btn btn-primary mt-2" href="{{ url_for('patient_detail', patient_id=observation.identifier) }}"
+    role="button">Retourner à la page précédente</a>
+</div>
+
+{% else %}
+<p class="text-center"><i>Aucun résultats retourné!!!</i></p>
+{% endif %}
+
+<script>
+  window.onload = function () {
+    let d = document.getElementsByClassName('my-date')
+    for (let i = 0; i < d.length; i++)
+      d[i].innerText = moment(d[i].innerText).locale('fr').fromNow()
+  }
+
+</script>
+
+{% endblock %}
