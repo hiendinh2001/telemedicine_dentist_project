@@ -1,19 +1,31 @@
 {% extends 'layout/base.html' %}
 
-{% block title %} Liste des patients {% endblock %}
+{% block title %} Patients List {% endblock %}
 
 {% block content %}
-<h1 class="subject mt-5 mb-5">Liste des patients</h1>
+<section class="home-slider owl-carousel">
+      <div class="slider-item bread-item" style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
+        <div class="overlay"></div>
+        <div class="container" data-scrollax-parent="true">
+          <div class="row slider-text align-items-end">
+            <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+              <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a href="/">Home</a></span> <span>Patients List</span></p>
+              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Patients List</h1>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 {% if patients %}
-<form class="row justify-content-center ml-5 mr-5 mb-5">
+<form class="row justify-content-center m-5">
   <div class="col-md-3 form-group mr-sm-2">
-    <input type="text" class="form-control" name="name" placeholder="Entrez le nom du patient..." />
+    <input type="text" class="form-control" name="name" placeholder="Enter the patient's name..." />
   </div>
   <div class="col-md-3 form-group mr-sm-2">
-    <input type="text" class="form-control" name="gender" placeholder="Entrez le sexe du patient..." />
+    <input type="text" class="form-control" name="gender" placeholder="Enter the patient's gender..." />
   </div>
-  <input type="submit" value="Rechercher" class="my-2 my-sm-0 btn btn-success" size="sm">
+  <input type="submit" value="Search" class="my-2 my-sm-0 btn btn-success" size="sm">
 </form>
 
 
@@ -21,9 +33,9 @@
   <div class="col-md-10 col-xs-12 mb-5">
     <table class="table table-hover table-bordered">
       <tr class="bg-light">
-        <th class="text-center">Id du patient</th>
-        <th class="text-center">Nom et Prénom</th>
-        <th class="text-center">Sexe</th>
+        <th class="text-center">Patient ID</th>
+        <th class="text-center">Full Name</th>
+        <th class="text-center">Gender</th>
       </tr>
       {% for p in patients %}
       <tr>
@@ -43,9 +55,10 @@
       {% endfor %}
     </table>
   </div>
+</div>
 
   {% else %}
-  <p class="text-center"><i>Aucun résultats retourné!!!</i></p>
+  <p class="text-center"><i>No results returned!!!</i></p>
   {% endif %}
 
   <script>
