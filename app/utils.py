@@ -1,6 +1,6 @@
 import json, os
 from app import app, db
-from app.models import User, UserRole, Patient
+from app.models import User, UserRole, Patient, Immunization
 from flask_login import current_user
 from sqlalchemy import func
 from sqlalchemy.sql import extract
@@ -11,13 +11,14 @@ def read_json(path):
         return json.load(f)
 
 def load_patient(name=None, gender=None):
-    patients = read_json(os.path.join(app.root_path, 'data/patient.json'))
+    patients = Patient.query.filter(Patient.active.__eq__(True))
 
     if name:
-        patients = [p for p in patients if p['name'].lower().find(name.lower()) >= 0]
+        patients = patients.filter(Patient.name.contains(name))
 
     if gender:
-        patients = [p for p in patients if p['gender'].lower().find(gender.lower()) >= 0]
+        patients = patients.filter(Patient.gender.contains(gender))
+
     return patients
 
 def load_immunization():
@@ -36,11 +37,7 @@ def load_practitioner():
     return practitioners
 
 def get_patient_by_id(patient_id):
-    patients = read_json(os.path.join(app.root_path, 'data/patient.json'))
-
-    for p in patients:
-        if p['identifier'] == patient_id:
-            return p
+    return Patient.query.get(patient_id)
 
 def get_immunization_by_id(immunization_id): 
     immunizations = read_json(os.path.join(app.root_path, 'data/immunization.json'))

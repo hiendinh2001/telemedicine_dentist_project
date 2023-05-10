@@ -41,15 +41,15 @@
       <tr>
         <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark"
-            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.identifier }}</a>
+            href="{{ url_for('patient_detail', patient_id=p.id) }}">{{ p.id }}</a>
         </td>
         <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark"
-            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.name }}</a>
+            href="{{ url_for('patient_detail', patient_id=p.id) }}">{{ p.name }}</a>
         </td>
         <td class="text-center" class="my-date">
           <a class="mt-2 text-decoration-none text-dark"
-            href="{{ url_for('patient_detail', patient_id=p.identifier) }}">{{ p.gender }}</a>
+            href="{{ url_for('patient_detail', patient_id=p.id) }}">{{ p.gender }}</a>
         </td>
       </tr>
       {% endfor %}

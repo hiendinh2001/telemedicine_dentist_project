@@ -10,11 +10,6 @@
 	      <div class="collapse navbar-collapse" id="ftco-nav">
 	        <ul class="navbar-nav ml-auto">
 	          <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
-	          <li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
-	          <li class="nav-item"><a href="{{ url_for('services') }}" class="nav-link">Services</a></li>
-	          <li class="nav-item"><a href="{{ url_for('doctors') }}" class="nav-link">Doctors</a></li>
-	          <li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link">Blog</a></li>
-	          <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
 				{% if current_user.is_authenticated %}
       <li class="nav-item">
         <a class="nav-link" href="{{ url_for('patient_list') }}">Patients List</a>
@@ -33,12 +28,17 @@
       </li>
 
       <!-- Bouton Déconnexion -->
-      <li class="nav-item cta">
+      <li class="nav-item cta mr-2">
         <a class="nav-link" href="{{ url_for('user_signout') }}"><span>Sign out</span></a>
       </li>
-					          <li class="nav-item cta"><a href="" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
+				<li class="nav-item cta"><a href="" class="nav-link" data-toggle="modal" data-target="#modalRequest"><span>Make an Appointment</span></a></li>
 
 {% else %}
+				<li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+	          <li class="nav-item"><a href="{{ url_for('services') }}" class="nav-link">Services</a></li>
+	          <li class="nav-item"><a href="{{ url_for('doctors') }}" class="nav-link">Doctors</a></li>
+	          <li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link">Blog</a></li>
+	          <li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
 				<li class="nav-item cta"><a href="{{ url_for('user_signin') }}" class="nav-link"><span>Sign in</span></a></li>
             <li class="nav-item cta ml-3"><a href="{{ url_for('user_register') }}" class="nav-link"><span>Sign up free</span></a></li>
 {% endif %}
