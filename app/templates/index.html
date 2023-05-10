@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %} 🦷 Bright Smile Dental {% endblock %}
+{% block title %} Bright Smile Dental {% endblock %}
 
 {% block content %}
     <section class="home-slider owl-carousel">
@@ -39,10 +39,16 @@
     	<div class="container">
     		<div class="row no-gutters justify-content-center">
     			<div class="col-md-3 color-1 p-4">
-    				<h3 class="mb-4">Emergency Cases</h3>
+    				<!--<h3 class="mb-4">Emergency Cases</h3>-->
+					<h3>On our site, you can</h3>
+					<ul>
+						<li>Make an appointment</li>
+						<li>Chat with dentist</li>
+						<li>Teleconsult</li>
+					</ul>
     				<!--<p>We provide same-day appointments for dental emergencies to ensure prompt and efficient care.</p>-->
-					<p>Don't hesitate to contact us immediately.</p>
-    				<span class="phone-number">+33 1 98 56 12 25</span>
+					<!--<p>Don't hesitate to contact us immediately.</p>
+    				<span class="phone-number">+33 1 98 56 12 25</span>-->
     			</div>
     			<div class="col-md-3 color-2 p-4">
     				<h3 class="mb-4">Opening Hours</h3>
@@ -124,11 +130,11 @@
       <div class="container">
       	<div class="row justify-content-center mb-5 pb-5">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-2">Our Service Keeps you Smile</h2>
+            <h2 class="mb-2"><a href="{{ url_for('services') }}">Our Service Keeps you Smile</a></h2>
             <p>Our experienced team of dental professionals is committed to providing you with top-quality care.</p>
           </div>
         </div>
-        <div class="row">
+        <!--<div class="row">
           <div class="col-md-3 d-flex align-self-stretch ftco-animate">
             <div class="media block-6 services d-block text-center">
               <div class="icon d-flex justify-content-center align-items-center">
@@ -173,7 +179,7 @@
               </div>
             </div>      
           </div>
-        </div>
+        </div>-->
       </div>
       <div class="container-wrap mt-5">
       	<div class="row d-flex no-gutters">
@@ -221,13 +227,13 @@
 
     <section class="ftco-section">
       <div class="container">
-      	<div class="row justify-content-center mb-5 pb-5">
+      	<div class="row justify-content-center">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Meet Our Experience Dentist</h2>
+            <h2 class="mb-3"><a href="{{ url_for('doctors') }}">Meet Our Experience Dentist</a></h2>
             <p>Our team of highly skilled professionals will help you achieve the smile you've always desired.</p>
           </div>
         </div>
-        <div class="row">
+        <!--div class="row">
         	<div class="col-lg-3 col-md-6 d-flex mb-sm-4 ftco-animate">
         		<div class="staff">
       				<div class="img mb-4" style="background-image: url(static/images/person_5.jpg);"></div>
@@ -300,7 +306,7 @@
       				</div>
         		</div>
         	</div>
-        </div>
+        </div>-->
         <!--<div class="row  mt-5 justify-conten-center">
         	<div class="col-md-8 ftco-animate">
         		<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi vero accusantium sunt sit aliquam ipsum molestias autem perferendis, incidunt cumque necessitatibus cum amet cupiditate, ut accusamus. Animi, quo. Laboriosam, laborum.</p>
@@ -360,13 +366,13 @@
 
     <section class="ftco-section">
     	<div class="container">
-    		<div class="row justify-content-center mb-5 pb-5">
+    		<div class="row justify-content-center">
           <div class="col-md-7 text-center heading-section ftco-animate">
-            <h2 class="mb-3">Our Best Pricing</h2>
+            <h2 class="mb-3"><a href="{{ url_for('services') }}">Our Best Pricing</a></h2>
             <p>We believe that everyone deserves access to quality dental care, which is why we offer competitive pricing and flexible payment options to fit any budget.</p>
           </div>
         </div>
-    		<div class="row">
+    		<!--<div class="row">
         	<div class="col-md-3 ftco-animate">
         		<div class="pricing-entry pb-5 text-center">
         			<div>
@@ -431,7 +437,7 @@
         			<p class="button text-center"><a href="#" class="btn btn-primary btn-outline-primary px-4 py-3">Order now</a></p>
         		</div>
         	</div>
-        </div>
+        </div>-->
     	</div>
     </section>
 
