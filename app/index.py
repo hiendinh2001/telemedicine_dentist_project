@@ -40,10 +40,12 @@ def contact():
 @app.route("/fhir/Patient")
 @login_required
 def patient_list():
+    immunization_id = request.args.get('immunization_id')
     name = request.args.get("name")
     gender = request.args.get("gender")
 
-    patients = utils.load_patient(name=name,
+    patients = utils.load_patient(immunization_id=immunization_id,
+                                  name=name,
                                   gender=gender)
 
     return render_template('patient.html', patients=patients) 
