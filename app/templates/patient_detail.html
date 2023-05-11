@@ -30,7 +30,7 @@
                 <th class="text-center">Address</th>
             </tr>
             <tr>
-                <td class="text-center">{{ patient.id }}</td>
+                <td class="text-center">{{ patient.identifier }}</td>
                 <td class="text-center">{{ patient.name }}</td>
                 <td class="text-center" class="my-date">{{ patient.birthDate }}</td>
                 <td class="text-center">{{ patient.gender }}</td>
@@ -42,17 +42,17 @@
 <div class="row justify-content-center mb-4">
     <div class="col-xs-4">
         <a class="btn btn-success mt-2 mx-3"
-            href="{{ url_for('immunization_detail', immunization_id=patient.id) }}" role="button">See his/her
+            href="{{ url_for('immunization_detail', immunization_id=patient.identifier) }}" role="button">See his/her
              immunization</a>
     </div>
     <div class="col-xs-4">
         <a class="btn btn-info text-white mt-2 mx-3"
-            href="{{ url_for('observation_detail', observation_id=patient.id) }}" role="button">See his/her
+            href="{{ url_for('observation_detail', observation_id=patient.identifier) }}" role="button">See his/her
              temperature</a>
     </div>
     <div class="col-xs-4">
         <a class="btn btn-danger text-white mt-2 mx-3"
-            href="{{ url_for('practitioner_detail', practitioner_id=patient.id) }}" role="button">See his/her practitioner</a>
+            href="{{ url_for('practitioner_detail', practitioner_id=patient.identifier) }}" role="button">See his/her practitioner</a>
     </div>
 </div>
 <div class="row justify-content-center mb-5">
