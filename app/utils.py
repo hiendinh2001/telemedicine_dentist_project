@@ -22,7 +22,7 @@ def load_patient(name=None, gender=None):
     return patients
 
 def load_immunization():
-    immunizations = Immunization.query.filter(Immunization.active.__eq__(True))
+    immunizations = Immunization.query.all()
 
     return immunizations
 
