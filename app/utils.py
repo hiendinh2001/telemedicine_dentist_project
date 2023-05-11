@@ -1,6 +1,6 @@
 import json, os
 from app import app, db
-from app.models import User, UserRole, Patient, Immunization
+from app.models import User, UserRole, Patient, Immunization, Observation, Practitioner
 from flask_login import current_user
 from sqlalchemy import func
 from sqlalchemy.sql import extract
@@ -10,8 +10,17 @@ def read_json(path):
     with open(path, "r") as f:
         return json.load(f)
 
-def load_patient(name=None, gender=None):
+def load_patient(immunization_id=None, practitioner_id=None, observation_id=None, name=None, gender=None):
     patients = Patient.query.filter(Patient.active.__eq__(True))
+
+    if immunization_id:
+        patients = patients.filter(Patient.service_id.__eq__(immunization_id))
+
+    if practitioner_id:
+        patients = patients.filter(Patient.status_id.__eq__(practitioner_id))
+
+    if observation_id:
+        patients = patients.filter(Patient.status_id.__eq__(observation_id))
 
     if name:
         patients = patients.filter(Patient.name.contains(name))
@@ -22,19 +31,13 @@ def load_patient(name=None, gender=None):
     return patients
 
 def load_immunization():
-    immunizations = Immunization.query.all()
-
-    return immunizations
+    return Immunization.query.all()
 
 def load_observation():
-    observations = read_json(os.path.join(app.root_path, 'data/observation.json'))
-
-    return observations
+    return Observation.query.all()
 
 def load_practitioner():
-    practitioners = read_json(os.path.join(app.root_path, 'data/practitioner.json'))
-
-    return practitioners
+    return Practitioner.query.all()
 
 def get_patient_by_id(patient_id):
     return Patient.query.get(patient_id)
@@ -43,18 +46,10 @@ def get_immunization_by_id(immunization_id):
     return Immunization.query.get(immunization_id)
 
 def get_observation_by_id(observation_id): 
-    observations = read_json(os.path.join(app.root_path, 'data/observation.json'))
-
-    for o in observations:
-        if o['identifier'] == observation_id:
-            return o
+    return Observation.query.get(observation_id)
 
 def get_practitioner_by_id(practionner_id):
-    practitioners = read_json(os.path.join(app.root_path, 'data/practitioner.json'))
-
-    for pr in practitioners:
-        if pr['identifier'] == practionner_id:
-            return pr
+    return Practitioner.query.get(practionner_id)
 
 def add_user(name, username, password, **kwargs):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())

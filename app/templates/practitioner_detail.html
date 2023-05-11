@@ -4,18 +4,22 @@
 
 {% block content %}
 <section class="home-slider owl-carousel">
-      <div class="slider-item bread-item" style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container" data-scrollax-parent="true">
-          <div class="row slider-text align-items-end">
-            <div class="col-md-7 col-sm-12 ftco-animate mb-5">
-              <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a href="/">Home</a></span> <span>Practitioner {{ practitioner.name }}</span></p>
-              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Practitioner {{ practitioner.name }}</h1>
-            </div>
-          </div>
+  <div class="slider-item bread-item"
+    style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Practitioner {{ practitioner.name }}</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Practitioner {{
+            practitioner.name }}</h1>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
 {% if practitioner %}
 
@@ -32,20 +36,21 @@
       <tr>
         <td class="text-center">{{ practitioner.name }}</td>
         <td class="text-center">{{ practitioner.gender }}</td>
-        <td class="text-center">{{ practitioner.birthDate }}</td>
+        <td class="text-center my-date">{{ practitioner.birthDate }}</td>
         <td class="text-center">{{ practitioner.address }}</td>
-        <td class="text-center">{{ practitioner.communication.language }}</td>
+        <td class="text-center">{{ practitioner.language }}</td>
       </tr>
     </table>
   </div>
 </div>
 <div class="row justify-content-center mb-5">
-  <a class="btn btn-primary mt-2" href="{{ url_for('patient_detail', patient_id=practitioner.identifier) }}"
-    role="button">Retourner à la page précédente</a>
+  <a class="btn btn-primary mt-2" href="{{ url_for('patient_detail', patient_id=practitioner.id) }}"
+    role="button">Go back to the previous
+            page</a>
 </div>
 
 {% else %}
-<p class="text-center"><i>Aucun résultats retourné!!!</i></p>
+<p class="text-center"><i>No results returned!!!!!!</i></p>
 {% endif %}
 
 <script>

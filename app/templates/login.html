@@ -1,23 +1,24 @@
-
 {% extends 'layout/base.html' %}
 
 {% block title %} Sign in {% endblock %}
 
 {% block content %}
 
-    <section class="home-slider owl-carousel">
-      <div class="slider-item bread-item" style="background-image: url('static/images/bg_1.jpg');" data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container" data-scrollax-parent="true">
-          <div class="row slider-text align-items-end">
-            <div class="col-md-7 col-sm-12 ftco-animate mb-5">
-              <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a href="/">Home</a></span> <span>Sign in</span></p>
-              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Sign in</h1>
-            </div>
-          </div>
+<section class="home-slider owl-carousel">
+  <div class="slider-item bread-item" style="background-image: url('static/images/bg_1.jpg');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Sign in</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Sign in</h1>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 <section class="ftco-section ftco-services">
   <div class="container">
     <div class="row justify-content-center">
@@ -33,32 +34,36 @@
       </div>
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Sign in</h1>
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Sign in
+          </h1>
           <form method="post" class="form-signin">
-              <div class="form-group">
+            <div class="form-group">
               <label for="username" class="sr-only">Identifier <span style="color: red;">*</span></label>
-              <input type="text" id="username" name="username" class="form-control pl-3" placeholder="Identifier" required autofocus style="border-radius: 10px">
+              <input type="text" id="username" name="username" class="form-control pl-3" placeholder="Identifier"
+                required autofocus style="border-radius: 10px">
             </div>
-              <div class="form-group">
+            <div class="form-group">
               <label for="password" class="sr-only">Password <span style="color: red;">*</span></label>
-              <input type="password" id="password" name="password" class="form-control pl-3" placeholder="Password" required style="border-radius: 10px">
+              <input type="password" id="password" name="password" class="form-control pl-3" placeholder="Password"
+                required style="border-radius: 10px">
             </div>
-              <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Sign in</button>
-     </form>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Sign
+              in</button>
+          </form>
         </div>
       </div>
     </div>
   </div>
 </section>
-		<section class="ftco-section contact-section ftco-degree-bg">
-      <div class="container">
-        <div class="row block-9 justify-content-center">
-          <div class="col-md-6 pr-md-5">
+<section class="ftco-section contact-section ftco-degree-bg">
+  <div class="container">
+    <div class="row block-9 justify-content-center">
+      <div class="col-md-6 pr-md-5">
 
 
-          </div>
-        </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
 {% endblock %}

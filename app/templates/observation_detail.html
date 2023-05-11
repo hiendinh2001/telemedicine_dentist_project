@@ -1,21 +1,25 @@
 {% extends 'layout/base.html' %}
 
-{% block title %} Temperature of {{ observation.subject.display }} {% endblock %}
+{% block title %} Temperature of {{ observation.patient }} {% endblock %}
 
 {% block content %}
 <section class="home-slider owl-carousel">
-      <div class="slider-item bread-item" style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');" data-stellar-background-ratio="0.5">
-        <div class="overlay"></div>
-        <div class="container" data-scrollax-parent="true">
-          <div class="row slider-text align-items-end">
-            <div class="col-md-7 col-sm-12 ftco-animate mb-5">
-              <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a href="/">Home</a></span> <span>Temperature of {{ observation.subject.display }}</span></p>
-              <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Temperature of {{ observation.subject.display }}</h1>
-            </div>
-          </div>
+  <div class="slider-item bread-item"
+    style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Temperature of {{ observation.patient }}</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Temperature of {{
+            observation.patient }}</h1>
         </div>
       </div>
-    </section>
+    </div>
+  </div>
+</section>
 
 {% if observation %}
 
@@ -29,21 +33,22 @@
         <th class="text-center">Temperature</th>
       </tr>
       <tr>
-        <td class="text-center">{{ observation.identifier }}</td>
+        <td class="text-center">{{ observation.id }}</td>
         <td class="text-center">{{ observation.status }}</td>
-        <td class="text-center" class="my-date">{{ observation.effectiveDateTime }}</td>
-        <td class="text-center">{{ observation.valueQuantity.value }} {{ observation.valueQuantity.unit }}</td>
+        <td class="text-center my-date">{{ observation.effectiveDateTime }}</td>
+        <td class="text-center">{{ observation.value }} {{ observation.unit }}</td>
       </tr>
     </table>
   </div>
 </div>
 <div class="row justify-content-center mb-5">
-  <a class="btn btn-primary mt-2" href="{{ url_for('patient_detail', patient_id=observation.identifier) }}"
-    role="button">Retourner à la page précédente</a>
+  <a class="btn btn-primary mt-2" href="{{ url_for('patient_detail', patient_id=observation.id) }}"
+    role="button">Go back to the previous
+            page</a>
 </div>
 
 {% else %}
-<p class="text-center"><i>Aucun résultats retourné!!!</i></p>
+<p class="text-center"><i>No results returned!!!</i></p>
 {% endif %}
 
 <script>

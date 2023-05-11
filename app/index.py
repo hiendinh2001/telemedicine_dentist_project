@@ -41,10 +41,14 @@ def contact():
 @login_required
 def patient_list():
     immunization_id = request.args.get('immunization_id')
+    practitioner_id = request.args.get('practitioner_id')
+    observation_id = request.args.get('observation_id')
     name = request.args.get("name")
     gender = request.args.get("gender")
 
     patients = utils.load_patient(immunization_id=immunization_id,
+                                  practitioner_id=practitioner_id,
+                                  observation_id=observation_id,
                                   name=name,
                                   gender=gender)
 
