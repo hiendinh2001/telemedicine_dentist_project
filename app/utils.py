@@ -22,7 +22,7 @@ def load_patient(name=None, gender=None):
     return patients
 
 def load_immunization():
-    immunizations = read_json(os.path.join(app.root_path, 'data/immunization.json'))
+    immunizations = Immunization.query.filter(Immunization.active.__eq__(True))
 
     return immunizations
 
@@ -40,11 +40,7 @@ def get_patient_by_id(patient_id):
     return Patient.query.get(patient_id)
 
 def get_immunization_by_id(immunization_id): 
-    immunizations = read_json(os.path.join(app.root_path, 'data/immunization.json'))
-
-    for i in immunizations:
-        if i['identifier'] == immunization_id:
-            return i
+    return Immunization.query.get(immunization_id)
 
 def get_observation_by_id(observation_id): 
     observations = read_json(os.path.join(app.root_path, 'data/observation.json'))
