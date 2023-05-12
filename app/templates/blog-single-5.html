@@ -13,7 +13,7 @@
         <div class="col-md-7 col-sm-12 ftco-animate mb-5">
           <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
                 href="/">Home</a></span> <span>Blog</span></p>
-          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Read Our Blog</h1>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Endodontic Treatment</h1>
         </div>
       </div>
     </div>
@@ -24,15 +24,52 @@
   <div class="container">
     <div class="row">
       <div class="col-md-8 ftco-animate">
-        <h2 class="mb-3">#1. We Love WordPress Themes</h2>
-        <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis, eius mollitia suscipit, quisquam
-          doloremque distinctio perferendis et doloribus unde architecto optio laboriosam porro adipisci sapiente
-          officiis nemo accusamus ad praesentium? Esse minima nisi et. Dolore perferendis, enim praesentium omnis, iste
-          doloremque quia officia optio deserunt molestiae voluptates soluta architecto tempora.</p>
+        <h2 class="mb-3">Endodontic Treatment</h2>
         <p>
-          <img src="static/images/image_4.jpg" alt="" class="img-fluid">
+          <img src="{{ url_for('static', filename='images/ortho5.jpg') }}" alt="" class="img-fluid">
         </p>
-        <p>Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo veritatis repellat sunt doloribus
+        <p>
+          An endodontic treatment or a root canal is a treatment used to repair and save a tooth that is badly decayed
+          or becomes infected. During a root canal procedure, the nerve and pulp are removed and the inside of the tooth
+          is cleaned and sealed. Without treatment, the tissue surrounding the tooth will become infected and abscesses
+          may form.
+
+          </br></br>A tooth's nerve is not vitally important to a tooth's health and function after the tooth has
+          emerged through the gums. Its only function is sensory -- to provide the sensation of hot or cold. The
+          presence or absence of a nerve will not affect the day-to-day functioning of the tooth.
+
+          </br></br>When a tooth's nerve tissue or pulp is damaged, it breaks down and bacteria begin to multiply within
+          the pulp chamber. The bacteria and other decayed debris can cause an infection or abscessed tooth.
+
+          </br></br>A tooth's nerve and pulp can become irritated, inflamed, and infected due to deep decay, repeated
+          dental procedures on a tooth, and/or large fillings, a crack or chip in the tooth, or trauma to the face.
+
+          </br></br>Root canal procedures have the reputation of being painful. Actually, most people report that the
+          procedure itself is no more painful than having a filling placed.
+
+          </br></br>For the first few days following the completion of a root canal, the tooth may feel sensitive due to
+          natural tissue inflammation, especially if there was pain or infection before the procedure. This sensitivity
+          or discomfort usually can be controlled with over-the-counter pain medications. Most patients can return to
+          their normal activities the next day.
+
+          </br></br>Root canal treatment is highly successful; the procedure has more than a 95% success rate. Many
+          teeth fixed with a root canal can last a lifetime.
+
+          </br></br>Also, because the final step of the root canal procedure is application of a restoration such as a
+          crown or a filling, it will not be obvious to onlookers that a root canal was performed.
+
+          </br></br>Saving your natural teeth is the very best option, if possible. Your natural teeth allow you to eat
+          a wide variety of foods necessary to maintain proper nutrition. The root canal procedure is the treatment of
+          choice.
+
+          </br></br>The only alternative to a root canal procedure is having the tooth extracted and replaced with a
+          bridge, implant, or removable partial denture to restore chewing function and prevent adjacent teeth from
+          shifting. These alternatives not only are more expensive than a root canal procedure but require more
+          treatment time and additional procedures to adjacent teeth and supporting tissues.
+        </p>
+
+
+        <!--<p>Molestiae cupiditate inventore animi, maxime sapiente optio, illo est nemo veritatis repellat sunt doloribus
           nesciunt! Minima laborum magni reiciendis qui voluptate quisquam voluptatem soluta illo eum ullam incidunt rem
           assumenda eveniet eaque sequi deleniti tenetur dolore amet fugit perspiciatis ipsa, odit. Nesciunt dolor
           minima esse vero ut ea, repudiandae suscipit!</p>
@@ -67,24 +104,24 @@
             <a href="#" class="tag-cloud-link">Tech</a>
             <a href="#" class="tag-cloud-link">Travel</a>
           </div>
-        </div>
+        </div>-->
 
         <div class="about-author d-flex p-5 bg-light">
           <div class="bio align-self-md-center mr-5">
-            <img src="static/images/person_1.jpg" alt="Image placeholder" class="img-fluid mb-4">
+            <img src="{{ url_for('static', filename='images/person_5.jpg') }}" alt="Image placeholder"
+              class="img-fluid mb-4">
           </div>
           <div class="desc align-self-md-center">
-            <h3>Michael Buff</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
-              quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos
-              fugit cupiditate numquam!</p>
+            <h3>Tom Smith</h3>
+            <p>Dr. Tom Smith is the Founder of Bright Smile Dental, he is also the Orthodontist and Cosmetic Dentist at
+              Bright Smile Dental</p>
           </div>
         </div>
 
 
         <div class="pt-5 mt-5">
-          <h3 class="mb-5">6 Comments</h3>
-          <ul class="comment-list">
+          <!--<h3 class="mb-5">6 Comments</h3>-->
+          <!--<ul class="comment-list">
             <li class="comment">
               <div class="vcard bio">
                 <img src="static/images/person_1.jpg" alt="Image placeholder">
@@ -175,10 +212,10 @@
                 <p><a href="#" class="reply">Reply</a></p>
               </div>
             </li>
-          </ul>
+          </ul>-->
           <!-- END comment-list -->
 
-          <div class="comment-form-wrap pt-5">
+          <!--<div class="comment-form-wrap pt-5">
             <h3 class="mb-5">Leave a comment</h3>
             <form action="#">
               <div class="form-group">
@@ -197,12 +234,12 @@
                 <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
               </div>
             </form>
-          </div>
+          </div>-->
         </div>
 
       </div> <!-- .col-md-8 -->
       <div class="col-md-4 sidebar ftco-animate">
-        <div class="sidebar-box">
+        <!--<div class="sidebar-box">
           <form action="#" class="search-form">
             <div class="form-group">
               <div class="icon"><span class="icon-search"></span></div>
@@ -219,49 +256,49 @@
             <li><a href="#">Drinks <span>(42)</span></a></li>
             <li><a href="#">Ocassion <span>(14)</span></a></li>
           </div>
-        </div>
+        </div>-->
 
         <div class="sidebar-box ftco-animate">
           <h3>Recent Blog</h3>
           <div class="block-21 mb-4 d-flex">
-            <a class="blog-img mr-4" style="background-image: url(static/images/image_1.jpg);"></a>
+            <a class="blog-img mr-4"
+              style="background-image: url('{{ url_for('static', filename='images/ortho3.jpg') }}')"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-              </h3>
+              <h3 class="heading"><a href="{{ url_for('blog_single_3') }}">Teeth Whitening</a></h3>
               <div class="meta">
-                <div><a href="#"><span class="icon-calendar"></span> July 12, 2018</a></div>
-                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                <div><a href="#"><span class="icon-calendar"></span> Sep. 20, 2021</a></div>
+                <div><a href="#"><span class="icon-person"></span> Paris, France</a></div>
+                <div><a href="#"><span class="icon-chat"></span> 3</a></div>
               </div>
             </div>
           </div>
           <div class="block-21 mb-4 d-flex">
-            <a class="blog-img mr-4" style="background-image: url(static/images/image_2.jpg);"></a>
+            <a class="blog-img mr-4"
+              style="background-image: url('{{ url_for('static', filename='images/ortho4.jpg') }}')"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-              </h3>
+              <h3 class="heading"><a href="{{ url_for('blog_single_4') }}">Dental Crowns</a></h3>
               <div class="meta">
-                <div><a href="#"><span class="icon-calendar"></span> July 12, 2018</a></div>
-                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                <div><a href="#"><span class="icon-calendar"></span> Sep. 20, 2021</a></div>
+                <div><a href="#"><span class="icon-person"></span> Paris, France</a></div>
+                <div><a href="#"><span class="icon-chat"></span> 3</a></div>
               </div>
             </div>
           </div>
           <div class="block-21 mb-4 d-flex">
-            <a class="blog-img mr-4" style="background-image: url(static/images/image_3.jpg);"></a>
+            <a class="blog-img mr-4"
+              style="background-image: url('{{ url_for('static', filename='images/ortho5.jpg') }}')"></a>
             <div class="text">
-              <h3 class="heading"><a href="#">Even the all-powerful Pointing has no control about the blind texts</a>
-              </h3>
+              <h3 class="heading"><a href="{{ url_for('blog_single_5') }}">Endodontic Treatment</a></h3>
               <div class="meta">
-                <div><a href="#"><span class="icon-calendar"></span> July 12, 2018</a></div>
-                <div><a href="#"><span class="icon-person"></span> Admin</a></div>
-                <div><a href="#"><span class="icon-chat"></span> 19</a></div>
+                <div><a href="#"><span class="icon-calendar"></span> Sep. 20, 2021</a></div>
+                <div><a href="#"><span class="icon-person"></span> Paris, France</a></div>
+                <div><a href="#"><span class="icon-chat"></span> 3</a></div>
               </div>
             </div>
           </div>
         </div>
 
-        <div class="sidebar-box ftco-animate">
+        <!--<div class="sidebar-box ftco-animate">
           <h3>Tag Cloud</h3>
           <div class="tagcloud">
             <a href="#" class="tag-cloud-link">dish</a>
@@ -273,13 +310,21 @@
             <a href="#" class="tag-cloud-link">desserts</a>
             <a href="#" class="tag-cloud-link">drinks</a>
           </div>
-        </div>
+        </div>-->
 
         <div class="sidebar-box ftco-animate">
-          <h3>Paragraph</h3>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ducimus itaque, autem necessitatibus voluptate
-            quod mollitia delectus aut, sunt placeat nam vero culpa sapiente consectetur similique, inventore eos fugit
-            cupiditate numquam!</p>
+          <h3>Well Experience Dentist</h3>
+          <p>Our skilled and knowledgeable dentists have years of experience in delivering top-notch dental care.</p>
+        </div>
+        <div class="sidebar-box ftco-animate">
+          <h3>High Technology Facilities</h3>
+          <p>Our commitment to investing in high-tech facilities demonstrates our dedication to providing you with
+            exceptional care.</p>
+        </div>
+        <div class="sidebar-box ftco-animate">
+          <h3>Comfortable Clinics</h3>
+          <p>Our clinics are equipped with modern amenities to ensure that you are comfortable throughout your visit.
+          </p>
         </div>
       </div>
     </div>

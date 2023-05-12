@@ -22,6 +22,36 @@ def blog():
 
     return render_template('blog.html')
 
+@app.route("/blog-single-1")
+def blog_single_1():
+
+    return render_template('blog-single-1.html')
+
+@app.route("/blog-single-2")
+def blog_single_2():
+
+    return render_template('blog-single-2.html')
+
+@app.route("/blog-single-3")
+def blog_single_3():
+
+    return render_template('blog-single-3.html')
+
+@app.route("/blog-single-4")
+def blog_single_4():
+
+    return render_template('blog-single-4.html')
+
+@app.route("/blog-single-5")
+def blog_single_5():
+
+    return render_template('blog-single-5.html')
+
+@app.route("/blog-single-6")
+def blog_single_6():
+
+    return render_template('blog-single-6.html')
+
 @app.route("/services")
 def services():
 
@@ -54,21 +84,24 @@ def patient_list():
 
     return render_template('patient.html', patients=patients) 
 
-@app.route("/fhir/Patient/<int:patient_id>") 
+@app.route("/fhir/Patient/<int:patient_id>")
+@login_required
 def patient_detail(patient_id):
     patient = utils.get_patient_by_id(patient_id)
 
     return render_template('patient_detail.html',
                            patient=patient)
 
-@app.route("/fhir/Immunization/<int:immunization_id>") 
+@app.route("/fhir/Immunization/<int:immunization_id>")
+@login_required
 def immunization_detail(immunization_id):
     immunization = utils.get_immunization_by_id(immunization_id)
 
     return render_template('immunization_detail.html',
                            immunization=immunization)
 
-@app.route("/fhir/Observation/<int:observation_id>") 
+@app.route("/fhir/Observation/<int:observation_id>")
+@login_required
 def observation_detail(observation_id):
     observation = utils.get_observation_by_id(observation_id)
 
@@ -76,6 +109,7 @@ def observation_detail(observation_id):
                            observation=observation)
 
 @app.route("/fhir/Practitioner/<int:practitioner_id>")
+@login_required
 def practitioner_detail(practitioner_id):
     practitioner = utils.get_practitioner_by_id(practitioner_id)
 
@@ -83,6 +117,7 @@ def practitioner_detail(practitioner_id):
                            practitioner=practitioner)
 
 @app.route('/fhir/_history')
+@login_required
 def history():
     patients = utils.load_patient()
     immunizations = utils.load_immunization()
