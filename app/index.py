@@ -1,5 +1,5 @@
 import math
-from flask import render_template, request, redirect, url_for, session, jsonify
+from flask import render_template, request, redirect, url_for, session, jsonify, send_file
 from app import app, login
 from app import utils
 import cloudinary.uploader
@@ -91,6 +91,11 @@ def patient_detail(patient_id):
 
     return render_template('patient_detail.html',
                            patient=patient)
+
+@app.route("/fhir/Patient/add")
+@login_required
+def add_or_update_patient():
+    return render_template("patient_add.html")
 
 @app.route("/fhir/Immunization/<int:immunization_id>")
 @login_required
@@ -194,6 +199,7 @@ def user_load(user_id):
 @login_required
 def info_perso():
     return render_template('info_perso.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
