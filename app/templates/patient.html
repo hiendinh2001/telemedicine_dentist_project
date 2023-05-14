@@ -20,7 +20,13 @@
   </div>
 </section>
 
+<div class="row justify-content-center mb-5">
+  <a class="btn btn-danger mt-5" href="{{ url_for('add_or_update_patient') }}"
+    role="button">Add a new patient</a>
+</div>
+
 {% if patients %}
+
 <form class="row justify-content-center m-5">
   <div class="col-md-3 form-group mr-sm-2">
     <input type="text" class="form-control" name="name" placeholder="Enter the patient's name..." />
