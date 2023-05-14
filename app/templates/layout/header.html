@@ -8,7 +8,7 @@
 
 		<div class="collapse navbar-collapse" id="ftco-nav">
 			<ul class="navbar-nav ml-auto">
-				<li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+				<li class="nav-item {% if request.path == url_for('home') %}active{% endif %}"><a href="/" class="nav-link">Home</a></li>
 				{% if current_user.is_authenticated %}
 				<li class="nav-item">
 					<a class="nav-link" href="{{ url_for('patient_list') }}">Patients List</a>
@@ -36,11 +36,11 @@
 						data-target="#modalRequest"><span>Make an Appointment</span></a></li>
 
 				{% else %}
-				<li class="nav-item"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
-				<li class="nav-item"><a href="{{ url_for('services') }}" class="nav-link">Services</a></li>
-				<li class="nav-item"><a href="{{ url_for('doctors') }}" class="nav-link">Doctors</a></li>
-				<li class="nav-item"><a href="{{ url_for('blog') }}" class="nav-link">Blog</a></li>
-				<li class="nav-item"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
+				<li class="nav-item {% if request.path == url_for('about') %}active{% endif %}"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>
+				<li class="nav-item {% if request.path == url_for('services') %}active{% endif %}"><a href="{{ url_for('services') }}" class="nav-link">Services</a></li>
+				<li class="nav-item {% if request.path == url_for('doctors') %}active{% endif %}"><a href="{{ url_for('doctors') }}" class="nav-link">Doctors</a></li>
+				<li class="nav-item {% if request.path == url_for('blog') or request.path == url_for('blog_single_1') or request.path == url_for('blog_single_2') or request.path == url_for('blog_single_3') or request.path == url_for('blog_single_4') or request.path == url_for('blog_single_5') or request.path == url_for('blog_single_6') %}active{% endif %}"><a href="{{ url_for('blog') }}" class="nav-link">Blog</a></li>
+				<li class="nav-item {% if request.path == url_for('contact') %}active{% endif %}"><a href="{{ url_for('contact') }}" class="nav-link">Contact</a></li>
 				<li class="nav-item cta mr-2"><a href="{{ url_for('user_signin') }}" class="nav-link"><span>Sign
 							in</span></a></li>
 				<li class="nav-item cta"><a href="{{ url_for('user_register') }}" class="nav-link"><span>Sign up
