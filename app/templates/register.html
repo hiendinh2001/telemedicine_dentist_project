@@ -42,35 +42,35 @@
           </div>
           {% endif %}
           <form class="form-signin" method="post" action="{{ url_for('user_register') }}" enctype="multipart/form-data">
-            <div class="form-group">
-              <label for="name" class="sr-only">Full Name</label>
+            <div class="form-group mb-4">
+              <label for="name">Full Name <span style="color: red;">*</span></label>
               <input type="text" id="name" name="name" class="form-control pl-3" placeholder="Full Name" required
                 autofocus style="border-radius: 10px">
             </div>
-            <div class="form-group">
-              <label for="email" class="sr-only">Email</label>
+            <div class="form-group mb-4">
+              <label for="email">Email <span style="color: red;">*</span></label>
               <input type="email" id="email" name="email" class="form-control pl-3" placeholder="Email" autofocus
                 style="border-radius: 10px">
             </div>
-            <div class="form-group">
-              <label for="username" class="sr-only">Identifier</label>
+            <div class="form-group mb-4">
+              <label for="username">Identifier <span style="color: red;">*</span></label>
               <input type="text" id="username" name="username" class="form-control pl-3" placeholder="Identifier"
                 required autofocus style="border-radius: 10px">
             </div>
-            <div class="form-group">
-              <label for="password" class="sr-only">Password</label>
+            <div class="form-group mb-4">
+              <label for="password">Password <span style="color: red;">*</span></label>
               <input type="password" id="password" name="password" class="form-control pl-3" placeholder="Password"
                 required style="border-radius: 10px">
             </div>
-            <div class="form-group">
-              <label for="confirm" class="sr-only">Password Confirmation</label>
+            <div class="form-group mb-4">
+              <label for="confirm">Password Confirmation <span style="color: red;">*</span></label>
               <input type="password" id="confirm" name="confirm" class="form-control pl-3"
                 placeholder="Password Confirmation" required style="border-radius: 10px">
             </div>
-            <!--<div class="form-group">
-              <label for="avatar" class="sr-only">Avatar</label>
-              <input type="file" id="avatar" name="avatar" class="form-control pl-3" placeholder="Avatar" required style="border-radius: 10px">
-            </div>-->
+            <div class="form-group mb-4">
+              <label for="avatar">Avatar</label>
+              <input type="file" id="avatar" name="avatar" class="form-control pl-3" placeholder="Avatar" style="border-radius: 10px">
+            </div>
             <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Sign
               up</button>
             <p class="mt-5 mb-3 text-muted"></p>

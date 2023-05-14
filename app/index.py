@@ -6,6 +6,7 @@ import cloudinary.uploader
 from flask_login import login_user, logout_user, current_user
 from flask_login import login_required
 from app.models import UserRole
+import os
 
 
 @app.route("/")
@@ -217,6 +218,12 @@ def user_load(user_id):
 @login_required
 def info_perso():
     return render_template('info_perso.html')
+
+@app.route('/upload', methods=['post'])
+def upload():
+    f = request.files['prescription']
+    f.save(os.path.join(app.root_path, 'static/uploads/', f.filename))
+    return 'DONE.'
 
 
 if __name__ == '__main__':

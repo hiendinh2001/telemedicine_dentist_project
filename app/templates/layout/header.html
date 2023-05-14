@@ -10,12 +10,12 @@
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item {% if request.path == url_for('home') %}active{% endif %}"><a href="/" class="nav-link">Home</a></li>
 				{% if current_user.is_authenticated %}
-				<li class="nav-item">
+				<li class="nav-item {% if request.path == url_for('patient_list') %}active{% endif %}">
 					<a class="nav-link" href="{{ url_for('patient_list') }}">Patients List</a>
 				</li>
 
 				<!-- Avatar + Nom Prénom -->
-				<li class="nav-item">
+				<li class="nav-item {% if request.path == url_for('info_perso') %}active{% endif %}">
 					<a class="nav-link" href="{{ url_for('info_perso') }}">
 						{% if current_user.avatar %}
 						<img src="{{ current_user.avatar }}" class="rounded-circle" width="20"
