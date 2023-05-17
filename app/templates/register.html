@@ -2,6 +2,33 @@
 
 {% block title %} Sign up {% endblock %}
 
+{% block js %}
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script type="text/javascript">
+    (function () {
+      emailjs.init('4OCckJamSqQjltoRm');
+    })();
+  </script>
+  <script type="text/javascript">
+    window.onload = function () {
+      document.getElementById('contact-form').addEventListener('submit', function (event) {
+        event.preventDefault();
+        this.contact_number.value = Math.random() * 100000 | 0;
+        var timestamp = new Date().toLocaleString();
+        var formData = new FormData(this);
+
+        emailjs.sendForm("service_pt9fysl", "template_2u046jn", this)
+          .then(function () {
+            console.log('SUCCESS!');
+          }, function (error) {
+            console.log('FAILED...', error);
+          });
+        this.reset();
+      });
+    }
+  </script>
+{% endblock %}
+
 {% block content %}
 
 <section class="home-slider owl-carousel">
@@ -41,7 +68,8 @@
             <h6 class="text-danger">{{ err_msg }}</h6>
           </div>
           {% endif %}
-          <form class="form-signin" method="post" action="{{ url_for('user_register') }}" enctype="multipart/form-data">
+          <form id="contact-form" class="form-signin" method="post" action="{{ url_for('user_register') }}" enctype="multipart/form-data">
+            <input type="hidden" name="contact_number">
             <div class="form-group mb-4">
               <label for="name">Full Name <span style="color: red;">*</span></label>
               <input type="text" id="name" name="name" class="form-control pl-3" placeholder="Full Name" required

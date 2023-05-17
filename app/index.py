@@ -1,5 +1,5 @@
 import math
-from flask import render_template, request, redirect, url_for, session, jsonify, send_file
+from flask import render_template, request, redirect, url_for, session, jsonify, send_file, Response
 from app import app, login
 from app import utils
 import cloudinary.uploader
@@ -7,12 +7,14 @@ from flask_login import login_user, logout_user, current_user
 from flask_login import login_required
 from app.models import UserRole
 import os
+import cv2
+import random
+from string import ascii_letters as ascii
 
 
 @app.route("/")
 def home():
     return render_template('index.html')
-
 
 @app.route("/about")
 def about():
@@ -175,9 +177,9 @@ def user_register():
                                avatar=avatar_path)
                 return redirect(url_for('user_signin'))
             else:
-                err_msg = 'Le mot de passe ressaisi est incorrect'
+                err_msg = 'The re-entered password is incorrect'
         except Exception as ex:
-            err_msg = 'Le système a une erreur' + str(ex)
+            err_msg = 'Your identifier or email already exists'
 
     return render_template('register.html',
                            err_msg=err_msg)
@@ -197,7 +199,7 @@ def user_signin():
 
             return redirect(url_for(request.args.get('next', 'home')))
         else:
-            err_msg = "Identifiant ou mot de passe incorrect!!!"
+            err_msg = "Your identifier or password incorrect"
 
     return render_template('login.html',
                            err_msg=err_msg)
@@ -224,6 +226,50 @@ def upload():
     f = request.files['prescription']
     f.save(os.path.join(app.root_path, 'static/uploads/', f.filename))
     return 'DONE.'
+
+rooms = {}
+def generate_unique_code(length):
+    while True:
+        code = ""
+        for _ in range(length):
+            code += random.choice(ascii)
+
+        if code not in rooms:
+            break
+
+    return code
+@app.route("/room_teleconsultation", methods=["POST", "GET"])
+def room_teleconsultation():
+    room = generate_unique_code(10)
+    rooms[room] = {"members": 0, "messages": []}
+
+    session["room"] = room
+
+    return render_template("teleconsultation.html", code=room)
+
+
+def gen(streaming=True):
+    cap = cv2.VideoCapture(0)#"Convolutional Network Demo from 1989.mp4")
+
+    # Read until video is completed
+    while (cap.isOpened()):
+        # Capture frame-by-frame
+        ret, img = cap.read()
+        a = random.random()
+        if a>0.5 and streaming:
+            if ret == True:
+                img = cv2.resize(img, (0, 0), fx=0.75, fy=0.75)
+                frame = cv2.imencode('.jpg', img)[1].tobytes()
+                yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
+            else:
+                break
+@app.route('/video_feed')
+def video_feed():
+    if request.args.get('stream') == 'off':
+        return Response()
+    else:
+        return Response(gen(),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == '__main__':

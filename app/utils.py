@@ -52,12 +52,12 @@ def get_observation_by_id(observation_id):
 def get_practitioner_by_id(practionner_id):
     return Practitioner.query.get(practionner_id)
 
-def add_user(name, username, password, **kwargs):
+def add_user(name, username, password, email, **kwargs):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     user = User(name=name.strip(),
                 username=username.strip(),
                 password=password,
-                email=kwargs.get('email'),
+                email=email.strip(),
                 avatar=kwargs.get('avatar'))
     db.session.add(user)
     db.session.commit()
@@ -67,8 +67,8 @@ def check_login(username, password, role=UserRole.USER):
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
         return User.query.filter(User.username.__eq__(username.strip()),
-                             User.password.__eq__(password),
-                                User.user_role.__eq__(role)).first()
+                                 User.password.__eq__(password),
+                                 User.user_role.__eq__(role)).first()
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
