@@ -100,14 +100,49 @@ def patient_detail(patient_id):
 
 @app.route("/fhir/Patient/add", methods=['get', 'post'])
 @login_required
-def add_or_update_patient():
-    if request.method.lower() == "post":
-        return redirect(url_for('patient_list'))
+def patient_add():
+    err_msg = ""
+    if request.method.__eq__('POST'):
+        namePatient = request.form.get('namePatient')
+        genderPatient = request.form.get('genderPatient')
+        birthDatePatient = request.form.get('birthDatePatient')
+        addressPatient = request.form.get('addressPatient')
+        statusVaccine = request.form.get('statusVaccine')
+        vaccineCode = request.form.get('vaccineCode')
+        occurrenceDateTime = request.form.get('occurrenceDateTime')
+        statusObservation = request.form.get('statusObservation')
+        effectiveDateTime = request.form.get('effectiveDateTime')
+        value = request.form.get('value')
+        unit = request.form.get('unit')
+        namePractitioner = request.form.get('namePractitioner')
+        genderPractitioner = request.form.get('genderPractitioner')
+        birthDatePractitioner = request.form.get('birthDatePractitioner')
+        addressPractitioner = request.form.get('addressPractitioner')
+        language = request.form.get('language')
 
-    return render_template("patient_add.html",
-                           immunization=utils.load_immunization(),
-                           practitioner=utils.load_practitioner(),
-                           observation=utils.load_observation())
+        try:
+            utils.add_patient(namePatient=namePatient,
+                              genderPatient=genderPatient,
+                              birthDatePatient=birthDatePatient,
+                              addressPatient=addressPatient,
+                              statusVaccine=statusVaccine,
+                              vaccineCode=vaccineCode,
+                              occurrenceDateTime=occurrenceDateTime,
+                              statusObservation=statusObservation,
+                              effectiveDateTime=effectiveDateTime,
+                              value=value,
+                              unit=unit,
+                              namePractitioner=namePractitioner,
+                              genderPractitioner=genderPractitioner,
+                              birthDatePractitioner=birthDatePractitioner,
+                              addressPractitioner=addressPractitioner,
+                              language=language)
+            return redirect(url_for('patient_list'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_add.html',
+                           err_msg=err_msg)
 
 
 @app.route("/fhir/Immunization/<int:immunization_id>")
@@ -227,50 +262,11 @@ def upload():
     f.save(os.path.join(app.root_path, 'static/uploads/', f.filename))
     return 'DONE.'
 
-rooms = {}
-def generate_unique_code(length):
-    while True:
-        code = ""
-        for _ in range(length):
-            code += random.choice(ascii)
-
-        if code not in rooms:
-            break
-
-    return code
-@app.route("/room_teleconsultation", methods=["POST", "GET"])
+@app.route("/room_teleconsultation")
+@login_required
 def room_teleconsultation():
-    room = generate_unique_code(10)
-    rooms[room] = {"members": 0, "messages": []}
 
-    session["room"] = room
-
-    return render_template("teleconsultation.html", code=room)
-
-
-def gen(streaming=True):
-    cap = cv2.VideoCapture(0)#"Convolutional Network Demo from 1989.mp4")
-
-    # Read until video is completed
-    while (cap.isOpened()):
-        # Capture frame-by-frame
-        ret, img = cap.read()
-        a = random.random()
-        if a>0.5 and streaming:
-            if ret == True:
-                img = cv2.resize(img, (0, 0), fx=0.75, fy=0.75)
-                frame = cv2.imencode('.jpg', img)[1].tobytes()
-                yield (b'--frame\r\n'b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
-            else:
-                break
-@app.route('/video_feed')
-def video_feed():
-    if request.args.get('stream') == 'off':
-        return Response()
-    else:
-        return Response(gen(),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
-
+    return redirect("http://127.0.0.1:3000/", code=302)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

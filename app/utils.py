@@ -73,3 +73,37 @@ def check_login(username, password, role=UserRole.USER):
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
+def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, namePractitioner, genderPractitioner, birthDatePractitioner, addressPractitioner, language, **kwargs):
+
+    immunization = Immunization(status=statusVaccine.strip(),
+                                vaccineCode=vaccineCode.strip(),
+                                occurrenceDateTime=occurrenceDateTime)
+
+    db.session.add(immunization)
+    db.session.commit()
+
+    observation = Observation(status=statusObservation.strip(),
+                              effectiveDateTime=effectiveDateTime,
+                              value=value.strip(),
+                              unit=unit.strip())
+    db.session.add(observation)
+    db.session.commit()
+
+    practitioner = Practitioner(name=namePractitioner.strip(),
+                                gender=genderPractitioner.strip(),
+                                birthDate=birthDatePractitioner,
+                                address=addressPractitioner.strip(),
+                                language=language.strip())
+
+    db.session.add(practitioner)
+    db.session.commit()
+
+    patient = Patient(name=namePatient.strip(),
+                      gender=genderPatient,
+                      birthDate=birthDatePatient,
+                      address=addressPatient.strip(),
+                      immunization_id=immunization.id,
+                      observation_id=observation.id,
+                      practitioner_id=practitioner.id)
+    db.session.add(patient)
+    db.session.commit()

@@ -26,13 +26,14 @@ class User(BaseModel, UserMixin):
 
     def __str__(self):
         return self.name
+
 class Immunization(BaseModel):
     __tablename__ = 'Immunization'
 
     status = Column(String(50), nullable=False)
     vaccineCode = Column(Integer)
-    patient = relationship('Patient', backref='Immunization', lazy=False)
     occurrenceDateTime = Column(DateTime)
+    patient = relationship('Patient', backref='Immunization', lazy=False)
 
     def __str__(self):
         return self.name
@@ -77,47 +78,57 @@ class Patient(BaseModel):
     def __str__(self):
         return self.name
 
+class Appointment(BaseModel):
+    __tablename__ = 'Appointment'
+
+    appointment_name = Column(String(50), nullable=False)
+    appointment_email = Column(String(50), nullable=False)
+    appointment_date = Column(DateTime)
+    appointment_time = Column(DateTime)
+    def __str__(self):
+        return self.name
+
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
 
-        i1 = Immunization(status='completed',
+        i1 = Immunization(status='Completed',
                           vaccineCode='560',
                           occurrenceDateTime='2020-12-12')
 
-        i2 = Immunization(status='entered-in-error',
+        i2 = Immunization(status='Entered-in-error',
                           vaccineCode='610',
                           occurrenceDateTime='2020-11-12')
 
-        i3 = Immunization(status='completed',
+        i3 = Immunization(status='Completed',
                           vaccineCode='570',
                           occurrenceDateTime='2020-09-12')
 
-        i4 = Immunization(status='not-done',
+        i4 = Immunization(status='Not-done',
                           vaccineCode='580',
                           occurrenceDateTime='2020-08-12')
 
-        i5 = Immunization(status='completed',
+        i5 = Immunization(status='Completed',
                           vaccineCode='590',
                           occurrenceDateTime='2020-07-12')
 
-        i6 = Immunization(status='completed',
+        i6 = Immunization(status='Completed',
                           vaccineCode='600',
                           occurrenceDateTime='2020-06-12')
 
-        i7 = Immunization(status='not-done',
+        i7 = Immunization(status='Not-done',
                           vaccineCode='610',
                           occurrenceDateTime='2020-05-12')
 
-        i8 = Immunization(status='entered-in-error',
+        i8 = Immunization(status='Entered-in-error',
                           vaccineCode='620',
                           occurrenceDateTime='2020-04-12')
 
-        i9 = Immunization(status='completed',
+        i9 = Immunization(status='Completed',
                           vaccineCode='630',
                           occurrenceDateTime='2020-03-12')
 
-        i10 = Immunization(status='completed',
+        i10 = Immunization(status='Completed',
                            vaccineCode='640',
                            occurrenceDateTime='2020-02-12')
 
@@ -207,52 +218,52 @@ if __name__ == '__main__':
 
         db.session.commit()
 
-        o1 = Observation(status='final',
+        o1 = Observation(status='Final',
                          effectiveDateTime='2021-12-12',
                          value='37',
                          unit='Cel')
 
-        o2 = Observation(status='amended +',
+        o2 = Observation(status='Amended +',
                          effectiveDateTime='2021-11-12',
                          value='37',
                          unit='Cel')
 
-        o3 = Observation(status='preliminary',
+        o3 = Observation(status='Preliminary',
                          effectiveDateTime='2021-10-12',
                          value='36.5',
                          unit='Cel')
 
-        o4 = Observation(status='final',
+        o4 = Observation(status='Final',
                          effectiveDateTime='2021-09-12',
                          value='37.5',
                          unit='Cel')
 
-        o5 = Observation(status='amended +',
+        o5 = Observation(status='Amended +',
                          effectiveDateTime='2021-08-12',
                          value='36.5',
                          unit='Cel')
 
-        o6 = Observation(status='preliminary',
+        o6 = Observation(status='Preliminary',
                          effectiveDateTime='2021-07-12',
                          value='37',
                          unit='Cel')
 
-        o7 = Observation(status='final',
+        o7 = Observation(status='Final',
                          effectiveDateTime='2021-06-12',
                          value='37.5',
                          unit='Cel')
 
-        o8 = Observation(status='amended +',
+        o8 = Observation(status='Amended +',
                          effectiveDateTime='2021-05-12',
                          value='36.5',
                          unit='Cel')
 
-        o9 = Observation(status='preliminary',
+        o9 = Observation(status='Preliminary',
                          effectiveDateTime='2021-06-12',
                          value='37',
                          unit='Cel')
 
-        o10 = Observation(status='final',
+        o10 = Observation(status='Final',
                           effectiveDateTime='2021-12-12',
                           value='37',
                           unit='Cel')

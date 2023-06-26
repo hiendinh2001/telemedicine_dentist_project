@@ -30,35 +30,119 @@
     </div>
   </div>
   <div class="container-wrap mt-5">
-    <div class="row d-flex no-gutters">
-      <div class="col-md-6 img"
+    <div class="row d-flex no-gutters justify-content-center">
+      <!--<div class="col-md-6 img"
         style="background-image: url('{{ url_for('static', filename='images/image_4.jpg') }}');">
-      </div>
+      </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
           <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Add a
             new patient
           </h1>
+          {% if err_msg %}
+          <div class="alter alter-danger text-center">
+            <h6 class="text-danger">{{ err_msg }}</h6>
+          </div>
+          {% endif %}
           <form method="post" class="form-signin">
             <div class="form-group">
-              <label for="patientName">Name</label>
-              <input type="text" id="patientName" name="patientName" class="form-control pl-3" placeholder="Name"
+              <label for="namePatient">Patient Name</label>
+              <input type="text" id="namePatient" name="namePatient" class="form-control pl-3" placeholder="Patient Name"
                 required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
-              <label for="patientGender">Gender</label>
-              <input type="text" id="patientGender" name="patientGender" class="form-control pl-3" placeholder="Gender"
-                required autofocus style="border-radius: 10px">
+              <label>Patient Gender</label>
+              <select class="form-control pl-3" name="genderPatient" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Patient Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
             </div>
             <div class="form-group">
-              <label for="patientBirthDate">Birth Date</label>
-              <input type="date" id="patientBirthDate" name="patientBirthDate" class="form-control pl-3"
-                placeholder="Birth Date" required autofocus style="border-radius: 10px">
+              <label for="birthDatePatient">Patient Birth Date</label>
+              <input type="date" id="birthDatePatient" name="birthDatePatient" class="form-control pl-3"
+                placeholder="Patient Birth Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
-              <label for="patientAddress">Address</label>
-              <input type="date" id="patientAddress" name="patientAddress" class="form-control pl-3"
-                placeholder="Address" required autofocus style="border-radius: 10px">
+              <label for="addressPatient">Patient Address</label>
+              <input type="text" id="addressPatient" name="addressPatient" class="form-control pl-3"
+                placeholder="Patient Address" required autofocus style="border-radius: 10px">
+            </div>
+            <p class="text-white text-center">***---------------------------------------------------------------------------------------------***</p>
+            <div class="form-group">
+              <label>Vaccine Status</label>
+              <select class="form-control pl-3" name="statusVaccine" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Vaccine Status</option>
+                <option value="Completed">Completed</option>
+                <option value="Entered in Error">Entered in Error</option>
+                <option value="Not Done">Not Done</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="vaccineCode">Vaccine Code</label>
+              <input type="number" id="vaccineCode" name="vaccineCode" class="form-control pl-3"
+                placeholder="Vaccine Code" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label for="occurrenceDateTime">Vaccine Date</label>
+              <input type="date" id="occurrenceDateTime" name="occurrenceDateTime" class="form-control pl-3"
+                placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
+            </div>
+            <p class="text-white text-center">***---------------------------------------------------------------------------------------------***</p>
+            <div class="form-group">
+              <label>Temperature Status</label>
+              <select class="form-control pl-3" name="statusObservation" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Temperature Status</option>
+                <option value="Amended +">Amended +</option>
+                <option value="Preliminary">Preliminary</option>
+                <option value="Final">Final</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="effectiveDateTime">Effective Date</label>
+              <input type="date" id="effectiveDateTime" name="effectiveDateTime" class="form-control pl-3"
+                placeholder="Effective Date" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label for="value">Temperature</label>
+              <input type="number" id="value" name="value" class="form-control pl-3" min="35" max="42" step="0.1"
+                placeholder="Temperature" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label>Unit</label>
+              <select class="form-control pl-3" name="unit" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Unit</option>
+                <option value="Cel">Cel</option>
+              </select>
+            </div>
+            <p class="text-white text-center">***---------------------------------------------------------------------------------------------***</p>
+            <div class="form-group">
+              <label for="namePractitioner">Practitioner Name</label>
+              <input type="text" id="namePractitioner" name="namePractitioner" class="form-control pl-3"
+                placeholder="Practitioner Name" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label>Practitioner Gender</label>
+              <select class="form-control pl-3" name="genderPractitioner" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Practitioner Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="birthDatePractitioner">Practitioner Birth Date</label>
+              <input type="date" id="birthDatePractitioner" name="birthDatePractitioner" class="form-control pl-3"
+                placeholder="Practitioner Birth Date" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label for="addressPractitioner">Practitioner Address</label>
+              <input type="text" id="addressPractitioner" name="addressPractitioner" class="form-control pl-3"
+                placeholder="Practitioner Address" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label for="language">Language</label>
+              <input type="text" id="language" name="language" class="form-control pl-3"
+                placeholder="Language" required autofocus style="border-radius: 10px">
             </div>
             <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Add a
               new patient</button>
