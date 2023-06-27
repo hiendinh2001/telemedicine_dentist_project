@@ -59,7 +59,7 @@
             </div>
             <div class="form-group">
               <label for="birthDatePractitioner">Practitioner Birth Date</label>
-              <input type="date" id="birthDatePractitioner" name="birthDatePractitioner" value="{{ formatted_date }}" class="form-control pl-3"
+              <input type="date" id="birthDatePractitioner" name="birthDatePractitioner" value="{{ practitioner.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
                 placeholder="Practitioner Birth Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">

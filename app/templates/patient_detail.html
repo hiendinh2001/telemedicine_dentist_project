@@ -41,7 +41,7 @@
             <tr>
                 <td class="text-center">{{ patient.id }}</td>
                 <td class="text-center">{{ patient.name }}</td>
-                <td class="text-center my-date">{{ patient.birthDate }}</td>
+                <td class="text-center">{{ patient.birthDate.strftime('%d/%m/%Y') }}</td>
                 <td class="text-center">{{ patient.gender }}</td>
                 <td class="text-center">{{ patient.address }}</td>
             </tr>

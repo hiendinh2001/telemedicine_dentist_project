@@ -40,7 +40,7 @@
       <tr>
         <td class="text-center">{{ observation.id }}</td>
         <td class="text-center">{{ observation.status }}</td>
-        <td class="text-center my-date">{{ observation.effectiveDateTime }}</td>
+        <td class="text-center my-date">{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}</td>
         <td class="text-center">{{ observation.value }} {{ observation.unit }}</td>
       </tr>
     </table>

@@ -41,7 +41,7 @@
         <td class="text-center">{{ immunization.id }}</td>
         <td class="text-center">{{ immunization.status }}</td>
         <td class="text-center">{{ immunization.vaccineCode }}</td>
-        <td class="text-center my-date" class="my-date">{{ immunization.occurrenceDateTime }}</td>
+        <td class="text-center my-date" class="my-date">{{ immunization.occurrenceDateTime.strftime('%d/%m/%Y') }}</td>
       </tr>
     </table>
   </div>
