@@ -144,6 +144,121 @@ def patient_add():
     return render_template('patient_add.html',
                            err_msg=err_msg)
 
+@app.route("/fhir/Patient/editInfo", methods=['get', 'post'])
+@login_required
+def patient_edit_info():
+    err_msg = ""
+    patient_id = request.args.get('patient_id')
+    patient = None
+    if patient_id:
+        patient = utils.get_patient_by_id(patient_id=int(patient_id))
+
+    if request.method.__eq__('POST'):
+        namePatient = request.form.get('namePatient')
+        genderPatient = request.form.get('genderPatient')
+        birthDatePatient = request.form.get('birthDatePatient')
+        addressPatient = request.form.get('addressPatient')
+
+        try:
+            utils.update_patient_info(patient_id=int(patient_id),
+                                      namePatient=namePatient,
+                                      genderPatient=genderPatient,
+                                      birthDatePatient=birthDatePatient,
+                                      addressPatient=addressPatient)
+            return redirect("/fhir/Patient/{}".format(patient_id))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_info.html',
+                           patient=patient,
+                           err_msg=err_msg)
+
+@app.route("/fhir/Patient/editImmunization", methods=['get', 'post'])
+@login_required
+def patient_edit_immunization():
+    err_msg = ""
+    immunization_id = request.args.get('immunization_id')
+    immunization = None
+    if immunization_id:
+        immunization = utils.get_immunization_by_id(immunization_id=int(immunization_id))
+
+    if request.method.__eq__('POST'):
+        statusVaccine = request.form.get('statusVaccine')
+        vaccineCode = request.form.get('vaccineCode')
+        occurrenceDateTime = request.form.get('occurrenceDateTime')
+
+        try:
+            utils.update_patient_immunization(immunization_id=int(immunization_id),
+                                              statusVaccine=statusVaccine,
+                                              vaccineCode=vaccineCode,
+                                              occurrenceDateTime=occurrenceDateTime)
+            return redirect("/fhir/Immunization/{}".format(immunization_id))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_immunization.html',
+                           immunization=immunization,
+                           err_msg=err_msg)
+
+@app.route("/fhir/Patient/editObservation", methods=['get', 'post'])
+@login_required
+def patient_edit_observation():
+    err_msg = ""
+    observation_id = request.args.get('observation_id')
+    observation = None
+    if observation_id:
+        observation = utils.get_observation_by_id(observation_id=int(observation_id))
+
+    if request.method.__eq__('POST'):
+        statusObservation = request.form.get('statusObservation')
+        effectiveDateTime = request.form.get('effectiveDateTime')
+        value = request.form.get('value')
+        unit = request.form.get('unit')
+
+        try:
+            utils.update_patient_observation(observation_id=int(observation_id),
+                                             statusObservation=statusObservation,
+                                             effectiveDateTime=effectiveDateTime,
+                                             value=value,
+                                             unit=unit)
+            return redirect("/fhir/Observation/{}".format(observation_id))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_observation.html',
+                           observation=observation,
+                           err_msg=err_msg)
+
+@app.route("/fhir/Patient/editPractitioner", methods=['GET', 'POST'])
+@login_required
+def patient_edit_practitioner():
+    err_msg = ""
+    practitioner_id = request.args.get('practitioner_id')
+    practitioner = None
+    if practitioner_id:
+        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+
+    if request.method.__eq__('POST'):
+        namePractitioner = request.form.get('namePractitioner')
+        genderPractitioner = request.form.get('genderPractitioner')
+        birthDatePractitioner = request.form.get('birthDatePractitioner')
+        addressPractitioner = request.form.get('addressPractitioner')
+        language = request.form.get('language')
+
+        try:
+            utils.update_patient_practitioner(practitioner_id=int(practitioner_id),
+                                              namePractitioner=namePractitioner,
+                                              genderPractitioner=genderPractitioner,
+                                              birthDatePractitioner=birthDatePractitioner,
+                                              addressPractitioner=addressPractitioner,
+                                              language=language)
+            return redirect("/fhir/Practitioner/{}".format(practitioner_id))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_practitioner.html',
+                           practitioner=practitioner,
+                           err_msg=err_msg)
 
 @app.route("/fhir/Immunization/<int:immunization_id>")
 @login_required

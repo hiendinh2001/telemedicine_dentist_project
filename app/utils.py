@@ -49,8 +49,8 @@ def get_immunization_by_id(immunization_id):
 def get_observation_by_id(observation_id): 
     return Observation.query.get(observation_id)
 
-def get_practitioner_by_id(practionner_id):
-    return Practitioner.query.get(practionner_id)
+def get_practitioner_by_id(practitioner_id):
+    return Practitioner.query.get(practitioner_id)
 
 def add_user(name, username, password, email, **kwargs):
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
@@ -107,3 +107,43 @@ def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, st
                       practitioner_id=practitioner.id)
     db.session.add(patient)
     db.session.commit()
+
+def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient):
+    info = db.session.query(Patient).get(patient_id)
+    if info:
+        info.name = namePatient.strip()
+        info.gender = genderPatient
+        info.birthDate = birthDatePatient
+        info.address = addressPatient.strip()
+
+        db.session.commit()
+
+def update_patient_immunization(immunization_id, statusVaccine, vaccineCode, occurrenceDateTime):
+    immunization = db.session.query(Immunization).get(immunization_id)
+    if immunization:
+        immunization.status = statusVaccine.strip()
+        immunization.vaccineCode = vaccineCode.strip()
+        immunization.occurrenceDateTime = occurrenceDateTime
+
+        db.session.commit()
+
+def update_patient_observation(observation_id, statusObservation, effectiveDateTime, value, unit):
+    observation = db.session.query(Observation).get(observation_id)
+    if observation:
+        observation.status = statusObservation.strip()
+        observation.effectiveDateTime = effectiveDateTime
+        observation.value = value.strip()
+        observation.unit = unit
+
+        db.session.commit()
+
+def update_patient_practitioner(practitioner_id, namePractitioner, genderPractitioner, birthDatePractitioner, addressPractitioner, language):
+    practitioner = db.session.query(Practitioner).get(practitioner_id)
+    if practitioner:
+        practitioner.name = namePractitioner.strip()
+        practitioner.gender = genderPractitioner
+        practitioner.birthDate = birthDatePractitioner
+        practitioner.address = addressPractitioner.strip()
+        practitioner.language = language.strip()
+
+        db.session.commit()
