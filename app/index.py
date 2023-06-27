@@ -114,11 +114,7 @@ def patient_add():
         effectiveDateTime = request.form.get('effectiveDateTime')
         value = request.form.get('value')
         unit = request.form.get('unit')
-        namePractitioner = request.form.get('namePractitioner')
-        genderPractitioner = request.form.get('genderPractitioner')
-        birthDatePractitioner = request.form.get('birthDatePractitioner')
-        addressPractitioner = request.form.get('addressPractitioner')
-        language = request.form.get('language')
+        practitioner_id = request.form.get('practitioner_id')
 
         try:
             utils.add_patient(namePatient=namePatient,
@@ -132,16 +128,13 @@ def patient_add():
                               effectiveDateTime=effectiveDateTime,
                               value=value,
                               unit=unit,
-                              namePractitioner=namePractitioner,
-                              genderPractitioner=genderPractitioner,
-                              birthDatePractitioner=birthDatePractitioner,
-                              addressPractitioner=addressPractitioner,
-                              language=language)
+                              practitioner_id=int(practitioner_id))
             return redirect(url_for('patient_list'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
 
     return render_template('patient_add.html',
+                           practitioners=utils.load_practitioner(),
                            err_msg=err_msg)
 
 @app.route("/fhir/Patient/editInfo", methods=['get', 'post'])
