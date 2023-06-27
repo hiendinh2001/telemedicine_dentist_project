@@ -36,7 +36,7 @@
       <tr>
         <td class="text-center">{{ observation.id }}</td>
         <td class="text-center">{{ observation.status }}</td>
-        <td class="text-center my-date">{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}</td>
+        <td class="text-center">{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}</td>
         <td class="text-center">{{ observation.value }} {{ observation.unit }}</td>
         <td class="text-center">
           <a href="{{ url_for('patient_edit_observation', observation_id=observation.id) }}">
@@ -56,14 +56,5 @@
 {% else %}
 <p class="text-center"><i>No results returned!!!</i></p>
 {% endif %}
-
-<script>
-  window.onload = function () {
-    let d = document.getElementsByClassName('my-date')
-    for (let i = 0; i < d.length; i++)
-      d[i].innerText = moment(d[i].innerText).locale('fr').fromNow()
-  }
-
-</script>
 
 {% endblock %}

@@ -35,12 +35,17 @@
 
 <form class="row justify-content-center m-5">
   <div class="col-md-3 form-group mr-sm-2">
-    <input type="text" class="form-control" name="name" placeholder="Enter the patient's name..." />
+    <input type="text" class="form-control" id="nameInput" name="name" value="{% if request.args.get('name') %}{{ request.args.get('name') }}{% endif %}" placeholder="Enter the patient's name..." />
   </div>
   <div class="col-md-3 form-group mr-sm-2">
-    <input type="text" class="form-control" name="gender" placeholder="Enter the patient's gender..." />
+    <select class="form-control" id="genderSelect" name="gender" style="border-radius: 10px">
+      <option value="" disabled selected hidden>Choose the patient's gender...</option>
+      <option value="Male" {% if request.args.get('gender') == 'Male' %} selected {% endif %}>Male</option>
+      <option value="Female" {% if request.args.get('gender') == 'Female' %} selected {% endif %}>Female</option>
+    </select>
   </div>
-  <input type="submit" value="Search" class="my-2 my-sm-0 btn btn-success" size="lg">
+  <button type="button" class="mr-3 my-2 my-sm-0 btn btn-secondary" size="sm" onclick="clearForm()">Clear</button>
+  <input type="submit" value="Search" class="my-2 my-sm-0 btn btn-success" size="sm">
 </form>
 
 
@@ -63,12 +68,12 @@
           <a class="mt-2 text-decoration-none text-dark" href="{{ url_for('patient_detail', patient_id=p.id) }}">{{
             p.name }}</a>
         </td>
-        <td class="text-center my-date">
+        <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark" href="{{ url_for('patient_detail', patient_id=p.id) }}">{{
             p.gender }}</a>
         </td>
         <td class="text-center">
-          <a href="">Delete</a>
+          <a href="#" onclick="deletePatient({{ p.id }})">Delete</a>
         </td>
       </tr>
       {% endfor %}
@@ -81,12 +86,27 @@
 {% endif %}
 
 <script>
-  window.onload = function () {
-    let d = document.getElementsByClassName('my-date')
-    for (let i = 0; i < d.length; i++)
-      d[i].innerText = moment(d[i].innerText).locale('fr').fromNow()
+  function deletePatient(patientId) {
+    if (confirm("Êtes-vous sûr de vouloir supprimer ce patient ?")) {
+      fetch(`/fhir/deletePatient?patient_id=${patientId}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          location.reload();
+        } else {
+          console.error('La suppression du patient a échoué.');
+        }
+      })
+      .catch(error => {
+        console.error('Une erreur s\'est produite lors de la suppression du patient :', error);
+      });
+    }
   }
 
+  function clearForm() {
+    document.getElementById("nameInput").value = "";
+    document.getElementById("genderSelect").selectedIndex = 0;
+  }
 </script>
-
 {% endblock %}

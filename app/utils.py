@@ -27,7 +27,7 @@ def load_patient(immunization_id=None, practitioner_id=None, observation_id=None
         patients = patients.filter(Patient.name.contains(name))
 
     if gender:
-        patients = patients.filter(Patient.gender.contains(gender))
+        patients = patients.filter(Patient.gender == gender)
 
     return patients
 
@@ -137,4 +137,18 @@ def update_patient_practitioner(practitioner_id, namePractitioner, genderPractit
         practitioner.address = addressPractitioner.strip()
         practitioner.language = language.strip()
 
+        db.session.commit()
+
+def delete_patient(patient_id):
+    patient = db.session.query(Patient).get(patient_id)
+    if patient:
+        immunization = db.session.query(Immunization).filter_by(id=patient.immunization_id).first()
+        observation = db.session.query(Observation).filter_by(id=patient.observation_id).first()
+
+        if immunization:
+            db.session.delete(immunization)
+        if observation:
+            db.session.delete(observation)
+
+        db.session.delete(patient)
         db.session.commit()

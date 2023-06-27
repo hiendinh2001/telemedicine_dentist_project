@@ -279,6 +279,15 @@ def practitioner_detail(practitioner_id):
     return render_template('practitioner_detail.html',
                            practitioner=practitioner)
 
+@app.route('/fhir/deletePatient', methods=['POST', 'DELETE'])
+def patient_delete():
+    if request.method == 'POST' or request.method == 'DELETE':
+        patient_id = request.args.get('patient_id')
+        utils.delete_patient(patient_id=int(patient_id))
+
+        patients = utils.load_patient()
+
+        return render_template('patient.html', patients=patients)
 
 @app.route('/fhir/_history')
 @login_required

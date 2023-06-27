@@ -47,14 +47,4 @@
     </table>
   </div>
 
-
-  <script>
-    window.onload = function () {
-      let d = document.getElementsByClassName('my-date')
-      for (let i = 0; i < d.length; i++)
-        d[i].innerText = moment(d[i].innerText).locale('fr').fromNow()
-    }
-
-  </script>
-
   {% endblock %}
