@@ -1,0 +1,91 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Edit temperature {% endblock %}
+
+{% block content %}
+<section class="home-slider owl-carousel">
+  <div class="slider-item bread-item"
+    style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Edit temperature</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit temperature</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-services">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 text-center heading-section ftco-animate">
+        <h2 class="mb-2">Our Service Keeps you Smile</h2>
+        <p>Our experienced team of dental professionals is committed to providing you with top-quality care.</p>
+      </div>
+    </div>
+  </div>
+  <div class="container-wrap mt-5">
+    <div class="row d-flex no-gutters justify-content-center">
+      <!--<div class="col-md-6 img"
+        style="background-image: url('{{ url_for('static', filename='images/image_4.jpg') }}');">
+      </div>-->
+      <div class="col-md-6 d-flex">
+        <div class="about-wrap justify-content-center">
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit temperature
+          </h1>
+          {% if err_msg %}
+          <div class="alter alter-danger text-center">
+            <h6 class="text-danger">{{ err_msg }}</h6>
+          </div>
+          {% endif %}
+          <form method="post" class="form-signin">
+            <div class="form-group">
+              <label>Temperature Status</label>
+              <select class="form-control pl-3" name="statusObservation" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Temperature Status</option>
+                <option value="Amended +" {% if "Amended +" == observation.status %}selected{% endif %}>Amended +</option>
+                <option value="Preliminary" {% if "Preliminary" == observation.status %}selected{% endif %}>Preliminary</option>
+                <option value="Final" {% if "Final" == observation.status %}selected{% endif %}>Final</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="effectiveDateTime">Effective Date</label>
+              <input type="date" id="effectiveDateTime" name="effectiveDateTime" value="{{ observation.effectiveDateTime }}" class="form-control pl-3"
+                placeholder="Effective Date" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label for="value">Temperature</label>
+              <input type="number" id="value" name="value" value="{{ observation.value }}" class="form-control pl-3" min="35" max="42" step="0.1"
+                placeholder="Temperature" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
+              <label>Unit</label>
+              <select class="form-control pl-3" name="unit" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Unit</option>
+                <option value="Cel" {% if "Cel" == observation.unit %}selected{% endif %}>Cel</option>
+              </select>
+            </div>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section contact-section ftco-degree-bg">
+  <div class="container">
+    <div class="row block-9 justify-content-center">
+      <div class="col-md-6 pr-md-5">
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}
