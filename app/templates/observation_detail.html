@@ -23,11 +23,6 @@
 
 {% if observation %}
 
-<div class="row justify-content-center mb-5">
-  <a class="btn btn-danger mt-5" href="{{ url_for('patient_edit_observation', observation_id=observation.id) }}"
-    role="button">Edit patient temperature</a>
-</div>
-
 <div class="row justify-content-center mt-5">
   <div class="col-md-10 col-xs-12 mb-5">
     <table class="table table-hover table-bordered">
@@ -36,12 +31,18 @@
         <th class="text-center">Status</th>
         <th class="text-center">Effective Date</th>
         <th class="text-center">Temperature</th>
+        <th class="text-center">Action</th>
       </tr>
       <tr>
         <td class="text-center">{{ observation.id }}</td>
         <td class="text-center">{{ observation.status }}</td>
         <td class="text-center my-date">{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}</td>
         <td class="text-center">{{ observation.value }} {{ observation.unit }}</td>
+        <td class="text-center">
+          <a href="{{ url_for('patient_edit_observation', observation_id=observation.id) }}">
+            Edit
+          </a>
+        </td>
       </tr>
     </table>
   </div>
