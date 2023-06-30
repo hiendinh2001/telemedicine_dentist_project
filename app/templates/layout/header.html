@@ -10,11 +10,13 @@
 			<ul class="navbar-nav ml-auto">
 				<li class="nav-item {% if request.path == url_for('home') %}active{% endif %}"><a href="/" class="nav-link">Home</a></li>
 
+				{% if current_user.is_authenticated and current_user.user_role == UserRole.DOCTOR %}
+					<li class="nav-item {% if request.path == url_for('patient_list') %}active{% endif %}">
+						<a class="nav-link" href="{{ url_for('patient_list') }}">Patients List</a>
+					</li>
+					{% endif %}
 				{% if current_user.is_authenticated %}
 				<li class="nav-item {% if request.path == url_for('room_teleconsultation') %}active{% endif %}"><a href="{{ url_for('room_teleconsultation') }}" class="nav-link">Teleconsultation</a></li>
-				<li class="nav-item {% if request.path == url_for('patient_list') %}active{% endif %}">
-					<a class="nav-link" href="{{ url_for('patient_list') }}">Patients List</a>
-				</li>
 
 				<!-- Avatar + Nom Prénom -->
 				<li class="nav-item {% if request.path == url_for('info_perso') %}active{% endif %}">

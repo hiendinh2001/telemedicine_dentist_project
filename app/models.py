@@ -12,7 +12,8 @@ class BaseModel(db.Model):
 
 class UserRole(UserEnum):
     ADMIN = 1
-    USER = 2
+    PATIENT = 2
+    DOCTOR = 3
 
 class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=False)
@@ -22,7 +23,7 @@ class User(BaseModel, UserMixin):
     email = Column(String(50), nullable=False, unique=True)
     active = Column(Boolean, default=True)
     joined_date = Column(DateTime, default=datetime.now())
-    user_role = Column(Enum(UserRole), default=UserRole.USER)
+    user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
 
     def __str__(self):
         return self.name

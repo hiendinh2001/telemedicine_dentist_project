@@ -43,6 +43,14 @@
         <th class="bg-light">Email</th>
         <td class="text-center">{{ current_user.email }}</td>
       </tr>
+      <tr>
+        <th class="bg-light">Role</th>
+        {% if current_user.user_role == UserRole.DOCTOR %}
+        <td class="text-center">Doctor</td>
+        {% elif current_user.user_role == UserRole.PATIENT %}
+        <td class="text-center">Patient</td>
+        {% endif %}
+      </tr>
     </table>
   </div>
 </div>

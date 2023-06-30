@@ -14,79 +14,80 @@ from string import ascii_letters as ascii
 
 @app.route("/")
 def home():
-    return render_template('index.html')
+    return render_template('index.html', UserRole=UserRole)
 
 @app.route("/about")
 def about():
-    return render_template('about.html')
+    return render_template('about.html', UserRole=UserRole)
 
 
 @app.route("/blog")
 def blog():
-    return render_template('blog.html')
+    return render_template('blog.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-1")
 def blog_single_1():
-    return render_template('blog-single-1.html')
+    return render_template('blog-single-1.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-2")
 def blog_single_2():
-    return render_template('blog-single-2.html')
+    return render_template('blog-single-2.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-3")
 def blog_single_3():
-    return render_template('blog-single-3.html')
+    return render_template('blog-single-3.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-4")
 def blog_single_4():
-    return render_template('blog-single-4.html')
+    return render_template('blog-single-4.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-5")
 def blog_single_5():
-    return render_template('blog-single-5.html')
+    return render_template('blog-single-5.html', UserRole=UserRole)
 
 
 @app.route("/blog-single-6")
 def blog_single_6():
-    return render_template('blog-single-6.html')
+    return render_template('blog-single-6.html', UserRole=UserRole)
 
 
 @app.route("/services")
 def services():
-    return render_template('services.html')
+    return render_template('services.html', UserRole=UserRole)
 
 
 @app.route("/doctors")
 def doctors():
-    return render_template('doctors.html')
+    return render_template('doctors.html', UserRole=UserRole)
 
 
 @app.route("/contact")
 def contact():
-    return render_template('contact.html')
+    return render_template('contact.html', UserRole=UserRole)
 
 
 @app.route("/fhir/Patient")
 @login_required
 def patient_list():
-    immunization_id = request.args.get('immunization_id')
-    practitioner_id = request.args.get('practitioner_id')
-    observation_id = request.args.get('observation_id')
-    name = request.args.get("name")
-    gender = request.args.get("gender")
+    if current_user.user_role == UserRole.DOCTOR:
+        immunization_id = request.args.get('immunization_id')
+        practitioner_id = request.args.get('practitioner_id')
+        observation_id = request.args.get('observation_id')
+        name = request.args.get("name")
+        gender = request.args.get("gender")
 
-    patients = utils.load_patient(immunization_id=immunization_id,
-                                  practitioner_id=practitioner_id,
-                                  observation_id=observation_id,
-                                  name=name,
-                                  gender=gender)
+        patients = utils.load_patient(immunization_id=immunization_id,
+                                      practitioner_id=practitioner_id,
+                                      observation_id=observation_id,
+                                      name=name,
+                                      gender=gender)
 
-    return render_template('patient.html', patients=patients)
+        return render_template('patient.html', patients=patients, UserRole=UserRole)
 
 
 @app.route("/fhir/Patient/<int:patient_id>")
@@ -95,7 +96,8 @@ def patient_detail(patient_id):
     patient = utils.get_patient_by_id(patient_id)
 
     return render_template('patient_detail.html',
-                           patient=patient)
+                           patient=patient,
+                           UserRole=UserRole)
 
 
 @app.route("/fhir/Patient/add", methods=['get', 'post'])
@@ -135,7 +137,8 @@ def patient_add():
 
     return render_template('patient_add.html',
                            practitioners=utils.load_practitioner(),
-                           err_msg=err_msg)
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 @app.route("/fhir/Patient/editInfo", methods=['get', 'post'])
 @login_required
@@ -164,7 +167,8 @@ def patient_edit_info():
 
     return render_template('patient_edit_info.html',
                            patient=patient,
-                           err_msg=err_msg)
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 @app.route("/fhir/Patient/editImmunization", methods=['get', 'post'])
 @login_required
@@ -191,7 +195,8 @@ def patient_edit_immunization():
 
     return render_template('patient_edit_immunization.html',
                            immunization=immunization,
-                           err_msg=err_msg)
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 @app.route("/fhir/Patient/editObservation", methods=['get', 'post'])
 @login_required
@@ -220,7 +225,8 @@ def patient_edit_observation():
 
     return render_template('patient_edit_observation.html',
                            observation=observation,
-                           err_msg=err_msg)
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 @app.route("/fhir/Patient/editPractitioner", methods=['GET', 'POST'])
 @login_required
@@ -251,7 +257,8 @@ def patient_edit_practitioner():
 
     return render_template('patient_edit_practitioner.html',
                            practitioner=practitioner,
-                           err_msg=err_msg)
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 @app.route("/fhir/Immunization/<int:immunization_id>")
 @login_required
@@ -259,7 +266,8 @@ def immunization_detail(immunization_id):
     immunization = utils.get_immunization_by_id(immunization_id)
 
     return render_template('immunization_detail.html',
-                           immunization=immunization)
+                           immunization=immunization,
+                           UserRole=UserRole)
 
 
 @app.route("/fhir/Observation/<int:observation_id>")
@@ -268,7 +276,8 @@ def observation_detail(observation_id):
     observation = utils.get_observation_by_id(observation_id)
 
     return render_template('observation_detail.html',
-                           observation=observation)
+                           observation=observation,
+                           UserRole=UserRole)
 
 
 @app.route("/fhir/Practitioner/<int:practitioner_id>")
@@ -277,7 +286,8 @@ def practitioner_detail(practitioner_id):
     practitioner = utils.get_practitioner_by_id(practitioner_id)
 
     return render_template('practitioner_detail.html',
-                           practitioner=practitioner)
+                           practitioner=practitioner,
+                           UserRole=UserRole)
 
 @app.route('/fhir/deletePatient', methods=['POST', 'DELETE'])
 def patient_delete():
@@ -287,7 +297,7 @@ def patient_delete():
 
         patients = utils.load_patient()
 
-        return render_template('patient.html', patients=patients)
+        return render_template('patient.html', patients=patients, UserRole=UserRole)
 
 @app.route('/fhir/_history')
 @login_required
@@ -301,7 +311,8 @@ def history():
                            patients=patients,
                            immunizations=immunizations,
                            observations=observations,
-                           practitioners=practitioners)
+                           practitioners=practitioners,
+                           UserRole=UserRole)
 
 
 @app.route('/register', methods=['get', 'post'])
@@ -371,7 +382,7 @@ def user_load(user_id):
 @app.route('/info-perso')
 @login_required
 def info_perso():
-    return render_template('info_perso.html')
+    return render_template('info_perso.html', UserRole=UserRole)
 
 @app.route('/upload', methods=['post'])
 def upload():

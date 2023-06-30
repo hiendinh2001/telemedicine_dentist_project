@@ -62,13 +62,14 @@ def add_user(name, username, password, email, **kwargs):
     db.session.add(user)
     db.session.commit()
 
-def check_login(username, password, role=UserRole.USER):
+def check_login(username, password, role=UserRole.PATIENT):
     if username and password:
         password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
 
         return User.query.filter(User.username.__eq__(username.strip()),
                                  User.password.__eq__(password),
-                                 User.user_role.__eq__(role)).first()
+                                 (User.user_role.__eq__(role) | User.user_role.__eq__(UserRole.DOCTOR))).first()
+
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
