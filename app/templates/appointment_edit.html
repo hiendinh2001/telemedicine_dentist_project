@@ -1,0 +1,113 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Edit appointment {% endblock %}
+
+{% block content %}
+<section class="home-slider owl-carousel">
+  <div class="slider-item bread-item"
+    style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Edit appointment</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit appointment</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="ftco-section ftco-services">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-md-7 text-center heading-section ftco-animate">
+        <h2 class="mb-2">Our Service Keeps you Smile</h2>
+        <p>Our experienced team of dental professionals is committed to providing you with top-quality care.</p>
+      </div>
+    </div>
+  </div>
+  <div class="container-wrap mt-5">
+    <div class="row d-flex no-gutters justify-content-center">
+      <!--<div class="col-md-6 img"
+        style="background-image: url('{{ url_for('static', filename='images/image_4.jpg') }}');">
+      </div>-->
+      <div class="col-md-6 d-flex">
+        <div class="about-wrap justify-content-center">
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit appointment
+          </h1>
+          {% if err_msg %}
+          <div class="alter alter-danger text-center">
+            <h6 class="text-danger">{{ err_msg }}</h6>
+          </div>
+          {% endif %}
+          <form method="post" class="form-signin">
+            <div class="form-group">
+              <label for="dateApp">Date <span style="color: red;">*</span></label>
+              <input type="date" id="dateApp" name="dateApp" class="form-control pl-3"
+                placeholder="Date" required autofocus style="border-radius: 10px"
+                min="{{ current_date }}" value="{{ appointment.date.strftime('%Y-%m-%d') }}">
+            </div>
+              <div class="form-group">
+              <label for="timeApp">Time <span style="color: red;">*</span></label>
+              <select id="timeApp" name="timeApp" class="form-control pl-3" required style="border-radius: 10px">
+                {% for time_slot in time_slots %}
+                  <option value="{{ time_slot }}" value="{{ appointment.time.strftime('%H:%M') }}">{{ time_slot }}</option>
+                {% endfor %}
+              </select>
+            </div>
+
+            <div class="form-group">
+              <label>Appointment Type <span style="color: red;">*</span></label>
+              <select class="form-control pl-3" name="appointmentType" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Appointment Type</option>
+                <option value="In-Clinic" {% if "In-Clinic" == appointment.appointmentType %}selected{% endif %}>In-Clinic</option>
+                <option value="Online Video Conference" {% if "Online Video Conference" == appointment.appointmentType %}selected{% endif %}>Online Video Conference</option>
+              </select>
+            </div>
+
+                <div class="form-group">
+                  <label>Reason <span style="color: red;">*</span></label>
+                  <select class="form-control pl-3" name="reasonApp" style="border-radius: 10px">
+                    <option value="" disabled selected hidden>Reason</option>
+                    <option value="First Consultation" {% if 'First Consultation' == appointment.reason %} selected {% endif %}>First Consultation</option>
+                    <option value="Teeth Whitening" {% if 'Teeth Whitening' == appointment.reason %} selected {% endif %}>Teeth Whitening</option>
+                    <option value="Teeth Cleaning" {% if 'Teeth Cleaning' == appointment.reason %} selected {% endif %}>Teeth Cleaning</option>
+                    <option value="Quality Brackets" {% if 'Quality Brackets' == appointment.reason %} selected {% endif %}>Quality Brackets</option>
+                    <option value="Modern Anesthetic" {% if 'Modern Anesthetic' == appointment.reason %} selected {% endif %}>Modern Anesthetic</option>
+                    <option value="Dental Calculus" {% if 'Dental Calculus' == appointment.reason %} selected {% endif %}>Dental Calculus</option>
+                    <option value="Paradontosis" {% if 'Paradontosis' == appointment.reason %} selected {% endif %}>Paradontosis</option>
+                    <option value="Dental Implants" {% if 'Dental Implants' == appointment.reason %} selected {% endif %}>Dental Implants</option>
+                    <option value="Tooth Braces" {% if 'Tooth Braces' == appointment.reason %} selected {% endif %}>Tooth Braces</option>
+                  </select>
+                </div>
+            <div class="form-group">
+              <label>Practitioner Name <span style="color: red;">*</span></label>
+              <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Practitioner Name</option>
+                {% for practitioner in practitioners %}
+                <option value="{{ practitioner.id }}" {% if practitioner.id == appointment.practitioner_id %} selected {% endif %}>{{ practitioner.name }}</option>
+                {% endfor %}
+              </select>
+            </div>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="ftco-section contact-section ftco-degree-bg">
+  <div class="container">
+    <div class="row block-9 justify-content-center">
+      <div class="col-md-6 pr-md-5">
+
+
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

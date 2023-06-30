@@ -7,6 +7,7 @@ from flask_login import login_user, logout_user, current_user
 from flask_login import login_required
 from app.models import UserRole
 import os
+from datetime import date, datetime, timedelta
 import cv2
 import random
 from string import ascii_letters as ascii
@@ -96,6 +97,7 @@ def patient_detail(patient_id):
     patient = utils.get_patient_by_id(patient_id)
 
     return render_template('patient_detail.html',
+                           practitioners=utils.load_practitioner(),
                            patient=patient,
                            UserRole=UserRole)
 
@@ -154,19 +156,22 @@ def patient_edit_info():
         genderPatient = request.form.get('genderPatient')
         birthDatePatient = request.form.get('birthDatePatient')
         addressPatient = request.form.get('addressPatient')
+        practitioner_id = request.form.get('practitioner_id')
 
         try:
             utils.update_patient_info(patient_id=int(patient_id),
                                       namePatient=namePatient,
                                       genderPatient=genderPatient,
                                       birthDatePatient=birthDatePatient,
-                                      addressPatient=addressPatient)
+                                      addressPatient=addressPatient,
+                                      practitioner_id=int(practitioner_id))
             return redirect("/fhir/Patient/{}".format(patient_id))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
 
     return render_template('patient_edit_info.html',
                            patient=patient,
+                           practitioners=utils.load_practitioner(),
                            err_msg=err_msg,
                            UserRole=UserRole)
 
@@ -395,6 +400,120 @@ def upload():
 def room_teleconsultation():
 
     return redirect("http://127.0.0.1:3000/", code=302)
+
+# ------------------------ appointment ------------------------
+@app.route("/fhir/Appointment")
+@login_required
+def appointment_list():
+    practitioner_id = request.args.get('practitioner_id')
+    from_date = request.args.get('from_date')
+    to_date = request.args.get('to_date')
+    appointmentType = request.args.get('appointmentType')
+    reason = request.args.get('reason')
+
+    appointments = utils.load_appointment(practitioner_id=practitioner_id,
+                                          from_date=from_date,
+                                          to_date=to_date,
+                                          appointmentType=appointmentType,
+                                          reason=reason)
+
+    return render_template('appointment.html', appointments=appointments, practitioners=utils.load_practitioner(), UserRole=UserRole)
+
+@app.route("/fhir/Appointment/add", methods=['get', 'post'])
+@login_required
+def appointment_add():
+    err_msg = ""
+    current_date = date.today().strftime('%Y-%m-%d')
+
+    # Générer les créneaux de 08:00 à 19:00
+    start_time = datetime.strptime("08:00", "%H:%M")
+    end_time = datetime.strptime("19:00", "%H:%M")
+    time_step = timedelta(minutes=30)
+    time_slots = []
+    current_time = start_time
+    while current_time <= end_time:
+        time_slots.append(current_time.strftime("%H:%M"))
+        current_time += time_step
+
+    if request.method.__eq__('POST'):
+        dateApp = request.form.get('dateApp')
+        timeApp = request.form.get('timeApp')
+        appointmentType = request.form.get('appointmentType')
+        reasonApp = request.form.get('reasonApp')
+        practitioner_id = request.form.get('practitioner_id')
+
+        try:
+            utils.add_appointment(dateApp=dateApp,
+                                  timeApp=timeApp,
+                                  appointmentType=appointmentType,
+                                  reasonApp=reasonApp,
+                                  practitioner_id=int(practitioner_id))
+            return redirect(url_for('appointment_list'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('appointment_add.html',
+                           practitioners=utils.load_practitioner(),
+                           err_msg=err_msg,
+                           UserRole=UserRole,
+                           current_date=current_date,
+                           time_slots=time_slots)
+
+@app.route("/fhir/Appointment/edit", methods=['get', 'post'])
+@login_required
+def appointment_edit():
+    err_msg = ""
+    appointment_id = request.args.get('appointment_id')
+    appointment = None
+    if appointment_id:
+        appointment = utils.get_appointment_by_id(appointment_id=int(appointment_id))
+
+    current_date = date.today().strftime('%Y-%m-%d')
+
+    # Générer les créneaux de 08:00 à 19:00
+    start_time = datetime.strptime("08:00", "%H:%M")
+    end_time = datetime.strptime("19:00", "%H:%M")
+    time_step = timedelta(minutes=30)
+    time_slots = []
+    current_time = start_time
+    while current_time <= end_time:
+        time_slots.append(current_time.strftime("%H:%M"))
+        current_time += time_step
+
+    if request.method.__eq__('POST'):
+        dateApp = request.form.get('dateApp')
+        timeApp = request.form.get('timeApp')
+        appointmentType = request.form.get('appointmentType')
+        reasonApp = request.form.get('reasonApp')
+        practitioner_id = request.form.get('practitioner_id')
+
+        try:
+            utils.update_appointment(appointment_id=int(appointment_id),
+                                     dateApp=dateApp,
+                                     timeApp=timeApp,
+                                     appointmentType=appointmentType,
+                                     reasonApp=reasonApp,
+                                     practitioner_id=int(practitioner_id))
+            return redirect(url_for('appointment_list'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('appointment_edit.html',
+                           appointment=appointment,
+                           current_date=current_date,
+                           time_slots=time_slots,
+                           practitioners=utils.load_practitioner(),
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+@app.route('/fhir/deleteAppointment', methods=['POST', 'DELETE'])
+def appointment_delete():
+    if request.method == 'POST' or request.method == 'DELETE':
+        appointment_id = request.args.get('appointment_id')
+        utils.delete_appointment(appointment_id=int(appointment_id))
+
+        appointments = utils.load_appointment()
+
+        return render_template('appointment.html', appointments=appointments, UserRole=UserRole)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

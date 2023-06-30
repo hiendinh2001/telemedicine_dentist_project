@@ -17,6 +17,7 @@
 					{% endif %}
 				{% if current_user.is_authenticated %}
 				<li class="nav-item {% if request.path == url_for('room_teleconsultation') %}active{% endif %}"><a href="{{ url_for('room_teleconsultation') }}" class="nav-link">Teleconsultation</a></li>
+				<li class="nav-item {% if request.path == url_for('appointment_list') %}active{% endif %}"><a href="{{ url_for('appointment_list') }}" class="nav-link">Appointment</a></li>
 
 				<!-- Avatar + Nom Prénom -->
 				<li class="nav-item {% if request.path == url_for('info_perso') %}active{% endif %}">
@@ -36,8 +37,8 @@
 				<li class="nav-item cta mr-2">
 					<a class="nav-link" href="{{ url_for('user_signout') }}"><span>Sign out</span></a>
 				</li>
-				<li class="nav-item cta"><a href="" class="nav-link" data-toggle="modal"
-						data-target="#modalRequest"><span>Make an Appointment</span></a></li>
+				<!--<li class="nav-item cta"><a href="" class="nav-link" data-toggle="modal"
+						data-target="#modalRequest"><span>Make an Appointment</span></a></li>-->
 
 				{% else %}
 				<li class="nav-item {% if request.path == url_for('about') %}active{% endif %}"><a href="{{ url_for('about') }}" class="nav-link">About</a></li>

@@ -87,7 +87,7 @@
 
 <script>
   function deletePatient(patientId) {
-    if (confirm("Êtes-vous sûr de vouloir supprimer ce patient ?")) {
+    if (confirm("Are you sure you want to delete this patient?")) {
       fetch(`/fhir/deletePatient?patient_id=${patientId}`, {
         method: 'DELETE'
       })
@@ -95,11 +95,11 @@
         if (response.ok) {
           location.reload();
         } else {
-          console.error('La suppression du patient a échoué.');
+          console.error('Failed to delete patient.');
         }
       })
       .catch(error => {
-        console.error('Une erreur s\'est produite lors de la suppression du patient :', error);
+        console.error('An error occurred while deleting the patient:', error);
       });
     }
   }

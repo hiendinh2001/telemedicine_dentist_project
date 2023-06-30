@@ -1,0 +1,163 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} Appointments List {% endblock %}
+
+{% block content %}
+<section class="home-slider owl-carousel">
+  <div class="slider-item bread-item"
+    style="background-image: url('{{ url_for('static', filename='images/bg_1.jpg') }}');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>Appointments List</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Appointments List</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="row justify-content-center mb-5">
+  <a class="btn btn-danger mt-5" href="{{ url_for('appointment_add') }}"
+    role="button">Make an appointment</a>
+</div>
+
+<!--
+<form method="post" enctype="multipart/form-data" action="/upload">
+  <input type="file" name="prescription" />
+  <input type="submit" value="Upload" class="my-2 my-sm-0 btn btn-success" size="lg">
+</form>-->
+
+{% if appointments %}
+
+<form>
+  <div class="row justify-content-center mx-5 mt-5 mb-1">
+  <div class="col-md-2 form-group mr-sm-2">
+    <label>Appointment start date</label>
+    <input type="date" class="form-control" id="dateStartInput" name="from_date" value="{% if request.args.get('from_date') %}{{ request.args.get('from_date') }}{% endif %}" placeholder="Start date..." />
+  </div>
+  <div class="col-md-2 form-group mr-sm-2">
+    <label>Appointment end date</label>
+    <input type="date" class="form-control" id="dateEndInput" name="to_date" value="{% if request.args.get('to_date') %}{{ request.args.get('to_date') }}{% endif %}" placeholder="End date..." />
+  </div>
+  <div class="col-md-2 form-group mr-sm-2">
+    <label>Appointment type</label>
+    <select class="form-control" id="appointmentTypeSelect" name="appointmentType" style="border-radius: 10px">
+      <option value="" disabled selected hidden>Choose appointment type...</option>
+      <option value="In-Clinic" {% if request.args.get('appointmentType') == 'In-Clinic' %} selected {% endif %}>In-Clinic</option>
+      <option value="Online Video Conference" {% if request.args.get('appointmentType') == 'Online Video Conference' %} selected {% endif %}>Online Video Conference</option>
+    </select>
+  </div>
+    <div class="col-md-2 form-group mr-sm-2">
+    <label>Reason</label>
+    <select class="form-control" id="reasonSelect" name="reason" style="border-radius: 10px">
+      <option value="" disabled selected hidden>Choose reason...</option>
+      <option value="First Consultation" {% if request.args.get('reason') == 'First Consultation' %} selected {% endif %}>First Consultation</option>
+      <option value="Teeth Whitening" {% if request.args.get('reason') == 'Teeth Whitening' %} selected {% endif %}>Teeth Whitening</option>
+      <option value="Teeth Cleaning" {% if request.args.get('reason') == 'Teeth Cleaning' %} selected {% endif %}>Teeth Cleaning</option>
+      <option value="Quality Brackets" {% if request.args.get('reason') == 'Quality Brackets' %} selected {% endif %}>Quality Brackets</option>
+      <option value="Modern Anesthetic" {% if request.args.get('reason') == 'Modern Anesthetic' %} selected {% endif %}>Modern Anesthetic</option>
+      <option value="Dental Calculus" {% if request.args.get('reason') == 'Dental Calculus' %} selected {% endif %}>Dental Calculus</option>
+      <option value="Paradontosis" {% if request.args.get('reason') == 'Paradontosis' %} selected {% endif %}>Paradontosis</option>
+      <option value="Dental Implants" {% if request.args.get('reason') == 'Dental Implants' %} selected {% endif %}>Dental Implants</option>
+      <option value="Tooth Braces" {% if request.args.get('reason') == 'Tooth Braces' %} selected {% endif %}>Tooth Braces</option>
+    </select>
+  </div>
+      </div>
+          <div class="row justify-content-center mx-5 mt-1 mb-5">
+  <button type="button" class="mr-3 my-2 my-sm-0 btn btn-secondary" size="sm" onclick="clearForm()">Clear</button>
+  <input type="submit" value="Search" class="my-2 my-sm-0 btn btn-success" size="sm">
+    </div>
+</form>
+
+
+<div class="row justify-content-center">
+  <div class="col-md-10 col-xs-12 mb-5">
+    <table class="table table-hover table-bordered">
+      <tr class="bg-light">
+        <th class="text-center">Date</th>
+        <th class="text-center">Time</th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Created Date</th>
+        <th class="text-center">Appointment Type</th>
+        <th class="text-center">Reason</th>
+        <th class="text-center">Practitioner Name</th>
+        <th class="text-center">Action</th>
+      </tr>
+      {% for a in appointments %}
+      <tr>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            a.date.strftime('%d/%m/%Y') }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            a.time }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{ a.status }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            a.created.strftime('%d/%m/%Y') }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            a.appointmentType }}</a>
+        </td>
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            a.reason }}</a>
+        </td>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == a.practitioner_id %}
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="{{ url_for('practitioner_detail', practitioner_id=a.practitioner_id) }}">{{
+            practitioner.name }}</a>
+        </td>
+            {% endif %}
+        {% endfor %}
+        <td class="text-center">
+            <a href="{{ url_for('appointment_edit', appointment_id=a.id) }}">Edit</a> |
+          <a href="#" onclick="deleteAppointment({{ a.id }})">Delete</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </table>
+  </div>
+</div>
+
+{% else %}
+<p class="text-center"><i>No results returned!!!</i></p>
+{% endif %}
+
+<script>
+  function deleteAppointment(appointmentId) {
+    if (confirm("Are you sure you want to delete this appointment?")) {
+      fetch(`/fhir/deleteAppointment?appointment_id=${appointmentId}`, {
+        method: 'DELETE'
+      })
+      .then(response => {
+        if (response.ok) {
+          location.reload();
+        } else {
+          console.error('Delete appointment failed.');
+        }
+      })
+      .catch(error => {
+        console.error('An error occurred while deleting the appointment:', error);
+      });
+    }
+  }
+
+  function clearForm() {
+    document.getElementById("dateStartInput").value = "";
+    document.getElementById("dateEndInput").value = "";
+    document.getElementById("appointmentTypeSelect").selectedIndex = 0;
+    document.getElementById("reasonSelect").selectedIndex = 0;
+  }
+</script>
+{% endblock %}

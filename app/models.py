@@ -1,7 +1,7 @@
-from sqlalchemy import Column, Integer, Boolean, Float, String, Text, ForeignKey, Enum, DateTime
+from sqlalchemy import Column, Integer, Boolean, Float, String, Text, ForeignKey, Enum, DateTime, Time
 from sqlalchemy.orm import relationship, backref
 from app import db, app
-from datetime import datetime
+from datetime import datetime, time
 from flask_login import UserMixin
 from enum import Enum as UserEnum
 
@@ -48,6 +48,7 @@ class Practitioner(BaseModel):
     address = Column(String(50), nullable=False)
     language = Column(String(50), nullable=False)
     patient = relationship('Patient', backref='Practitioner', lazy=False)
+    appointment = relationship('Appointment', backref='Practitioner', lazy=False)
 
     def __str__(self):
         return self.name
@@ -82,10 +83,15 @@ class Patient(BaseModel):
 class Appointment(BaseModel):
     __tablename__ = 'Appointment'
 
-    appointment_name = Column(String(50), nullable=False)
-    appointment_email = Column(String(50), nullable=False)
-    appointment_date = Column(DateTime)
-    appointment_time = Column(DateTime)
+    date = Column(DateTime, nullable=False)
+    time = Column(Time, nullable=False)
+    status = Column(String(50), nullable=False, default='Booked')
+    created = Column(DateTime, default=datetime.now())
+    appointmentType = Column(String(50), nullable=False)
+    reason = Column(String(50), nullable=False)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=False)
+    active = Column(Boolean, default=True)
+
     def __str__(self):
         return self.name
 

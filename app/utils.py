@@ -1,6 +1,6 @@
 import json, os
 from app import app, db
-from app.models import User, UserRole, Patient, Immunization, Observation, Practitioner
+from app.models import User, UserRole, Patient, Immunization, Observation, Practitioner, Appointment
 from flask_login import current_user
 from sqlalchemy import func
 from sqlalchemy.sql import extract
@@ -15,13 +15,13 @@ def load_patient(immunization_id=None, practitioner_id=None, observation_id=None
     patients = Patient.query.filter(Patient.active.__eq__(True))
 
     if immunization_id:
-        patients = patients.filter(Patient.service_id.__eq__(immunization_id))
+        patients = patients.filter(Patient.immunization_id.__eq__(immunization_id))
 
     if practitioner_id:
-        patients = patients.filter(Patient.status_id.__eq__(practitioner_id))
+        patients = patients.filter(Patient.practitioner_id.__eq__(practitioner_id))
 
     if observation_id:
-        patients = patients.filter(Patient.status_id.__eq__(observation_id))
+        patients = patients.filter(Patient.observation_id.__eq__(observation_id))
 
     if name:
         patients = patients.filter(Patient.name.contains(name))
@@ -100,13 +100,14 @@ def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, st
     db.session.add(patient)
     db.session.commit()
 
-def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient):
+def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient, practitioner_id):
     info = db.session.query(Patient).get(patient_id)
     if info:
         info.name = namePatient.strip()
         info.gender = genderPatient
         info.birthDate = birthDatePatient
         info.address = addressPatient.strip()
+        info.practitioner_id = int(practitioner_id)
 
         db.session.commit()
 
@@ -153,3 +154,53 @@ def delete_patient(patient_id):
 
         db.session.delete(patient)
         db.session.commit()
+
+def load_appointment(practitioner_id=None, from_date=None, to_date=None, appointmentType=None, reason=None):
+    appointments = Appointment.query.filter(Appointment.active.__eq__(True))
+
+    if practitioner_id:
+        appointments = appointments.filter(Appointment.practitioner_id.__eq__(practitioner_id))
+
+    if from_date:
+        appointments = appointments.filter(Appointment.date.__ge__(from_date))
+
+    if to_date:
+        appointments = appointments.filter(Appointment.date.__le__(to_date))
+
+    if appointmentType:
+        appointments = appointments.filter(Appointment.appointmentType == appointmentType)
+
+    if reason:
+        appointments = appointments.filter(Appointment.reason == reason)
+
+    return appointments
+
+def get_appointment_by_id(appointment_id):
+    return Appointment.query.get(appointment_id)
+
+def add_appointment(dateApp, timeApp, appointmentType, reasonApp, practitioner_id):
+
+    appointment = Appointment(date=dateApp,
+                              time=timeApp,
+                              appointmentType=appointmentType,
+                              reason=reasonApp,
+                              practitioner_id=int(practitioner_id))
+    db.session.add(appointment)
+    db.session.commit()
+
+def update_appointment(appointment_id, dateApp, timeApp, appointmentType, reasonApp, practitioner_id):
+    info = db.session.query(Appointment).get(appointment_id)
+    if info:
+        info.date = dateApp
+        info.time = timeApp
+        info.appointmentType = appointmentType
+        info.reason = reasonApp
+        info.practitioner_id = int(practitioner_id)
+
+        db.session.commit()
+
+def delete_appointment(appointment_id):
+    appointment = db.session.query(Appointment).get(appointment_id)
+
+    db.session.delete(appointment)
+    db.session.commit()

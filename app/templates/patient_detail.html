@@ -32,6 +32,7 @@
                 <th class="text-center">Birthday Date</th>
                 <th class="text-center">Gender</th>
                 <th class="text-center">Address</th>
+                <th class="text-center">Practitioner Name</th>
                 <th class="text-center">Action</th>
             </tr>
             <tr>
@@ -40,6 +41,14 @@
                 <td class="text-center">{{ patient.birthDate.strftime('%d/%m/%Y') }}</td>
                 <td class="text-center">{{ patient.gender }}</td>
                 <td class="text-center">{{ patient.address }}</td>
+                {% for practitioner in practitioners %}
+                  {% if practitioner.id == patient.practitioner_id %}
+                <td class="text-center">
+                  <a class="mt-2 text-decoration-none text-dark" href="{{ url_for('practitioner_detail', practitioner_id=patient.practitioner_id) }}">{{
+                    practitioner.name }}</a>
+                </td>
+                    {% endif %}
+                {% endfor %}
                 <td class="text-center">
                     <a href="{{ url_for('patient_edit_info', patient_id=patient.id) }}">Edit</a>
             </tr>
