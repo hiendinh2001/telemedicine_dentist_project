@@ -17,6 +17,7 @@
 					{% endif %}
 				{% if current_user.is_authenticated %}
 				<li class="nav-item {% if request.path == url_for('room_teleconsultation') %}active{% endif %}"><a href="{{ url_for('room_teleconsultation') }}" class="nav-link">Teleconsultation</a></li>
+				<li class="nav-item {% if request.path == url_for('room_home') %}active{% endif %}"><a href="{{ url_for('room_home') }}" class="nav-link">Chat Room</a></li>
 				<li class="nav-item {% if request.path == url_for('appointment_list') %}active{% endif %}"><a href="{{ url_for('appointment_list') }}" class="nav-link">Appointment</a></li>
 
 				<!-- Avatar + Nom Prénom -->
