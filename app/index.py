@@ -406,12 +406,22 @@ def room_teleconsultation():
 @login_required
 def appointment_list():
     practitioner_id = request.args.get('practitioner_id')
+    user_id = request.args.get('user_id')
     from_date = request.args.get('from_date')
     to_date = request.args.get('to_date')
     appointmentType = request.args.get('appointmentType')
     reason = request.args.get('reason')
 
+    if not user_id:
+        # Vérifier si l'utilisateur est de type patient
+        if current_user.user_role == UserRole.PATIENT:
+            user_id = current_user.id
+
+    print("Current User Role:", current_user.user_role)
+    print("Current User ID:", current_user.id)
+
     appointments = utils.load_appointment(practitioner_id=practitioner_id,
+                                          user_id=user_id,
                                           from_date=from_date,
                                           to_date=to_date,
                                           appointmentType=appointmentType,
@@ -441,13 +451,15 @@ def appointment_add():
         appointmentType = request.form.get('appointmentType')
         reasonApp = request.form.get('reasonApp')
         practitioner_id = request.form.get('practitioner_id')
+        user_id = current_user.id
 
         try:
             utils.add_appointment(dateApp=dateApp,
                                   timeApp=timeApp,
                                   appointmentType=appointmentType,
                                   reasonApp=reasonApp,
-                                  practitioner_id=int(practitioner_id))
+                                  practitioner_id=int(practitioner_id),
+                                  user_id=int(user_id))
             return redirect(url_for('appointment_list'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)

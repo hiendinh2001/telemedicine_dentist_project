@@ -24,6 +24,7 @@ class User(BaseModel, UserMixin):
     active = Column(Boolean, default=True)
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
+    appointment = relationship('Appointment', backref='User', lazy=False)
 
     def __str__(self):
         return self.name
@@ -91,6 +92,7 @@ class Appointment(BaseModel):
     reason = Column(String(50), nullable=False)
     practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=False)
     active = Column(Boolean, default=True)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
 
     def __str__(self):
         return self.name

@@ -33,7 +33,8 @@
 
 {% if patients %}
 
-<form class="row justify-content-center m-5">
+<form>
+  <div class="row justify-content-center mx-5 mt-5 mb-1">
   <div class="col-md-3 form-group mr-sm-2">
     <input type="text" class="form-control" id="nameInput" name="name" value="{% if request.args.get('name') %}{{ request.args.get('name') }}{% endif %}" placeholder="Enter the patient's name..." />
   </div>
@@ -44,8 +45,11 @@
       <option value="Female" {% if request.args.get('gender') == 'Female' %} selected {% endif %}>Female</option>
     </select>
   </div>
+    </div>
+  <div class="row justify-content-center mx-5 mt-1 mb-5">
   <button type="button" class="mr-3 my-2 my-sm-0 btn btn-secondary" size="sm" onclick="clearForm()">Clear</button>
   <input type="submit" value="Search" class="my-2 my-sm-0 btn btn-success" size="sm">
+  </div>
 </form>
 
 

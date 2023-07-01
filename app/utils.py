@@ -5,6 +5,7 @@ from flask_login import current_user
 from sqlalchemy import func
 from sqlalchemy.sql import extract
 import hashlib
+from flask_login import current_user
 import csv
 
 def read_json(path): 
@@ -155,11 +156,22 @@ def delete_patient(patient_id):
         db.session.delete(patient)
         db.session.commit()
 
-def load_appointment(practitioner_id=None, from_date=None, to_date=None, appointmentType=None, reason=None):
+def load_appointment(practitioner_id=None, user_id=None, from_date=None, to_date=None, appointmentType=None, reason=None):
     appointments = Appointment.query.filter(Appointment.active.__eq__(True))
 
     if practitioner_id:
         appointments = appointments.filter(Appointment.practitioner_id.__eq__(practitioner_id))
+    if user_id:
+        # Vérifier si l'utilisateur est un médecin
+        if current_user.user_role == UserRole.DOCTOR:
+            # Si c'est un médecin, afficher tous les rendez-vous
+            appointments = appointments.filter(Appointment.user_id.__eq__(user_id))
+        elif current_user.user_role == UserRole.PATIENT:
+            # Pour les autres utilisateurs, afficher uniquement leurs propres rendez-vous
+            appointments = appointments.filter(Appointment.user_id.__eq__(current_user.id))
+
+    if user_id:
+        appointments = appointments.filter(Appointment.user_id.__eq__(user_id))
 
     if from_date:
         appointments = appointments.filter(Appointment.date.__ge__(from_date))
@@ -178,13 +190,14 @@ def load_appointment(practitioner_id=None, from_date=None, to_date=None, appoint
 def get_appointment_by_id(appointment_id):
     return Appointment.query.get(appointment_id)
 
-def add_appointment(dateApp, timeApp, appointmentType, reasonApp, practitioner_id):
+def add_appointment(dateApp, timeApp, appointmentType, reasonApp, practitioner_id, user_id):
 
     appointment = Appointment(date=dateApp,
                               time=timeApp,
                               appointmentType=appointmentType,
                               reason=reasonApp,
-                              practitioner_id=int(practitioner_id))
+                              practitioner_id=int(practitioner_id),
+                              user_id=int(user_id))
     db.session.add(appointment)
     db.session.commit()
 
