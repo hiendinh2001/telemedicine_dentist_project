@@ -417,9 +417,6 @@ def appointment_list():
         if current_user.user_role == UserRole.PATIENT:
             user_id = current_user.id
 
-    print("Current User Role:", current_user.user_role)
-    print("Current User ID:", current_user.id)
-
     appointments = utils.load_appointment(practitioner_id=practitioner_id,
                                           user_id=user_id,
                                           from_date=from_date,
