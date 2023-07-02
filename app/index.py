@@ -320,9 +320,8 @@ def history():
                            practitioners=practitioners,
                            UserRole=UserRole)
 
-
-@app.route('/register', methods=['get', 'post'])
-def user_register():
+@app.route('/register_doctor', methods=['get', 'post'])
+def user_register_doctor():
     err_msg = ""
     if request.method.__eq__('POST'):
         name = request.form.get('name')
@@ -339,7 +338,7 @@ def user_register():
                     res = cloudinary.uploader.upload(avatar)
                     avatar_path = res['secure_url']
 
-                utils.add_user(name=name,
+                utils.add_user_doctor(name=name,
                                username=username,
                                password=password,
                                email=email,
@@ -348,11 +347,62 @@ def user_register():
             else:
                 err_msg = 'The re-entered password is incorrect'
         except Exception as ex:
-            err_msg = 'Your identifier or email already exists'
+            err_msg = 'Your identifier or email already exists' + str(ex)
+
+    return render_template('register_doctor.html',
+                           err_msg=err_msg)
+
+@app.route('/register', methods=['get', 'post'])
+def user_register():
+    err_msg = ""
+    if request.method.__eq__('POST'):
+        name = request.form.get('name')
+        username = request.form.get('username')
+        password = request.form.get('password')
+        email = request.form.get('email')
+        confirm = request.form.get('confirm')
+        avatar_path = None
+        genderPatient = request.form.get('genderPatient')
+        birthDatePatient = request.form.get('birthDatePatient')
+        addressPatient = request.form.get('addressPatient')
+        statusVaccine = request.form.get('statusVaccine')
+        vaccineCode = request.form.get('vaccineCode')
+        occurrenceDateTime = request.form.get('occurrenceDateTime')
+        statusObservation = request.form.get('statusObservation')
+        effectiveDateTime = request.form.get('effectiveDateTime')
+        value = request.form.get('value')
+        unit = request.form.get('unit')
+
+        try:
+            if password.strip().__eq__(confirm.strip()):
+                avatar = request.files.get('avatar')
+                if avatar:
+                    res = cloudinary.uploader.upload(avatar)
+                    avatar_path = res['secure_url']
+
+                utils.add_user(name=name,
+                               username=username,
+                               password=password,
+                               email=email,
+                               avatar=avatar_path,
+                               genderPatient=genderPatient,
+                               birthDatePatient=birthDatePatient,
+                               addressPatient=addressPatient,
+                               statusVaccine=statusVaccine,
+                               vaccineCode=vaccineCode,
+                               occurrenceDateTime=occurrenceDateTime,
+                               statusObservation=statusObservation,
+                               effectiveDateTime=effectiveDateTime,
+                               value=value,
+                               unit=unit)
+                return redirect(url_for('user_signin'))
+            else:
+                err_msg = 'The re-entered password is incorrect'
+        except Exception as ex:
+            err_msg = 'Your identifier or email already exists' + str(ex)
 
     return render_template('register.html',
                            err_msg=err_msg)
-
 
 @app.route('/user-login', methods=['get', 'post'])
 def user_signin():
@@ -391,7 +441,7 @@ def info_perso():
     if current_user.user_role == UserRole.DOCTOR:
         return render_template('info_perso_doctor.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
     elif current_user.user_role == UserRole.PATIENT:
-        return render_template('info_perso.html', UserRole=UserRole)
+        return render_template('info_perso.html', patients=utils.load_patient(), practitioners=utils.load_practitioner(), UserRole=UserRole)
 
 @app.route('/upload', methods=['post'])
 def upload():
@@ -545,6 +595,7 @@ def generate_unique_code(length):
 
 
 @app.route("/room_home", methods=["POST", "GET"])
+@login_required
 def room_home():
     session.clear()
     if request.method == "POST":

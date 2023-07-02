@@ -37,7 +37,7 @@
         <td class="text-center">{{ immunization.id }}</td>
         <td class="text-center">{{ immunization.status }}</td>
         <td class="text-center">{{ immunization.vaccineCode }}</td>
-        <td class="text-center">{{ immunization.occurrenceDateTime.strftime('%d/%m/%Y') }}</td>
+        <td class="text-center">{% if immunization.occurrenceDateTime %}{{ immunization.occurrenceDateTime.strftime('%d/%m/%Y') }}{% else %}None{% endif %}</td>
         <td class="text-center">
           <a href="{{ url_for('patient_edit_immunization', immunization_id=immunization.id) }}">
             Edit

@@ -55,8 +55,7 @@
             </div>
             <div class="form-group">
               <label for="effectiveDateTime">Effective Date</label>
-              <input type="date" id="effectiveDateTime" name="effectiveDateTime" value="{{ observation.effectiveDateTime.strftime('%Y-%m-%d') }}" class="form-control pl-3"
-                placeholder="Effective Date" required autofocus style="border-radius: 10px">
+              <input type="date" id="effectiveDateTime" name="effectiveDateTime" value="{% if observation.effectiveDateTime %}{{ observation.effectiveDateTime.strftime('%Y-%m-%d') }}{% endif %}" class="form-control pl-3" placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="value">Temperature</label>

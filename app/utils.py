@@ -53,13 +53,52 @@ def get_observation_by_id(observation_id):
 def get_practitioner_by_id(practitioner_id):
     return Practitioner.query.get(practitioner_id)
 
-def add_user(name, username, password, email, **kwargs):
+def add_user_doctor(name, username, password, email, **kwargs):
+
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     user = User(name=name.strip(),
                 username=username.strip(),
                 password=password,
                 email=email.strip(),
-                avatar=kwargs.get('avatar'))
+                avatar=kwargs.get('avatar'),
+                user_role=UserRole.DOCTOR)
+    db.session.add(user)
+    db.session.commit()
+
+
+def add_user(name, username, password, email, genderPatient, birthDatePatient, addressPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, **kwargs):
+    immunization = Immunization(status=None if not statusVaccine else statusVaccine,
+                                vaccineCode=None if not vaccineCode else vaccineCode,
+                                occurrenceDateTime=None if not occurrenceDateTime else occurrenceDateTime)
+
+    db.session.add(immunization)
+    db.session.commit()
+
+    observation = Observation(status=None if not statusObservation else statusObservation,
+                              effectiveDateTime=None if not effectiveDateTime else effectiveDateTime,
+                              value=None if not value else value,
+                              unit=None if not unit else unit)
+    db.session.add(observation)
+    db.session.commit()
+
+    patient = Patient(name=name.strip(),
+                      gender=genderPatient,
+                      birthDate=birthDatePatient,
+                      address=addressPatient.strip(),
+                      email=email.strip(),
+                      immunization_id=immunization.id,
+                      observation_id=observation.id)
+
+    db.session.add(patient)
+    db.session.commit()
+
+    password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    user = User(name=name.strip(),
+                username=username.strip(),
+                password=password,
+                email=email.strip(),
+                avatar=kwargs.get('avatar'),
+                patient_id=patient.id)
     db.session.add(user)
     db.session.commit()
 

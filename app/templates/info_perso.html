@@ -45,11 +45,55 @@
       </tr>
       <tr>
         <th class="bg-light">Role</th>
-        {% if current_user.user_role == UserRole.DOCTOR %}
-        <td class="text-center">Doctor</td>
-        {% elif current_user.user_role == UserRole.PATIENT %}
         <td class="text-center">Patient</td>
+      </tr>
+      <tr>
+        <th class="bg-light">Gender</th>
+        {% for patient in patients %}
+          {% if patient.id == current_user.patient_id %}
+        <td class="text-center">{{ patient.gender }}</td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Birth Date</th>
+        {% for patient in patients %}
+          {% if patient.id == current_user.patient_id %}
+        <td class="text-center">{{ patient.birthDate.strftime('%d/%m/%Y') }}</td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Address</th>
+        {% for patient in patients %}
+          {% if patient.id == current_user.patient_id %}
+        <td class="text-center">{{ patient.address }}</td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Practitioner Name</th>
+        {% for patient in patients %}
+        {% if patient.id == current_user.patient_id %}
+        {% for practitioner in practitioners %}
+        {% if patient.practitioner_id == practitioner.id %}
+        <td class="text-center">{{ practitioner.name }}</td>
         {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Practitioner Email</th>
+        {% for patient in patients %}
+        {% if patient.id == current_user.patient_id %}
+        {% for practitioner in practitioners %}
+        {% if patient.practitioner_id == practitioner.id %}
+        <td class="text-center">{{ practitioner.email }}</td>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endfor %}
       </tr>
     </table>
   </div>

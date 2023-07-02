@@ -36,7 +36,7 @@
       <tr>
         <td class="text-center">{{ observation.id }}</td>
         <td class="text-center">{{ observation.status }}</td>
-        <td class="text-center">{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}</td>
+        <td class="text-center">{% if observation.effectiveDateTime %}{{ observation.effectiveDateTime.strftime('%d/%m/%Y') }}{% else %}None{% endif %}</td>
         <td class="text-center">{{ observation.value }} {{ observation.unit }}</td>
         <td class="text-center">
           <a href="{{ url_for('patient_edit_observation', observation_id=observation.id) }}">
