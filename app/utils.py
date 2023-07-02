@@ -217,3 +217,31 @@ def delete_appointment(appointment_id):
 
     db.session.delete(appointment)
     db.session.commit()
+
+def update_practitioner_gender(practitioner_id, genderPractitioner):
+    practitioner = db.session.query(Practitioner).get(practitioner_id)
+    if practitioner:
+        practitioner.gender = genderPractitioner
+
+        db.session.commit()
+
+def update_practitioner_birthDate(practitioner_id, birthDatePractitioner):
+    practitioner = db.session.query(Practitioner).get(practitioner_id)
+    if practitioner:
+        practitioner.birthDate = birthDatePractitioner
+
+        db.session.commit()
+
+def update_practitioner_address(practitioner_id, addressPractitioner):
+    practitioner = db.session.query(Practitioner).get(practitioner_id)
+    if practitioner:
+        practitioner.address = addressPractitioner.strip()
+
+        db.session.commit()
+
+def update_practitioner_language(practitioner_id, language):
+    practitioner = db.session.query(Practitioner).get(practitioner_id)
+    if practitioner:
+        practitioner.language = language.strip()
+
+        db.session.commit()

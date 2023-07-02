@@ -15,24 +15,13 @@ class UserRole(UserEnum):
     PATIENT = 2
     DOCTOR = 3
 
-class User(BaseModel, UserMixin):
-    name = Column(String(50), nullable=False)
-    username = Column(String(50), nullable=False, unique=True)
-    password = Column(String(50), nullable=False)
-    avatar = Column(String(100))
-    email = Column(String(50), nullable=False, unique=True)
-    active = Column(Boolean, default=True)
-    joined_date = Column(DateTime, default=datetime.now())
-    user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
-    appointment = relationship('Appointment', backref='User', lazy=False)
-
     def __str__(self):
         return self.name
 
 class Immunization(BaseModel):
     __tablename__ = 'Immunization'
 
-    status = Column(String(50), nullable=False)
+    status = Column(String(50), nullable=True)
     vaccineCode = Column(Integer)
     occurrenceDateTime = Column(DateTime)
     patient = relationship('Patient', backref='Immunization', lazy=False)
@@ -43,13 +32,16 @@ class Immunization(BaseModel):
 class Practitioner(BaseModel):
     __tablename__ = 'Practitioner'
 
-    name = Column(String(50), nullable=False)
-    gender = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=True)
+    gender = Column(String(50), nullable=True)
     birthDate = Column(DateTime)
-    address = Column(String(50), nullable=False)
-    language = Column(String(50), nullable=False)
+    address = Column(String(50), nullable=True)
+    language = Column(String(50), nullable=True)
+    position = Column(String(50), nullable=True)
+    email = Column(String(50), nullable=True)
     patient = relationship('Patient', backref='Practitioner', lazy=False)
     appointment = relationship('Appointment', backref='Practitioner', lazy=False)
+    user = relationship('User', backref='Practitioner', lazy=False)
 
     def __str__(self):
         return self.name
@@ -57,10 +49,10 @@ class Practitioner(BaseModel):
 class Observation(BaseModel):
     __tablename__ = 'Observation'
 
-    status = Column(String(50), nullable=False)
+    status = Column(String(50), nullable=True)
     effectiveDateTime = Column(DateTime)
     value = Column(Float)
-    unit = Column(String(50), nullable=False)
+    unit = Column(String(50), nullable=True)
     patient = relationship('Patient', backref='Observation', lazy=False)
 
     def __str__(self):
@@ -69,30 +61,42 @@ class Observation(BaseModel):
 class Patient(BaseModel):
     __tablename__ = 'Patient'
 
-    name = Column(String(50), nullable=False)
-    gender = Column(String(50), nullable=False)
+    name = Column(String(50), nullable=True)
+    gender = Column(String(50), nullable=True)
     birthDate = Column(DateTime)
-    address = Column(String(50), nullable=False)
+    address = Column(String(50), nullable=True)
     active = Column(Boolean, default=True)
-    immunization_id = Column(Integer, ForeignKey(Immunization.id), nullable=False)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=False)
-    observation_id = Column(Integer, ForeignKey(Observation.id), nullable=False)
+    immunization_id = Column(Integer, ForeignKey(Immunization.id), nullable=True)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True)
+    observation_id = Column(Integer, ForeignKey(Observation.id), nullable=True)
 
     def __str__(self):
         return self.name
+    
+class User(BaseModel, UserMixin):
+    name = Column(String(50), nullable=True)
+    username = Column(String(50), nullable=True, unique=True)
+    password = Column(String(50), nullable=True)
+    avatar = Column(String(100))
+    email = Column(String(50), nullable=True, unique=True)
+    active = Column(Boolean, default=True)
+    joined_date = Column(DateTime, default=datetime.now())
+    user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
+    appointment = relationship('Appointment', backref='User', lazy=False)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True)
 
 class Appointment(BaseModel):
     __tablename__ = 'Appointment'
 
-    date = Column(DateTime, nullable=False)
-    time = Column(Time, nullable=False)
-    status = Column(String(50), nullable=False, default='Booked')
+    date = Column(DateTime, nullable=True)
+    time = Column(Time, nullable=True)
+    status = Column(String(50), nullable=True, default='Booked')
     created = Column(DateTime, default=datetime.now())
-    appointmentType = Column(String(50), nullable=False)
-    reason = Column(String(50), nullable=False)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=False)
+    appointmentType = Column(String(50), nullable=True)
+    reason = Column(String(50), nullable=True)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True)
     active = Column(Boolean, default=True)
-    user_id = Column(Integer, ForeignKey(User.id), nullable=False)
+    user_id = Column(Integer, ForeignKey(User.id), nullable=True)
 
     def __str__(self):
         return self.name
@@ -154,76 +158,84 @@ if __name__ == '__main__':
 
         db.session.commit()
 
-        pr1 = Practitioner(name='SANTOS Louella',
-                           gender='Female',
+        pr1 = Practitioner(name='Tom Smith',
+                           gender='Male',
                            birthDate='1990-10-12',
                            address='1 rue Constant Coquelin, Paris, France',
-                           language='French, English, Russian')
+                           language='French, English, Russian',
+                           position='Orthodontist',
+                           email='tomsmithOrthodontist@gmail.com')
 
-        pr2 = Practitioner(name='DUPONT Alain',
+        pr2 = Practitioner(name='Mark Wilson',
                            gender='Male',
                            birthDate='1980-11-12',
                            address='1 rue de la paix, Paris, France',
-                           language='French, English, Spanish')
+                           language='French, English, Spanish',
+                           position='Endodontist',
+                           email='markwilsonEndodontist@gmail.com')
 
-        pr3 = Practitioner(name='MARTIN Pierre',
-                           gender='Male',
+        pr3 = Practitioner(name='Patrick Jacobson',
+                           gender='Female',
                            birthDate='1984-11-19',
                            address='1 rue de la paix, Nice, France',
-                           language='French, German, Spanish')
+                           language='French, German, Spanish',
+                           position='Orthodontist',
+                           email='patrickjacobsonOrthodontist@gmail.com')
 
-        pr4 = Practitioner(name='DUPONT Thang',
+        pr4 = Practitioner(name='Ivan Dorchsner',
                            gender='Male',
                            birthDate='1980-10-12',
                            address='1 rue de la paix, Rouen, France',
-                           language='French, Vietnamese, German')
+                           language='French, Vietnamese, German',
+                           position='Dentist and Oral Surgeon',
+                           email='ivandorchsnerDentist@gmail.com')
 
-        pr5 = Practitioner(name='SANTOS Anna',
-                           gender='Female',
-                           birthDate='1985-06-12',
-                           address='1 rue de la paix, Cannes, France',
-                           language='French, English, Arabic')
+        # pr5 = Practitioner(name='SANTOS Anna',
+        #                    gender='Female',
+        #                    birthDate='1985-06-12',
+        #                    address='1 rue de la paix, Cannes, France',
+        #                    language='French, English, Arabic')
 
-        pr6 = Practitioner(name='DUPONT Nicolas',
-                           gender='Male',
-                           birthDate='1987-03-12',
-                           address='1 rue de la paix, Rennes, France',
-                           language='French, English, Spanish')
+        # pr6 = Practitioner(name='DUPONT Nicolas',
+        #                    gender='Male',
+        #                    birthDate='1987-03-12',
+        #                    address='1 rue de la paix, Rennes, France',
+        #                    language='French, English, Spanish')
 
-        pr7 = Practitioner(name='MARTIN Noemie',
-                           gender='Female',
-                           birthDate='1993-09-12',
-                           address='1 rue de la paix, Reims, France',
-                           language='French, Spanish, Italian')
+        # pr7 = Practitioner(name='MARTIN Noemie',
+        #                    gender='Female',
+        #                    birthDate='1993-09-12',
+        #                    address='1 rue de la paix, Reims, France',
+        #                    language='French, Spanish, Italian')
 
-        pr8 = Practitioner(name='SANTOS Guillermo',
-                           gender='Male',
-                           birthDate='1990-12-12',
-                           address='1 rue de la paix, Caen, France',
-                           language='French, English, Portuguese')
+        # pr8 = Practitioner(name='SANTOS Guillermo',
+        #                    gender='Male',
+        #                    birthDate='1990-12-12',
+        #                    address='1 rue de la paix, Caen, France',
+        #                    language='French, English, Portuguese')
 
-        pr9 = Practitioner(name='DUPONT Jean',
-                           gender='Male',
-                           birthDate='1980-11-16',
-                           address='1 rue de la paix, Toulouse, France',
-                           language='French, English, Spanish')
+        # pr9 = Practitioner(name='DUPONT Jean',
+        #                    gender='Male',
+        #                    birthDate='1980-11-16',
+        #                    address='1 rue de la paix, Toulouse, France',
+        #                    language='French, English, Spanish')
 
-        pr10 = Practitioner(name='DUPONT Pierre',
-                            gender='Female',
-                            birthDate='1984-11-16',
-                            address='1 rue de la paix, Nice, France',
-                            language='French, German, Spanish')
+        # pr10 = Practitioner(name='DUPONT Pierre',
+        #                     gender='Female',
+        #                     birthDate='1984-11-16',
+        #                     address='1 rue de la paix, Nice, France',
+        #                     language='French, German, Spanish')
 
         db.session.add(pr1)
         db.session.add(pr2)
         db.session.add(pr3)
         db.session.add(pr4)
-        db.session.add(pr5)
-        db.session.add(pr6)
-        db.session.add(pr7)
-        db.session.add(pr8)
-        db.session.add(pr9)
-        db.session.add(pr10)
+        # db.session.add(pr5)
+        # db.session.add(pr6)
+        # db.session.add(pr7)
+        # db.session.add(pr8)
+        # db.session.add(pr9)
+        # db.session.add(pr10)
 
         db.session.commit()
 
@@ -327,7 +339,7 @@ if __name__ == '__main__':
                      birthDate='2003-11-12',
                      address='1 rue de la paix, Cannes, France',
                      immunization_id=i5.id,
-                     practitioner_id=pr5.id,
+                     practitioner_id=pr1.id,
                      observation_id=o5.id)
 
         p6 = Patient(name='GIRARD Nicolas',
@@ -335,7 +347,7 @@ if __name__ == '__main__':
                      birthDate='1996-05-18',
                      address='1 rue de la paix, Marseille, France',
                      immunization_id=i6.id,
-                     practitioner_id=pr6.id,
+                     practitioner_id=pr2.id,
                      observation_id=o6.id)
 
         p7 = Patient(name='BOUCHER Élodie',
@@ -343,7 +355,7 @@ if __name__ == '__main__':
                      birthDate='1988-02-05',
                      address='1 rue de la paix, Rennes, France',
                      immunization_id=i7.id,
-                     practitioner_id=pr7.id,
+                     practitioner_id=pr3.id,
                      observation_id=o7.id)
 
         p8 = Patient(name='DELACROIX Baptiste',
@@ -351,7 +363,7 @@ if __name__ == '__main__':
                      birthDate='1978-12-12',
                      address='1 rue de la paix, Angers, France',
                      immunization_id=i8.id,
-                     practitioner_id=pr8.id,
+                     practitioner_id=pr4.id,
                      observation_id=o8.id)
 
         p9 = Patient(name='MOREAU Lucie',
@@ -359,7 +371,7 @@ if __name__ == '__main__':
                      birthDate='1991-11-15',
                      address='1 rue de la paix, Orléans, France',
                      immunization_id=i9.id,
-                     practitioner_id=pr9.id,
+                     practitioner_id=pr1.id,
                      observation_id=o9.id)
 
         p10 = Patient(name='DUBOIS Amélie',
@@ -367,7 +379,7 @@ if __name__ == '__main__':
                       birthDate='1995-01-09',
                       address='1 rue de la paix, Tours, France',
                       immunization_id=i10.id,
-                      practitioner_id=pr10.id,
+                      practitioner_id=pr2.id,
                       observation_id=o10.id)
 
         db.session.add(p1)
@@ -382,3 +394,37 @@ if __name__ == '__main__':
         db.session.add(p10)
 
         db.session.commit()
+
+        # u1 = User(name='Tom Smith',
+        #           username='tomsmithOrthodontist',
+        #           password='tomsmithOrthodontist',
+        #           email='tomsmithOrthodontist@gmail.com',
+        #           user_role=UserRole.DOCTOR,
+        #           practitioner_id=pr1.id)
+
+        # u2 = User(name='Mark Wilson',
+        #           username='markwilsonEndodontist',
+        #           password='markwilsonEndodontist',
+        #           email='markwilsonEndodontist@gmail.com',
+        #           user_role=UserRole.DOCTOR,
+        #           practitioner_id=pr2.id)
+
+        # u3 = User(name='Patrick Jacobson',
+        #           username='patrickjacobsonOrthodontist',
+        #           password='patrickjacobsonOrthodontist',
+        #           email='patrickjacobsonOrthodontist@gmail.com',
+        #           user_role=UserRole.DOCTOR,
+        #           practitioner_id=pr3.id)
+
+        # u4 = User(name='Ivan Dorchsner',
+        #           username='ivandorchsnerDentist',
+        #           password='ivandorchsnerDentist',
+        #           email='ivandorchsnerDentist@gmail.com',
+        #           user_role=UserRole.DOCTOR,
+        #           practitioner_id=pr4.id)
+
+        # db.session.add(u1)
+        # db.session.add(u2)
+        # db.session.add(u3)
+        # db.session.add(u4)
+        # db.session.commit()

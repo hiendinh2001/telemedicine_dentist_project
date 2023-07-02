@@ -1,0 +1,95 @@
+{% extends 'layout/base.html' %}
+
+{% block title %} My profile {% endblock %}
+
+{% block content %}
+<section class="home-slider owl-carousel">
+  <div class="slider-item bread-item" style="background-image: url('static/images/bg_1.jpg');"
+    data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="container" data-scrollax-parent="true">
+      <div class="row slider-text align-items-end">
+        <div class="col-md-7 col-sm-12 ftco-animate mb-5">
+          <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
+                href="/">Home</a></span> <span>My profil</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">My profil</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% if current_user.is_authenticated %}
+<div class="row justify-content-center my-5">
+  {% if current_user.avatar %}
+  <img src="{{ current_user.avatar }}" class="rounded-circle" width="300" alt="{{ current_user.name }}" />
+  {% else %}
+  <img src="{{ url_for('static', filename='images/avatar.png') }}" class="rounded-circle" width="100"
+    alt="{{ current_user.name }}" />
+  {% endif %}
+</div>
+<div class="row justify-content-center mb-4">
+  <div class="col-md-6 col-xs-12 text-center table-responsive">
+    <table class="table table-bordered table-hover">
+      <tr>
+        <th class="bg-light">Identifier</th>
+        <td class="text-center">{{ current_user.username }}</td>
+      </tr>
+      <tr>
+        <th class="bg-light">Full Name</th>
+        <td class="text-center">{{ current_user.name }}</td>
+      </tr>
+      <tr>
+        <th class="bg-light">Email</th>
+        <td class="text-center">{{ current_user.email }}</td>
+      </tr>
+      <tr>
+        <th class="bg-light">Role</th>
+        <td class="text-center">{{ current_user.user_role }}</td>
+      </tr>
+      <tr>
+        <th class="bg-light">Position</th>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.position }}</td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Gender</th>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.gender }} |  <a href="{{ url_for('practitioner_edit_gender', practitioner_id=practitioner.id) }}">Edit</a></td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Birth Date</th>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.birthDate.strftime('%d/%m/%Y') }} |  <a href="{{ url_for('practitioner_edit_birthDate', practitioner_id=practitioner.id) }}">Edit</a></td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Address</th>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.address }} |  <a href="{{ url_for('practitioner_edit_address', practitioner_id=practitioner.id) }}">Edit</a></td>
+            {% endif %}
+        {% endfor %}
+      </tr>
+      <tr>
+        <th class="bg-light">Language</th>
+        {% for practitioner in practitioners %}
+          {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.language }} |  <a href="{{ url_for('practitioner_edit_language', practitioner_id=practitioner.id) }}">Edit</a></td>
+         {% endif %}
+        {% endfor %}
+      </tr>
+    </table>
+  </div>
+</div>
+{% endif %}
+
+{% endblock %}

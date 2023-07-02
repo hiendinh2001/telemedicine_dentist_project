@@ -388,7 +388,10 @@ def user_load(user_id):
 @app.route('/info-perso')
 @login_required
 def info_perso():
-    return render_template('info_perso.html', UserRole=UserRole)
+    if current_user.user_role == UserRole.DOCTOR:
+        return render_template('info_perso_doctor.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
+    elif current_user.user_role == UserRole.PATIENT:
+        return render_template('info_perso.html', UserRole=UserRole)
 
 @app.route('/upload', methods=['post'])
 def upload():
@@ -622,6 +625,104 @@ def disconnect():
 
     send({"name": name, "message": "has left the room"}, to=room)
     print(f"{name} has left the room {room}")
+
+
+# ------------------------ edit Info Practitioner ------------------------
+@app.route("/fhir/editPractitioner/gender", methods=['GET', 'POST'])
+@login_required
+def practitioner_edit_gender():
+    err_msg = ""
+    practitioner_id = request.args.get('practitioner_id')
+    practitioner = None
+    if practitioner_id:
+        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+
+    if request.method.__eq__('POST'):
+        genderPractitioner = request.form.get('genderPractitioner')
+
+        try:
+            utils.update_practitioner_gender(practitioner_id=int(practitioner_id),
+                                              genderPractitioner=genderPractitioner)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('practitioner_edit_gender.html',
+                           practitioner=practitioner,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
+@app.route("/fhir/editPractitioner/birthDate", methods=['GET', 'POST'])
+@login_required
+def practitioner_edit_birthDate():
+    err_msg = ""
+    practitioner_id = request.args.get('practitioner_id')
+    practitioner = None
+    if practitioner_id:
+        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+
+    if request.method.__eq__('POST'):
+        birthDatePractitioner = request.form.get('birthDatePractitioner')
+
+        try:
+            utils.update_practitioner_birthDate(practitioner_id=int(practitioner_id),
+                                              birthDatePractitioner=birthDatePractitioner)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('practitioner_edit_birthDate.html',
+                           practitioner=practitioner,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
+@app.route("/fhir/editPractitioner/Address", methods=['GET', 'POST'])
+@login_required
+def practitioner_edit_address():
+    err_msg = ""
+    practitioner_id = request.args.get('practitioner_id')
+    practitioner = None
+    if practitioner_id:
+        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+
+    if request.method.__eq__('POST'):
+        addressPractitioner = request.form.get('addressPractitioner')
+
+        try:
+            utils.update_practitioner_address(practitioner_id=int(practitioner_id),
+                                              addressPractitioner=addressPractitioner)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('practitioner_edit_address.html',
+                           practitioner=practitioner,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
+@app.route("/fhir/editPractitioner/Language", methods=['GET', 'POST'])
+@login_required
+def practitioner_edit_language():
+    err_msg = ""
+    practitioner_id = request.args.get('practitioner_id')
+    practitioner = None
+    if practitioner_id:
+        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+
+    if request.method.__eq__('POST'):
+        language = request.form.get('language')
+
+        try:
+            utils.update_practitioner_language(practitioner_id=int(practitioner_id),
+                                              language=language)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('practitioner_edit_language.html',
+                           practitioner=practitioner,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

@@ -31,18 +31,22 @@
         <th class="text-center">Gender</th>
         <th class="text-center">Birthday Date</th>
         <th class="text-center">Address</th>
+        <th class="text-center">Email</th>
+        <th class="text-center">Position</th>
         <th class="text-center">Language</th>
-        <th class="text-center">Action</th>
+        <!--<th class="text-center">Action</th>-->
       </tr>
       <tr>
         <td class="text-center">{{ practitioner.name }}</td>
         <td class="text-center">{{ practitioner.gender }}</td>
         <td class="text-center">{{ practitioner.birthDate.strftime('%d/%m/%Y') }}</td>
         <td class="text-center">{{ practitioner.address }}</td>
+        <td class="text-center">{{ practitioner.email }}</td>
+        <td class="text-center">{{ practitioner.position }}</td>
         <td class="text-center">{{ practitioner.language }}</td>
-        <td class="text-center">
+        <!--<td class="text-center">
           <a href="{{ url_for('patient_edit_practitioner', practitioner_id=practitioner.id) }}">Edit</a>
-        </td>
+        </td>-->
       </tr>
     </table>
   </div>
