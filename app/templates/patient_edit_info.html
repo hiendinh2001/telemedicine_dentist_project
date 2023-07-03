@@ -68,11 +68,16 @@
                 placeholder="Patient Address" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
+              <label for="emailPatient">Patient Email</label>
+              <input type="text" id="emailPatient" name="emailPatient" value="{{ patient.email }}" class="form-control pl-3"
+                placeholder="Patient email" required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
               <label>Practitioner Name</label>
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
-                    {% if practitioner.id >= 1 and practitioner.id <= 4 %}
+                    {% if practitioner.id >= 2 %}
                         <option value="{{ practitioner.id }}" {% if practitioner.id == patient.practitioner_id %} selected {% endif %}>{{ practitioner.name }}</option>
                     {% endif %}
                 {% endfor %}

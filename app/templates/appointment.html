@@ -82,6 +82,7 @@
         <th class="text-center">Date</th>
         <th class="text-center">Time</th>
         <th class="text-center">Status</th>
+        <th class="text-center">Created Name</th>
         <th class="text-center">Created Date</th>
         <th class="text-center">Appointment Type</th>
         <th class="text-center">Reason</th>
@@ -109,6 +110,14 @@
         <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark" href="">{{ a.status }}</a>
         </td>
+        {% for user in users %}
+          {% if a.user_id == user.id %}
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            user.name }}</a>
+        </td>
+        {% endif %}
+        {% endfor %}
         <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark" href="">{{
             a.created.strftime('%d/%m/%Y') }}</a>

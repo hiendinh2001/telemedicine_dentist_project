@@ -88,7 +88,7 @@
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
-                    {% if practitioner.id >= 1 and practitioner.id <= 4 %}
+                    {% if practitioner.id >= 2 %}
                         <option value="{{ practitioner.id }}" {% if practitioner.id == appointment.practitioner_id %} selected {% endif %}>{{ practitioner.name }}</option>
                     {% endif %}
                 {% endfor %}

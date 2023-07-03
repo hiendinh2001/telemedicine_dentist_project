@@ -68,6 +68,11 @@
               <input type="text" id="addressPatient" name="addressPatient" class="form-control pl-3"
                 placeholder="Patient Address" required autofocus style="border-radius: 10px">
             </div>
+            <div class="form-group">
+              <label for="emailPatient">Patient Email</label>
+              <input type="email" id="emailPatient" name="emailPatient" class="form-control pl-3"
+                placeholder="Patient Email" required autofocus style="border-radius: 10px">
+            </div>
             <p class="text-white text-center">***---------------------------------------------------------------------------------------------***</p>
             <div class="form-group">
               <label>Vaccine Status</label>
@@ -121,7 +126,7 @@
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
-                {% if practitioner.id >= 1 and practitioner.id <= 4 %}
+                {% if practitioner.id >= 2 %}
                 <option value="{{ practitioner.id }}">{{ practitioner.name }}</option>
                 {% endif %}
                 {% endfor %}

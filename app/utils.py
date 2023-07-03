@@ -32,6 +32,9 @@ def load_patient(immunization_id=None, practitioner_id=None, observation_id=None
 
     return patients
 
+def load_user():
+    return User.query.all()
+
 def load_immunization():
     return Immunization.query.all()
 
@@ -53,7 +56,17 @@ def get_observation_by_id(observation_id):
 def get_practitioner_by_id(practitioner_id):
     return Practitioner.query.get(practitioner_id)
 
-def add_user_doctor(name, username, password, email, **kwargs):
+def add_user_doctor(name, username, password, email, genderPractitioner, birthDatePractitioner, addressPractitioner, language, position, **kwargs):
+    practitioner = Practitioner(name=name.strip(),
+                                gender=genderPractitioner,
+                                birthDate=birthDatePractitioner,
+                                address=addressPractitioner.strip(),
+                                email=email.strip(),
+                                language=language.strip(),
+                                position=position.strip())
+
+    db.session.add(practitioner)
+    db.session.commit()
 
     password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
     user = User(name=name.strip(),
@@ -61,7 +74,8 @@ def add_user_doctor(name, username, password, email, **kwargs):
                 password=password,
                 email=email.strip(),
                 avatar=kwargs.get('avatar'),
-                user_role=UserRole.DOCTOR)
+                user_role=UserRole.DOCTOR,
+                practitioner_id=practitioner.id)
     db.session.add(user)
     db.session.commit()
 
@@ -114,7 +128,7 @@ def check_login(username, password, role=UserRole.PATIENT):
 def get_user_by_id(user_id):
     return User.query.get(user_id)
 
-def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, practitioner_id):
+def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, practitioner_id):
 
     immunization = Immunization(status=statusVaccine.strip(),
                                 vaccineCode=vaccineCode.strip(),
@@ -134,19 +148,21 @@ def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, st
                       gender=genderPatient,
                       birthDate=birthDatePatient,
                       address=addressPatient.strip(),
+                      email=emailPatient.strip(),
                       immunization_id=immunization.id,
                       observation_id=observation.id,
                       practitioner_id=int(practitioner_id))
     db.session.add(patient)
     db.session.commit()
 
-def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient, practitioner_id):
+def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, practitioner_id):
     info = db.session.query(Patient).get(patient_id)
     if info:
         info.name = namePatient.strip()
         info.gender = genderPatient
         info.birthDate = birthDatePatient
         info.address = addressPatient.strip()
+        info.email = emailPatient.strip()
         info.practitioner_id = int(practitioner_id)
 
         db.session.commit()

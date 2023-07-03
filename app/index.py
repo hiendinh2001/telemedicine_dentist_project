@@ -112,6 +112,7 @@ def patient_add():
         genderPatient = request.form.get('genderPatient')
         birthDatePatient = request.form.get('birthDatePatient')
         addressPatient = request.form.get('addressPatient')
+        emailPatient = request.form.get('emailPatient')
         statusVaccine = request.form.get('statusVaccine')
         vaccineCode = request.form.get('vaccineCode')
         occurrenceDateTime = request.form.get('occurrenceDateTime')
@@ -126,6 +127,7 @@ def patient_add():
                               genderPatient=genderPatient,
                               birthDatePatient=birthDatePatient,
                               addressPatient=addressPatient,
+                              emailPatient=emailPatient,
                               statusVaccine=statusVaccine,
                               vaccineCode=vaccineCode,
                               occurrenceDateTime=occurrenceDateTime,
@@ -157,6 +159,7 @@ def patient_edit_info():
         genderPatient = request.form.get('genderPatient')
         birthDatePatient = request.form.get('birthDatePatient')
         addressPatient = request.form.get('addressPatient')
+        emailPatient = request.form.get('emailPatient')
         practitioner_id = request.form.get('practitioner_id')
 
         try:
@@ -165,6 +168,7 @@ def patient_edit_info():
                                       genderPatient=genderPatient,
                                       birthDatePatient=birthDatePatient,
                                       addressPatient=addressPatient,
+                                      emailPatient=emailPatient,
                                       practitioner_id=int(practitioner_id))
             return redirect("/fhir/Patient/{}".format(patient_id))
         except Exception as ex:
@@ -330,6 +334,11 @@ def user_register_doctor():
         email = request.form.get('email')
         confirm = request.form.get('confirm')
         avatar_path = None
+        genderPractitioner = request.form.get('genderPractitioner')
+        birthDatePractitioner = request.form.get('birthDatePractitioner')
+        addressPractitioner = request.form.get('addressPractitioner')
+        language = request.form.get('language')
+        position = request.form.get('position')
 
         try:
             if password.strip().__eq__(confirm.strip()):
@@ -339,10 +348,15 @@ def user_register_doctor():
                     avatar_path = res['secure_url']
 
                 utils.add_user_doctor(name=name,
-                               username=username,
-                               password=password,
-                               email=email,
-                               avatar=avatar_path)
+                                      username=username,
+                                      password=password,
+                                      email=email,
+                                      avatar=avatar_path,
+                                      genderPractitioner=genderPractitioner,
+                                      birthDatePractitioner=birthDatePractitioner,
+                                      addressPractitioner=addressPractitioner,
+                                      language=language,
+                                      position=position)
                 return redirect(url_for('user_signin'))
             else:
                 err_msg = 'The re-entered password is incorrect'
@@ -472,7 +486,7 @@ def appointment_list():
         if current_user.user_role == UserRole.PATIENT:
             patient_id = current_user.patient_id
         elif current_user.user_role == UserRole.DOCTOR:
-            practitioner_id = current_user.id
+            practitioner_id = current_user.practitioner_id
 
     appointments = utils.load_appointment(practitioner_id=practitioner_id,
                                           user_id=user_id,
@@ -482,7 +496,7 @@ def appointment_list():
                                           reason=reason,
                                           patient_id=patient_id)
 
-    return render_template('appointment.html', appointments=appointments, practitioners=utils.load_practitioner(), patients=utils.load_patient(), UserRole=UserRole)
+    return render_template('appointment.html', appointments=appointments, users=utils.load_user(), practitioners=utils.load_practitioner(), patients=utils.load_patient(), UserRole=UserRole)
 
 @app.route("/fhir/Appointment/add", methods=['get', 'post'])
 @login_required
@@ -725,6 +739,10 @@ def disconnect():
     send({"name": name, "message": "has left the room"}, to=room)
     print(f"{name} has left the room {room}")
 
+@app.route("/SendMailDoctor")
+def send_mail_doctor():
+    #if current_user.user_role == UserRole.PATIENT:
+    return render_template('room_email_doctor.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
 
 # ------------------------ edit Info Practitioner ------------------------
 @app.route("/fhir/editPractitioner/gender", methods=['GET', 'POST'])
