@@ -284,3 +284,25 @@ def update_practitioner_language(practitioner_id, language):
         practitioner.language = language.strip()
 
         db.session.commit()
+
+
+def update_patient_gender(patient_id, genderPatient):
+    patient = db.session.query(Patient).get(patient_id)
+    if patient:
+        patient.gender = genderPatient
+
+        db.session.commit()
+
+def update_patient_birthDate(patient_id, birthDatePatient):
+    patient = db.session.query(Patient).get(patient_id)
+    if patient:
+        patient.birthDate = birthDatePatient
+
+        db.session.commit()
+
+def update_patient_address(patient_id, addressPatient):
+    patient = db.session.query(Patient).get(patient_id)
+    if patient:
+        patient.address = addressPatient.strip()
+
+        db.session.commit()

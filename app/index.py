@@ -775,6 +775,79 @@ def practitioner_edit_language():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+# ------------------------ edit Info Patient ------------------------
+@app.route("/fhir/editPatient/gender", methods=['GET', 'POST'])
+@login_required
+def patient_edit_gender():
+    err_msg = ""
+    patient_id = request.args.get('patient_id')
+    patient = None
+    if patient_id:
+        patient = utils.get_patient_by_id(patient_id=int(patient_id))
+
+    if request.method.__eq__('POST'):
+        genderPatient = request.form.get('genderPatient')
+
+        try:
+            utils.update_patient_gender(patient_id=int(patient_id),
+                                        genderPatient=genderPatient)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_gender.html',
+                           patient=patient,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
+@app.route("/fhir/editPatient/birthDate", methods=['GET', 'POST'])
+@login_required
+def patient_edit_birthDate():
+    err_msg = ""
+    patient_id = request.args.get('patient_id')
+    patient = None
+    if patient_id:
+        patient = utils.get_patient_by_id(patient_id=int(patient_id))
+
+    if request.method.__eq__('POST'):
+        birthDatePatient = request.form.get('birthDatePatient')
+
+        try:
+            utils.update_patient_birthDate(patient_id=int(patient_id),
+                                              birthDatePatient=birthDatePatient)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_birthDate.html',
+                           patient=patient,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
+@app.route("/fhir/editPatient/Address", methods=['GET', 'POST'])
+@login_required
+def patient_edit_address():
+    err_msg = ""
+    patient_id = request.args.get('patient_id')
+    patient = None
+    if patient_id:
+        patient = utils.get_patient_by_id(patient_id=int(patient_id))
+
+    if request.method.__eq__('POST'):
+        addressPatient = request.form.get('addressPatient')
+
+        try:
+            utils.update_patient_address(patient_id=int(patient_id),
+                                         addressPatient=addressPatient)
+            return redirect(url_for('info_perso'))
+        except Exception as ex:
+            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+    return render_template('patient_edit_address.html',
+                           patient=patient,
+                           err_msg=err_msg,
+                           UserRole=UserRole)
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
     socketio.run(app, debug=True)

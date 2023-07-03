@@ -45,11 +45,11 @@
           {% endif %}
           <form method="post" class="form-signin">
             <div class="form-group">
-              <label>Practitioner Gender</label>
-              <select class="form-control pl-3" name="genderPractitioner" required style="border-radius: 10px">
-                <option value="" disabled selected hidden>Practitioner Gender</option>
-                <option value="Male" {% if "Male" == practitioner.gender %}selected{% endif %}>Male</option>
-                <option value="Female" {% if "Female" == practitioner.gender %}selected{% endif %}>Female</option>
+              <label>Gender</label>
+              <select class="form-control pl-3" name="genderPatient" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Gender</option>
+                <option value="Male" {% if "Male" == patient.gender %}selected{% endif %}>Male</option>
+                <option value="Female" {% if "Female" == patient.gender %}selected{% endif %}>Female</option>
               </select>
             </div>
             <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>

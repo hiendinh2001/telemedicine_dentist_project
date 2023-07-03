@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %} Edit gender {% endblock %}
+{% block title %} Edit Birth Date {% endblock %}
 
 {% block content %}
 <section class="home-slider owl-carousel">
@@ -12,8 +12,8 @@
       <div class="row slider-text align-items-end">
         <div class="col-md-7 col-sm-12 ftco-animate mb-5">
           <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
-                href="/">Home</a></span> <span>Edit gender</span></p>
-          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit gender</h1>
+                href="/">Home</a></span> <span>Edit Birth Date</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit Birth Date</h1>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit gender
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit Birth Date
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -45,12 +45,9 @@
           {% endif %}
           <form method="post" class="form-signin">
             <div class="form-group">
-              <label>Practitioner Gender</label>
-              <select class="form-control pl-3" name="genderPractitioner" required style="border-radius: 10px">
-                <option value="" disabled selected hidden>Practitioner Gender</option>
-                <option value="Male" {% if "Male" == practitioner.gender %}selected{% endif %}>Male</option>
-                <option value="Female" {% if "Female" == practitioner.gender %}selected{% endif %}>Female</option>
-              </select>
+              <label for="birthDatePatient">Birth Date</label>
+              <input type="date" id="birthDatePatient" name="birthDatePatient" value="{{ patient.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
+                placeholder="Birth Date" required autofocus style="border-radius: 10px">
             </div>
             <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
           </form>

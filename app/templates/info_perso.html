@@ -51,7 +51,7 @@
         <th class="bg-light">Gender</th>
         {% for patient in patients %}
           {% if patient.id == current_user.patient_id %}
-        <td class="text-center">{{ patient.gender }}</td>
+        <td class="text-center">{{ patient.gender }} | <a href="{{ url_for('patient_edit_gender', patient_id=patient.id) }}">Edit</a></td>
             {% endif %}
         {% endfor %}
       </tr>
@@ -59,7 +59,7 @@
         <th class="bg-light">Birth Date</th>
         {% for patient in patients %}
           {% if patient.id == current_user.patient_id %}
-        <td class="text-center">{{ patient.birthDate.strftime('%d/%m/%Y') }}</td>
+        <td class="text-center">{{ patient.birthDate.strftime('%d/%m/%Y') }} | <a href="{{ url_for('patient_edit_birthDate', patient_id=patient.id) }}">Edit</a></td>
             {% endif %}
         {% endfor %}
       </tr>
@@ -67,7 +67,7 @@
         <th class="bg-light">Address</th>
         {% for patient in patients %}
           {% if patient.id == current_user.patient_id %}
-        <td class="text-center">{{ patient.address }}</td>
+        <td class="text-center">{{ patient.address }} | <a href="{{ url_for('patient_edit_address', patient_id=patient.id) }}">Edit</a></td>
             {% endif %}
         {% endfor %}
       </tr>
