@@ -78,6 +78,7 @@
   <div class="col-md-10 col-xs-12 mb-5">
     <table class="table table-hover table-bordered">
       <tr class="bg-light">
+        <th class="text-center">Name Patient</th>
         <th class="text-center">Date</th>
         <th class="text-center">Time</th>
         <th class="text-center">Status</th>
@@ -89,6 +90,14 @@
       </tr>
       {% for a in appointments %}
       <tr>
+        {% for patient in patients %}
+          {% if a.patient_id == patient.id %}
+        <td class="text-center">
+          <a class="mt-2 text-decoration-none text-dark" href="">{{
+            patient.name }}</a>
+        </td>
+        {% endif %}
+        {% endfor %}
         <td class="text-center">
           <a class="mt-2 text-decoration-none text-dark" href="">{{
             a.date.strftime('%d/%m/%Y') }}</a>

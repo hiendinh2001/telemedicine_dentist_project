@@ -465,62 +465,111 @@ def appointment_list():
     to_date = request.args.get('to_date')
     appointmentType = request.args.get('appointmentType')
     reason = request.args.get('reason')
+    patient_id = request.args.get('patient_id')
 
+    # affichage des rendez-vous du patient connecté, ou du médecin connecté
     if not user_id:
-        # Vérifier si l'utilisateur est de type patient
         if current_user.user_role == UserRole.PATIENT:
-            user_id = current_user.id
+            patient_id = current_user.patient_id
+        elif current_user.user_role == UserRole.DOCTOR:
+            practitioner_id = current_user.id
 
     appointments = utils.load_appointment(practitioner_id=practitioner_id,
                                           user_id=user_id,
                                           from_date=from_date,
                                           to_date=to_date,
                                           appointmentType=appointmentType,
-                                          reason=reason)
+                                          reason=reason,
+                                          patient_id=patient_id)
 
-    return render_template('appointment.html', appointments=appointments, practitioners=utils.load_practitioner(), UserRole=UserRole)
+    return render_template('appointment.html', appointments=appointments, practitioners=utils.load_practitioner(), patients=utils.load_patient(), UserRole=UserRole)
 
 @app.route("/fhir/Appointment/add", methods=['get', 'post'])
 @login_required
 def appointment_add():
-    err_msg = ""
-    current_date = date.today().strftime('%Y-%m-%d')
+    if current_user.user_role == UserRole.PATIENT:
+        err_msg = ""
+        current_date = date.today().strftime('%Y-%m-%d')
 
-    # Générer les créneaux de 08:00 à 19:00
-    start_time = datetime.strptime("08:00", "%H:%M")
-    end_time = datetime.strptime("19:00", "%H:%M")
-    time_step = timedelta(minutes=30)
-    time_slots = []
-    current_time = start_time
-    while current_time <= end_time:
-        time_slots.append(current_time.strftime("%H:%M"))
-        current_time += time_step
+        # Générer les créneaux de 08:00 à 19:00
+        start_time = datetime.strptime("08:00", "%H:%M")
+        end_time = datetime.strptime("19:00", "%H:%M")
+        time_step = timedelta(minutes=30)
+        time_slots = []
+        current_time = start_time
+        while current_time <= end_time:
+            time_slots.append(current_time.strftime("%H:%M"))
+            current_time += time_step
 
-    if request.method.__eq__('POST'):
-        dateApp = request.form.get('dateApp')
-        timeApp = request.form.get('timeApp')
-        appointmentType = request.form.get('appointmentType')
-        reasonApp = request.form.get('reasonApp')
-        practitioner_id = request.form.get('practitioner_id')
-        user_id = current_user.id
+        if request.method.__eq__('POST'):
+            dateApp = request.form.get('dateApp')
+            timeApp = request.form.get('timeApp')
+            appointmentType = request.form.get('appointmentType')
+            reasonApp = request.form.get('reasonApp')
+            patient_id = current_user.patient_id
+            practitioner_id = request.form.get('practitioner_id')
+            user_id = current_user.id
 
-        try:
-            utils.add_appointment(dateApp=dateApp,
-                                  timeApp=timeApp,
-                                  appointmentType=appointmentType,
-                                  reasonApp=reasonApp,
-                                  practitioner_id=int(practitioner_id),
-                                  user_id=int(user_id))
-            return redirect(url_for('appointment_list'))
-        except Exception as ex:
-            err_msg = 'Something wrong!!! Please back later!' + str(ex)
+            try:
+                utils.add_appointment(dateApp=dateApp,
+                                      timeApp=timeApp,
+                                      appointmentType=appointmentType,
+                                      reasonApp=reasonApp,
+                                      patient_id=int(patient_id),
+                                      practitioner_id=int(practitioner_id),
+                                      user_id=int(user_id))
+                return redirect(url_for('appointment_list'))
+            except Exception as ex:
+                err_msg = 'Something wrong!!! Please back later!' + str(ex)
 
-    return render_template('appointment_add.html',
-                           practitioners=utils.load_practitioner(),
-                           err_msg=err_msg,
-                           UserRole=UserRole,
-                           current_date=current_date,
-                           time_slots=time_slots)
+        return render_template('appointment_add_patient.html',
+                               practitioners=utils.load_practitioner(),
+                               err_msg=err_msg,
+                               UserRole=UserRole,
+                               current_date=current_date,
+                               time_slots=time_slots)
+    elif current_user.user_role == UserRole.DOCTOR:
+        err_msg = ""
+        current_date = date.today().strftime('%Y-%m-%d')
+
+        # Générer les créneaux de 08:00 à 19:00
+        start_time = datetime.strptime("08:00", "%H:%M")
+        end_time = datetime.strptime("19:00", "%H:%M")
+        time_step = timedelta(minutes=30)
+        time_slots = []
+        current_time = start_time
+        while current_time <= end_time:
+            time_slots.append(current_time.strftime("%H:%M"))
+            current_time += time_step
+
+        if request.method.__eq__('POST'):
+            dateApp = request.form.get('dateApp')
+            timeApp = request.form.get('timeApp')
+            appointmentType = request.form.get('appointmentType')
+            reasonApp = request.form.get('reasonApp')
+            patient_id = request.form.get('patient_id')
+            practitioner_id = request.form.get('practitioner_id')
+            user_id = current_user.id
+
+            try:
+                utils.add_appointment(dateApp=dateApp,
+                                      timeApp=timeApp,
+                                      appointmentType=appointmentType,
+                                      reasonApp=reasonApp,
+                                      patient_id=int(patient_id),
+                                      practitioner_id=int(practitioner_id),
+                                      user_id=int(user_id))
+                return redirect(url_for('appointment_list'))
+            except Exception as ex:
+                err_msg = 'Something wrong!!! Please back later!' + str(ex)
+
+        return render_template('appointment_add_doctor.html',
+                               practitioners=utils.load_practitioner(),
+                               patients=utils.load_patient(),
+                               err_msg=err_msg,
+                               UserRole=UserRole,
+                               current_date=current_date,
+                               time_slots=time_slots)
 
 @app.route("/fhir/Appointment/edit", methods=['get', 'post'])
 @login_required
@@ -595,7 +644,6 @@ def generate_unique_code(length):
 
 
 @app.route("/room_home", methods=["POST", "GET"])
-@login_required
 def room_home():
     session.clear()
     if request.method == "POST":

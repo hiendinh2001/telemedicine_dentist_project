@@ -1,6 +1,6 @@
 {% extends 'layout/base.html' %}
 
-{% block title %} Edit appointment {% endblock %}
+{% block title %} Make an appointment {% endblock %}
 
 {% block content %}
 <section class="home-slider owl-carousel">
@@ -12,8 +12,8 @@
       <div class="row slider-text align-items-end">
         <div class="col-md-7 col-sm-12 ftco-animate mb-5">
           <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
-                href="/">Home</a></span> <span>Edit appointment</span></p>
-          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit appointment</h1>
+                href="/">Home</a></span> <span>Make an appointment</span></p>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Make an appointment</h1>
         </div>
       </div>
     </div>
@@ -36,7 +36,7 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit appointment
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Make an appointment
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -45,16 +45,21 @@
           {% endif %}
           <form method="post" class="form-signin">
             <div class="form-group">
+              <label>Patient Name <span style="color: red;">*</span></label>
+              <input type="text" class="form-control pl-3" placeholder="Patient Name" value="{{ current_user.name }}"
+                required autofocus style="border-radius: 10px">
+            </div>
+            <div class="form-group">
               <label for="dateApp">Date <span style="color: red;">*</span></label>
               <input type="date" id="dateApp" name="dateApp" class="form-control pl-3"
                 placeholder="Date" required autofocus style="border-radius: 10px"
-                min="{{ current_date }}" value="{{ appointment.date.strftime('%Y-%m-%d') }}">
+                min="{{ current_date }}">
             </div>
-              <div class="form-group">
+            <div class="form-group">
               <label for="timeApp">Time <span style="color: red;">*</span></label>
               <select id="timeApp" name="timeApp" class="form-control pl-3" required style="border-radius: 10px">
                 {% for time_slot in time_slots %}
-                  <option value="{{ time_slot }}" value="{{ appointment.time.strftime('%H:%M') }}">{{ time_slot }}</option>
+                  <option value="{{ time_slot }}">{{ time_slot }}</option>
                 {% endfor %}
               </select>
             </div>
@@ -63,38 +68,37 @@
               <label>Appointment Type <span style="color: red;">*</span></label>
               <select class="form-control pl-3" name="appointmentType" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Appointment Type</option>
-                <option value="In-Clinic" {% if "In-Clinic" == appointment.appointmentType %}selected{% endif %}>In-Clinic</option>
-                <option value="Online Video Conference" {% if "Online Video Conference" == appointment.appointmentType %}selected{% endif %}>Online Video Conference</option>
+                <option value="In-Clinic">In-Clinic</option>
+                <option value="Online Video Conference">Online Video Conference</option>
               </select>
             </div>
-
-                <div class="form-group">
-                  <label>Reason <span style="color: red;">*</span></label>
-                  <select class="form-control pl-3" name="reasonApp" style="border-radius: 10px">
-                    <option value="" disabled selected hidden>Reason</option>
-                    <option value="First Consultation" {% if 'First Consultation' == appointment.reason %} selected {% endif %}>First Consultation</option>
-                    <option value="Teeth Whitening" {% if 'Teeth Whitening' == appointment.reason %} selected {% endif %}>Teeth Whitening</option>
-                    <option value="Teeth Cleaning" {% if 'Teeth Cleaning' == appointment.reason %} selected {% endif %}>Teeth Cleaning</option>
-                    <option value="Quality Brackets" {% if 'Quality Brackets' == appointment.reason %} selected {% endif %}>Quality Brackets</option>
-                    <option value="Modern Anesthetic" {% if 'Modern Anesthetic' == appointment.reason %} selected {% endif %}>Modern Anesthetic</option>
-                    <option value="Dental Calculus" {% if 'Dental Calculus' == appointment.reason %} selected {% endif %}>Dental Calculus</option>
-                    <option value="Paradontosis" {% if 'Paradontosis' == appointment.reason %} selected {% endif %}>Paradontosis</option>
-                    <option value="Dental Implants" {% if 'Dental Implants' == appointment.reason %} selected {% endif %}>Dental Implants</option>
-                    <option value="Tooth Braces" {% if 'Tooth Braces' == appointment.reason %} selected {% endif %}>Tooth Braces</option>
-                  </select>
-                </div>
+            <div class="form-group">
+              <label>Reason <span style="color: red;">*</span></label>
+              <select class="form-control pl-3" name="reasonApp" required style="border-radius: 10px">
+                <option value="" disabled selected hidden>Reason</option>
+                <option value="First Consultation">First Consultation</option>
+                <option value="Teeth Whitening">Teeth Whitening</option>
+                <option value="Teeth Cleaning">Teeth Cleaning</option>
+                <option value="Quality Brackets">Quality Brackets</option>
+                <option value="Modern Anesthetic">Modern Anesthetic</option>
+                <option value="Dental Calculus">Dental Calculus</option>
+                <option value="Paradontosis">Paradontosis</option>
+                <option value="Dental Implants">Dental Implants</option>
+                <option value="Tooth Braces">Tooth Braces</option>
+              </select>
+            </div>
             <div class="form-group">
               <label>Practitioner Name <span style="color: red;">*</span> <a href="{{ url_for('doctors') }}" target="_blank" style="color: #ffffff; text-decoration: underline;">See our doctor list</a></label>
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
                     {% if practitioner.id >= 1 and practitioner.id <= 4 %}
-                        <option value="{{ practitioner.id }}" {% if practitioner.id == appointment.practitioner_id %} selected {% endif %}>{{ practitioner.name }}</option>
+                        <option value="{{ practitioner.id }}">{{ practitioner.name }}</option>
                     {% endif %}
                 {% endfor %}
               </select>
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 300px;">Make an appointment</button>
           </form>
         </div>
       </div>
@@ -111,5 +115,7 @@
     </div>
   </div>
 </section>
+
+
 
 {% endblock %}

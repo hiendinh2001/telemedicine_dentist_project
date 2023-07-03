@@ -68,9 +68,10 @@ class Patient(BaseModel):
     email = Column(String(50), nullable=True)
     active = Column(Boolean, default=True)
     immunization_id = Column(Integer, ForeignKey(Immunization.id), nullable=True)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=1)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=5)
     observation_id = Column(Integer, ForeignKey(Observation.id), nullable=True)
     user = relationship('User', backref='Patient', lazy=False)
+    appointment = relationship('Appointment', backref='Patient', lazy=False)
 
     def __str__(self):
         return self.name
@@ -85,7 +86,7 @@ class User(BaseModel, UserMixin):
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
     appointment = relationship('Appointment', backref='User', lazy=False)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=1)
+    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=5)
     patient_id = Column(Integer, ForeignKey(Patient.id), nullable=True)
 
 class Appointment(BaseModel):
@@ -97,6 +98,7 @@ class Appointment(BaseModel):
     created = Column(DateTime, default=datetime.now())
     appointmentType = Column(String(50), nullable=True)
     reason = Column(String(50), nullable=True)
+    patient_id = Column(Integer, ForeignKey(Patient.id), nullable=True)
     practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True)
     active = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=True)
@@ -161,15 +163,7 @@ if __name__ == '__main__':
 
         # db.session.commit()
 
-        pr1 = Practitioner(name='Null',
-                           gender='Null',
-                           birthDate='2012-12-12',
-                           address='Null',
-                           language='Null',
-                           position='Null',
-                           email='Null')
-
-        pr2 = Practitioner(name='Tom Smith',
+        pr1 = Practitioner(name='Tom Smith',
                            gender='Male',
                            birthDate='1990-10-12',
                            address='1 rue Constant Coquelin, Paris, France',
@@ -177,7 +171,7 @@ if __name__ == '__main__':
                            position='Orthodontist',
                            email='tomsmithOrthodontist@gmail.com')
 
-        pr3 = Practitioner(name='Mark Wilson',
+        pr2 = Practitioner(name='Mark Wilson',
                            gender='Male',
                            birthDate='1980-11-12',
                            address='1 rue de la paix, Paris, France',
@@ -185,7 +179,7 @@ if __name__ == '__main__':
                            position='Endodontist',
                            email='markwilsonEndodontist@gmail.com')
 
-        pr4 = Practitioner(name='Patrick Jacobson',
+        pr3 = Practitioner(name='Patrick Jacobson',
                            gender='Female',
                            birthDate='1984-11-19',
                            address='1 rue de la paix, Nice, France',
@@ -193,13 +187,21 @@ if __name__ == '__main__':
                            position='Orthodontist',
                            email='patrickjacobsonOrthodontist@gmail.com')
 
-        pr5 = Practitioner(name='Ivan Dorchsner',
+        pr4 = Practitioner(name='Ivan Dorchsner',
                            gender='Male',
                            birthDate='1980-10-12',
                            address='1 rue de la paix, Rouen, France',
                            language='French, Vietnamese, German',
                            position='Dentist and Oral Surgeon',
                            email='ivandorchsnerDentist@gmail.com')
+
+        pr5 = Practitioner(name='Null',
+                           gender='Null',
+                           birthDate='2012-12-12',
+                           address='Null',
+                           language='Null',
+                           position='Null',
+                           email='Null')
 
         # pr5 = Practitioner(name='SANTOS Anna',
         #                    gender='Female',
