@@ -7,6 +7,8 @@ from sqlalchemy.sql import extract
 import hashlib
 from flask_login import current_user
 import csv
+from _datetime import datetime
+from collections import OrderedDict
 
 def read_json(path): 
     with open(path, "r") as f:
@@ -318,3 +320,61 @@ def update_patient_address(patient_id, addressPatient):
         patient.address = addressPatient.strip()
 
         db.session.commit()
+
+
+import csv
+from collections import OrderedDict
+
+
+def export_csv():
+    patients = Patient.query.filter(Patient.active.__eq__(True))
+
+    p = os.path.join(app.root_path, "data/patient-%s.csv" % str(datetime.now().strftime("%Y-%m-%d-%H-%M-%S")))
+    with open(p, 'w', encoding="utf-8") as f:
+        writer = csv.DictWriter(f,
+                                fieldnames=["Id", "Name", "Gender", "Birth Date",
+                                            "Address", "Email", "Vaccine Status",
+                                            "Vaccine Code", "Vaccine Date", "Temperature Status", "Effective Date",
+                                            "Temperature", "Unit", "Practitioner Name"])
+        writer.writeheader()
+        for patient in patients:
+            vaccineStatus = ""
+            vaccineCode = ""
+            occurrenceDateTime = ""
+            if patient.immunization_id:
+                vaccineStatus = patient.Immunization.status
+                vaccineCode = patient.Immunization.vaccineCode
+                occurrenceDateTime = patient.Immunization.occurrenceDateTime
+
+            temperatureStatus = ""
+            effectiveDateTime = ""
+            value = ""
+            unit = ""
+            if patient.observation_id:
+                temperatureStatus = patient.Observation.status
+                effectiveDateTime = patient.Observation.effectiveDateTime
+                value = patient.Observation.value
+                unit = patient.Observation.unit
+
+            practitionerName = ""
+            if patient.practitioner_id:
+                practitionerName = patient.Practitioner.name
+
+            patient_dict = OrderedDict([
+                ("Id", patient.id),
+                ("Name", patient.name),
+                ("Gender", patient.gender),
+                ("Birth Date", patient.birthDate),
+                ("Address", patient.address),
+                ("Email", patient.email),
+                ("Vaccine Status", vaccineStatus),
+                ("Vaccine Code", vaccineCode),
+                ("Vaccine Date", occurrenceDateTime),
+                ("Temperature Status", temperatureStatus),
+                ("Effective Date", effectiveDateTime),
+                ("Temperature", value),
+                ("Unit", unit),
+                ("Practitioner Name", practitionerName)
+            ])
+            writer.writerow(patient_dict)
+    return p

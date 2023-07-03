@@ -914,6 +914,11 @@ def patient_edit_address():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+@app.route("/fhir/Patient/export")
+@login_required
+def patient_export():
+    return send_file(utils.export_csv())
+
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")
     socketio.run(app, debug=True)
