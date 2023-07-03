@@ -50,41 +50,45 @@
       <tr>
         <th class="bg-light">Position</th>
         {% for practitioner in practitioners %}
-          {% if practitioner.id == current_user.practitioner_id %}
+        {% if practitioner.id == current_user.practitioner_id %}
         <td class="text-center">{{ practitioner.position }}</td>
-            {% endif %}
+        {% endif %}
         {% endfor %}
       </tr>
       <tr>
         <th class="bg-light">Gender</th>
         {% for practitioner in practitioners %}
-          {% if practitioner.id == current_user.practitioner_id %}
-        <td class="text-center">{{ practitioner.gender }} |  <a href="{{ url_for('practitioner_edit_gender', practitioner_id=practitioner.id) }}">Edit</a></td>
-            {% endif %}
+        {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.gender }} | <a
+            href="{{ url_for('practitioner_edit_gender', practitioner_id=practitioner.id) }}">Edit</a></td>
+        {% endif %}
         {% endfor %}
       </tr>
       <tr>
         <th class="bg-light">Birth Date</th>
         {% for practitioner in practitioners %}
-          {% if practitioner.id == current_user.practitioner_id %}
-        <td class="text-center">{{ practitioner.birthDate.strftime('%d/%m/%Y') }} |  <a href="{{ url_for('practitioner_edit_birthDate', practitioner_id=practitioner.id) }}">Edit</a></td>
-            {% endif %}
+        {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.birthDate.strftime('%d/%m/%Y') }} | <a
+            href="{{ url_for('practitioner_edit_birthDate', practitioner_id=practitioner.id) }}">Edit</a></td>
+        {% endif %}
         {% endfor %}
       </tr>
       <tr>
         <th class="bg-light">Address</th>
         {% for practitioner in practitioners %}
-          {% if practitioner.id == current_user.practitioner_id %}
-        <td class="text-center">{{ practitioner.address }} |  <a href="{{ url_for('practitioner_edit_address', practitioner_id=practitioner.id) }}">Edit</a></td>
-            {% endif %}
+        {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.address }} | <a
+            href="{{ url_for('practitioner_edit_address', practitioner_id=practitioner.id) }}">Edit</a></td>
+        {% endif %}
         {% endfor %}
       </tr>
       <tr>
         <th class="bg-light">Language</th>
         {% for practitioner in practitioners %}
-          {% if practitioner.id == current_user.practitioner_id %}
-        <td class="text-center">{{ practitioner.language }} |  <a href="{{ url_for('practitioner_edit_language', practitioner_id=practitioner.id) }}">Edit</a></td>
-         {% endif %}
+        {% if practitioner.id == current_user.practitioner_id %}
+        <td class="text-center">{{ practitioner.language }} | <a
+            href="{{ url_for('practitioner_edit_language', practitioner_id=practitioner.id) }}">Edit</a></td>
+        {% endif %}
         {% endfor %}
       </tr>
     </table>

@@ -36,7 +36,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Make an appointment
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Make an
+            appointment
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -51,15 +52,14 @@
             </div>
             <div class="form-group">
               <label for="dateApp">Date <span style="color: red;">*</span></label>
-              <input type="date" id="dateApp" name="dateApp" class="form-control pl-3"
-                placeholder="Date" required autofocus style="border-radius: 10px"
-                min="{{ current_date }}">
+              <input type="date" id="dateApp" name="dateApp" class="form-control pl-3" placeholder="Date" required
+                autofocus style="border-radius: 10px" min="{{ current_date }}">
             </div>
             <div class="form-group">
               <label for="timeApp">Time <span style="color: red;">*</span></label>
               <select id="timeApp" name="timeApp" class="form-control pl-3" required style="border-radius: 10px">
                 {% for time_slot in time_slots %}
-                  <option value="{{ time_slot }}">{{ time_slot }}</option>
+                <option value="{{ time_slot }}">{{ time_slot }}</option>
                 {% endfor %}
               </select>
             </div>
@@ -88,17 +88,19 @@
               </select>
             </div>
             <div class="form-group">
-              <label>Practitioner Name <span style="color: red;">*</span> <a href="{{ url_for('doctors') }}" target="_blank" style="color: #ffffff; text-decoration: underline;">See our doctor list</a></label>
+              <label>Practitioner Name <span style="color: red;">*</span> <a href="{{ url_for('doctors') }}"
+                  target="_blank" style="color: #ffffff; text-decoration: underline;">See our doctor list</a></label>
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
-                    {% if practitioner.id >= 2 %}
-                        <option value="{{ practitioner.id }}">{{ practitioner.name }}</option>
-                    {% endif %}
+                {% if practitioner.id >= 2 %}
+                <option value="{{ practitioner.id }}">{{ practitioner.name }}</option>
+                {% endif %}
                 {% endfor %}
               </select>
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 300px;">Make an appointment</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 300px;">Make
+              an appointment</button>
           </form>
         </div>
       </div>

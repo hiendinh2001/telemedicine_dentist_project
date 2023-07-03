@@ -36,7 +36,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit information
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit
+            information
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -46,44 +47,47 @@
           <form method="post" class="form-signin">
             <div class="form-group">
               <label for="namePatient">Patient Name</label>
-              <input type="text" id="namePatient" name="namePatient" value="{{ patient.name }}" class="form-control pl-3" placeholder="Patient Name"
-                required autofocus style="border-radius: 10px">
+              <input type="text" id="namePatient" name="namePatient" value="{{ patient.name }}"
+                class="form-control pl-3" placeholder="Patient Name" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label>Patient Gender</label>
               <select class="form-control pl-3" name="genderPatient" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Patient Gender</option>
-                <option value="Male" {% if "Male" == patient.gender %}selected{% endif %}>Male</option>
-                <option value="Female" {% if "Female" == patient.gender %}selected{% endif %}>Female</option>
+                <option value="Male" {% if "Male"==patient.gender %}selected{% endif %}>Male</option>
+                <option value="Female" {% if "Female"==patient.gender %}selected{% endif %}>Female</option>
               </select>
             </div>
             <div class="form-group">
               <label for="birthDatePatient">Patient Birth Date</label>
-              <input type="date" id="birthDatePatient" name="birthDatePatient" value="{{ patient.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
+              <input type="date" id="birthDatePatient" name="birthDatePatient"
+                value="{{ patient.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
                 placeholder="Patient Birth Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="addressPatient">Patient Address</label>
-              <input type="text" id="addressPatient" name="addressPatient" value="{{ patient.address }}" class="form-control pl-3"
-                placeholder="Patient Address" required autofocus style="border-radius: 10px">
+              <input type="text" id="addressPatient" name="addressPatient" value="{{ patient.address }}"
+                class="form-control pl-3" placeholder="Patient Address" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="emailPatient">Patient Email</label>
-              <input type="text" id="emailPatient" name="emailPatient" value="{{ patient.email }}" class="form-control pl-3"
-                placeholder="Patient email" required autofocus style="border-radius: 10px">
+              <input type="text" id="emailPatient" name="emailPatient" value="{{ patient.email }}"
+                class="form-control pl-3" placeholder="Patient email" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label>Practitioner Name</label>
               <select class="form-control pl-3" name="practitioner_id" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Practitioner Name</option>
                 {% for practitioner in practitioners %}
-                    {% if practitioner.id >= 2 %}
-                        <option value="{{ practitioner.id }}" {% if practitioner.id == patient.practitioner_id %} selected {% endif %}>{{ practitioner.name }}</option>
-                    {% endif %}
+                {% if practitioner.id >= 2 %}
+                <option value="{{ practitioner.id }}" {% if practitioner.id==patient.practitioner_id %} selected {%
+                  endif %}>{{ practitioner.name }}</option>
+                {% endif %}
                 {% endfor %}
               </select>
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit"
+              style="width: 200px;">Edit</button>
           </form>
         </div>
       </div>

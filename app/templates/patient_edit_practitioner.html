@@ -13,7 +13,8 @@
         <div class="col-md-7 col-sm-12 ftco-animate mb-5">
           <p class="breadcrumbs" data-scrollax=" properties: { translateY: '70%', opacity: 1.6}"><span class="mr-2"><a
                 href="/">Home</a></span> <span>Edit practitioner of this patient</span></p>
-          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit practitioner of this patient</h1>
+          <h1 class="mb-3" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit practitioner of this
+            patient</h1>
         </div>
       </div>
     </div>
@@ -36,7 +37,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit practitioner of this patient
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit
+            practitioner of this patient
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -46,38 +48,42 @@
           <form method="post" class="form-signin">
             <div class="form-group">
               <label for="namePractitioner">Practitioner Name</label>
-              <input type="text" id="namePractitioner" name="namePractitioner" value="{{ practitioner.name }}" class="form-control pl-3"
-                placeholder="Practitioner Name" required autofocus style="border-radius: 10px">
+              <input type="text" id="namePractitioner" name="namePractitioner" value="{{ practitioner.name }}"
+                class="form-control pl-3" placeholder="Practitioner Name" required autofocus
+                style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label>Patient Gender</label>
               <select class="form-control pl-3" name="genderPractitioner" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Patient Gender</option>
-                <option value="Male" {% if "Male" == practitioner.gender %}selected{% endif %}>Male</option>
-                <option value="Female" {% if "Female" == practitioner.gender %}selected{% endif %}>Female</option>
+                <option value="Male" {% if "Male"==practitioner.gender %}selected{% endif %}>Male</option>
+                <option value="Female" {% if "Female"==practitioner.gender %}selected{% endif %}>Female</option>
               </select>
             </div>
             <div class="form-group">
               <label for="birthDatePractitioner">Practitioner Birth Date</label>
-              <input type="date" id="birthDatePractitioner" name="birthDatePractitioner" value="{{ practitioner.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
+              <input type="date" id="birthDatePractitioner" name="birthDatePractitioner"
+                value="{{ practitioner.birthDate.strftime('%Y-%m-%d') }}" class="form-control pl-3"
                 placeholder="Practitioner Birth Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="addressPractitioner">Practitioner Address</label>
-              <input type="text" id="addressPractitioner" name="addressPractitioner" value="{{ practitioner.address }}" class="form-control pl-3"
-                placeholder="Practitioner Address" required autofocus style="border-radius: 10px">
+              <input type="text" id="addressPractitioner" name="addressPractitioner" value="{{ practitioner.address }}"
+                class="form-control pl-3" placeholder="Practitioner Address" required autofocus
+                style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="language">Language</label>
-              <input type="text" id="language" name="language" value="{{ practitioner.language }}" class="form-control pl-3"
-                placeholder="Language" required autofocus style="border-radius: 10px">
+              <input type="text" id="language" name="language" value="{{ practitioner.language }}"
+                class="form-control pl-3" placeholder="Language" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="language">Language</label>
-              <input type="text" id="language" name="language" value="{{ practitioner.language }}" class="form-control pl-3"
-                placeholder="Language" required autofocus style="border-radius: 10px">
+              <input type="text" id="language" name="language" value="{{ practitioner.language }}"
+                class="form-control pl-3" placeholder="Language" required autofocus style="border-radius: 10px">
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit"
+              style="width: 200px;">Edit</button>
           </form>
         </div>
       </div>

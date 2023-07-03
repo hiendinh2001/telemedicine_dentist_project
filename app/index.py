@@ -18,6 +18,7 @@ from flask_socketio import SocketIO, join_room, leave_room, send, emit
 def home():
     return render_template('index.html', UserRole=UserRole)
 
+
 @app.route("/about")
 def about():
     return render_template('about.html', UserRole=UserRole)
@@ -145,6 +146,7 @@ def patient_add():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/Patient/editInfo", methods=['get', 'post'])
 @login_required
 def patient_edit_info():
@@ -180,6 +182,7 @@ def patient_edit_info():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/Patient/editImmunization", methods=['get', 'post'])
 @login_required
 def patient_edit_immunization():
@@ -187,7 +190,8 @@ def patient_edit_immunization():
     immunization_id = request.args.get('immunization_id')
     immunization = None
     if immunization_id:
-        immunization = utils.get_immunization_by_id(immunization_id=int(immunization_id))
+        immunization = utils.get_immunization_by_id(
+            immunization_id=int(immunization_id))
 
     if request.method.__eq__('POST'):
         statusVaccine = request.form.get('statusVaccine')
@@ -208,6 +212,7 @@ def patient_edit_immunization():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/Patient/editObservation", methods=['get', 'post'])
 @login_required
 def patient_edit_observation():
@@ -215,7 +220,8 @@ def patient_edit_observation():
     observation_id = request.args.get('observation_id')
     observation = None
     if observation_id:
-        observation = utils.get_observation_by_id(observation_id=int(observation_id))
+        observation = utils.get_observation_by_id(
+            observation_id=int(observation_id))
 
     if request.method.__eq__('POST'):
         statusObservation = request.form.get('statusObservation')
@@ -238,6 +244,7 @@ def patient_edit_observation():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/Patient/editPractitioner", methods=['GET', 'POST'])
 @login_required
 def patient_edit_practitioner():
@@ -245,7 +252,8 @@ def patient_edit_practitioner():
     practitioner_id = request.args.get('practitioner_id')
     practitioner = None
     if practitioner_id:
-        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+        practitioner = utils.get_practitioner_by_id(
+            practitioner_id=int(practitioner_id))
 
     if request.method.__eq__('POST'):
         namePractitioner = request.form.get('namePractitioner')
@@ -269,6 +277,7 @@ def patient_edit_practitioner():
                            practitioner=practitioner,
                            err_msg=err_msg,
                            UserRole=UserRole)
+
 
 @app.route("/fhir/Immunization/<int:immunization_id>")
 @login_required
@@ -299,6 +308,7 @@ def practitioner_detail(practitioner_id):
                            practitioner=practitioner,
                            UserRole=UserRole)
 
+
 @app.route('/fhir/deletePatient', methods=['POST', 'DELETE'])
 def patient_delete():
     if request.method == 'POST' or request.method == 'DELETE':
@@ -308,6 +318,7 @@ def patient_delete():
         patients = utils.load_patient()
 
         return render_template('patient.html', patients=patients, UserRole=UserRole)
+
 
 @app.route('/fhir/_history')
 @login_required
@@ -323,6 +334,7 @@ def history():
                            observations=observations,
                            practitioners=practitioners,
                            UserRole=UserRole)
+
 
 @app.route('/register_doctor', methods=['get', 'post'])
 def user_register_doctor():
@@ -365,6 +377,7 @@ def user_register_doctor():
 
     return render_template('register_doctor.html',
                            err_msg=err_msg)
+
 
 @app.route('/register', methods=['get', 'post'])
 def user_register():
@@ -418,6 +431,7 @@ def user_register():
     return render_template('register.html',
                            err_msg=err_msg)
 
+
 @app.route('/user-login', methods=['get', 'post'])
 def user_signin():
     err_msg = ""
@@ -457,11 +471,13 @@ def info_perso():
     elif current_user.user_role == UserRole.PATIENT:
         return render_template('info_perso.html', patients=utils.load_patient(), practitioners=utils.load_practitioner(), UserRole=UserRole)
 
+
 @app.route('/upload', methods=['post'])
 def upload():
     f = request.files['prescription']
     f.save(os.path.join(app.root_path, 'static/uploads/', f.filename))
     return 'DONE.'
+
 
 @app.route("/room_teleconsultation")
 @login_required
@@ -470,6 +486,8 @@ def room_teleconsultation():
     return redirect("http://127.0.0.1:3000/", code=302)
 
 # ------------------------ appointment ------------------------
+
+
 @app.route("/fhir/Appointment")
 @login_required
 def appointment_list():
@@ -497,6 +515,7 @@ def appointment_list():
                                           patient_id=patient_id)
 
     return render_template('appointment.html', appointments=appointments, users=utils.load_user(), practitioners=utils.load_practitioner(), patients=utils.load_patient(), UserRole=UserRole)
+
 
 @app.route("/fhir/Appointment/add", methods=['get', 'post'])
 @login_required
@@ -585,6 +604,7 @@ def appointment_add():
                                current_date=current_date,
                                time_slots=time_slots)
 
+
 @app.route("/fhir/Appointment/edit", methods=['get', 'post'])
 @login_required
 def appointment_edit():
@@ -592,7 +612,8 @@ def appointment_edit():
     appointment_id = request.args.get('appointment_id')
     appointment = None
     if appointment_id:
-        appointment = utils.get_appointment_by_id(appointment_id=int(appointment_id))
+        appointment = utils.get_appointment_by_id(
+            appointment_id=int(appointment_id))
 
     current_date = date.today().strftime('%Y-%m-%d')
 
@@ -631,6 +652,8 @@ def appointment_edit():
                            practitioners=utils.load_practitioner(),
                            err_msg=err_msg,
                            UserRole=UserRole)
+
+
 @app.route('/fhir/deleteAppointment', methods=['POST', 'DELETE'])
 def appointment_delete():
     if request.method == 'POST' or request.method == 'DELETE':
@@ -641,10 +664,13 @@ def appointment_delete():
 
         return render_template('appointment.html', appointments=appointments, UserRole=UserRole)
 
+
 # ------------------------ chatRoom ------------------------
 socketio = SocketIO(app)
 
 rooms = {}
+
+
 def generate_unique_code(length):
     while True:
         code = ""
@@ -709,6 +735,7 @@ def message(data):
     rooms[room]["messages"].append(content)
     print(f"{session.get('name')} said: {data['data']}")
 
+
 @socketio.on("connect")
 def connect(auth):
     room = session.get("room")
@@ -739,12 +766,15 @@ def disconnect():
     send({"name": name, "message": "has left the room"}, to=room)
     print(f"{name} has left the room {room}")
 
+
 @app.route("/SendMailDoctor")
 def send_mail_doctor():
-    #if current_user.user_role == UserRole.PATIENT:
+    # if current_user.user_role == UserRole.PATIENT:
     return render_template('room_email_doctor.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
 
 # ------------------------ edit Info Practitioner ------------------------
+
+
 @app.route("/fhir/editPractitioner/gender", methods=['GET', 'POST'])
 @login_required
 def practitioner_edit_gender():
@@ -752,14 +782,15 @@ def practitioner_edit_gender():
     practitioner_id = request.args.get('practitioner_id')
     practitioner = None
     if practitioner_id:
-        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+        practitioner = utils.get_practitioner_by_id(
+            practitioner_id=int(practitioner_id))
 
     if request.method.__eq__('POST'):
         genderPractitioner = request.form.get('genderPractitioner')
 
         try:
             utils.update_practitioner_gender(practitioner_id=int(practitioner_id),
-                                              genderPractitioner=genderPractitioner)
+                                             genderPractitioner=genderPractitioner)
             return redirect(url_for('info_perso'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
@@ -769,6 +800,7 @@ def practitioner_edit_gender():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/editPractitioner/birthDate", methods=['GET', 'POST'])
 @login_required
 def practitioner_edit_birthDate():
@@ -776,14 +808,15 @@ def practitioner_edit_birthDate():
     practitioner_id = request.args.get('practitioner_id')
     practitioner = None
     if practitioner_id:
-        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+        practitioner = utils.get_practitioner_by_id(
+            practitioner_id=int(practitioner_id))
 
     if request.method.__eq__('POST'):
         birthDatePractitioner = request.form.get('birthDatePractitioner')
 
         try:
             utils.update_practitioner_birthDate(practitioner_id=int(practitioner_id),
-                                              birthDatePractitioner=birthDatePractitioner)
+                                                birthDatePractitioner=birthDatePractitioner)
             return redirect(url_for('info_perso'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
@@ -793,6 +826,7 @@ def practitioner_edit_birthDate():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/editPractitioner/Address", methods=['GET', 'POST'])
 @login_required
 def practitioner_edit_address():
@@ -800,7 +834,8 @@ def practitioner_edit_address():
     practitioner_id = request.args.get('practitioner_id')
     practitioner = None
     if practitioner_id:
-        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+        practitioner = utils.get_practitioner_by_id(
+            practitioner_id=int(practitioner_id))
 
     if request.method.__eq__('POST'):
         addressPractitioner = request.form.get('addressPractitioner')
@@ -817,6 +852,7 @@ def practitioner_edit_address():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/editPractitioner/Language", methods=['GET', 'POST'])
 @login_required
 def practitioner_edit_language():
@@ -824,14 +860,15 @@ def practitioner_edit_language():
     practitioner_id = request.args.get('practitioner_id')
     practitioner = None
     if practitioner_id:
-        practitioner = utils.get_practitioner_by_id(practitioner_id=int(practitioner_id))
+        practitioner = utils.get_practitioner_by_id(
+            practitioner_id=int(practitioner_id))
 
     if request.method.__eq__('POST'):
         language = request.form.get('language')
 
         try:
             utils.update_practitioner_language(practitioner_id=int(practitioner_id),
-                                              language=language)
+                                               language=language)
             return redirect(url_for('info_perso'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
@@ -842,6 +879,8 @@ def practitioner_edit_language():
                            UserRole=UserRole)
 
 # ------------------------ edit Info Patient ------------------------
+
+
 @app.route("/fhir/editPatient/gender", methods=['GET', 'POST'])
 @login_required
 def patient_edit_gender():
@@ -866,6 +905,7 @@ def patient_edit_gender():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/editPatient/birthDate", methods=['GET', 'POST'])
 @login_required
 def patient_edit_birthDate():
@@ -880,7 +920,7 @@ def patient_edit_birthDate():
 
         try:
             utils.update_patient_birthDate(patient_id=int(patient_id),
-                                              birthDatePatient=birthDatePatient)
+                                           birthDatePatient=birthDatePatient)
             return redirect(url_for('info_perso'))
         except Exception as ex:
             err_msg = 'Something wrong!!! Please back later!' + str(ex)
@@ -889,6 +929,7 @@ def patient_edit_birthDate():
                            patient=patient,
                            err_msg=err_msg,
                            UserRole=UserRole)
+
 
 @app.route("/fhir/editPatient/Address", methods=['GET', 'POST'])
 @login_required
@@ -914,10 +955,12 @@ def patient_edit_address():
                            err_msg=err_msg,
                            UserRole=UserRole)
 
+
 @app.route("/fhir/Patient/export")
 @login_required
 def patient_export():
     return send_file(utils.export_csv())
+
 
 if __name__ == '__main__':
     app.run(debug=True, host="0.0.0.0")

@@ -36,7 +36,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit immunization
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit
+            immunization
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -48,21 +49,26 @@
               <label>Vaccine Status</label>
               <select class="form-control pl-3" name="statusVaccine" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Vaccine Status</option>
-                <option value="Completed" {% if "Completed" == immunization.status %}selected{% endif %}>Completed</option>
-                <option value="Entered in Error" {% if "Entered in Error" == immunization.status %}selected{% endif %}>Entered in Error</option>
-                <option value="Not Done" {% if "Not Done" == immunization.status %}selected{% endif %}>Not Done</option>
+                <option value="Completed" {% if "Completed"==immunization.status %}selected{% endif %}>Completed
+                </option>
+                <option value="Entered in Error" {% if "Entered in Error"==immunization.status %}selected{% endif %}>
+                  Entered in Error</option>
+                <option value="Not Done" {% if "Not Done"==immunization.status %}selected{% endif %}>Not Done</option>
               </select>
             </div>
             <div class="form-group">
               <label for="vaccineCode">Vaccine Code</label>
-              <input type="number" id="vaccineCode" name="vaccineCode" value="{{ immunization.vaccineCode }}" class="form-control pl-3"
-                placeholder="Vaccine Code" required autofocus style="border-radius: 10px">
+              <input type="number" id="vaccineCode" name="vaccineCode" value="{{ immunization.vaccineCode }}"
+                class="form-control pl-3" placeholder="Vaccine Code" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="occurrenceDateTime">Vaccine Date</label>
-              <input type="date" id="occurrenceDateTime" name="occurrenceDateTime" value="{% if immunization.occurrenceDateTime %}{{ immunization.occurrenceDateTime.strftime('%Y-%m-%d') }}{% endif %}" class="form-control pl-3" placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
+              <input type="date" id="occurrenceDateTime" name="occurrenceDateTime"
+                value="{% if immunization.occurrenceDateTime %}{{ immunization.occurrenceDateTime.strftime('%Y-%m-%d') }}{% endif %}"
+                class="form-control pl-3" placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit"
+              style="width: 200px;">Edit</button>
           </form>
         </div>
       </div>

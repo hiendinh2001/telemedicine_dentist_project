@@ -5,10 +5,12 @@ from datetime import datetime, time
 from flask_login import UserMixin
 from enum import Enum as UserEnum
 
+
 class BaseModel(db.Model):
     __abstract__ = True
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+
 
 class UserRole(UserEnum):
     ADMIN = 1
@@ -17,6 +19,7 @@ class UserRole(UserEnum):
 
     def __str__(self):
         return self.name
+
 
 class Immunization(BaseModel):
     __tablename__ = 'Immunization'
@@ -29,6 +32,7 @@ class Immunization(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Practitioner(BaseModel):
     __tablename__ = 'Practitioner'
 
@@ -40,11 +44,13 @@ class Practitioner(BaseModel):
     position = Column(String(50), nullable=True)
     email = Column(String(50), nullable=True)
     patient = relationship('Patient', backref='Practitioner', lazy=False)
-    appointment = relationship('Appointment', backref='Practitioner', lazy=False)
+    appointment = relationship(
+        'Appointment', backref='Practitioner', lazy=False)
     user = relationship('User', backref='Practitioner', lazy=False)
 
     def __str__(self):
         return self.name
+
 
 class Observation(BaseModel):
     __tablename__ = 'Observation'
@@ -58,6 +64,7 @@ class Observation(BaseModel):
     def __str__(self):
         return self.name
 
+
 class Patient(BaseModel):
     __tablename__ = 'Patient'
 
@@ -67,15 +74,18 @@ class Patient(BaseModel):
     address = Column(String(50), nullable=True)
     email = Column(String(50), nullable=True)
     active = Column(Boolean, default=True)
-    immunization_id = Column(Integer, ForeignKey(Immunization.id), nullable=True)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=1)
+    immunization_id = Column(Integer, ForeignKey(
+        Immunization.id), nullable=True)
+    practitioner_id = Column(Integer, ForeignKey(
+        Practitioner.id), nullable=True, default=1)
     observation_id = Column(Integer, ForeignKey(Observation.id), nullable=True)
     user = relationship('User', backref='Patient', lazy=False)
     appointment = relationship('Appointment', backref='Patient', lazy=False)
 
     def __str__(self):
         return self.name
-    
+
+
 class User(BaseModel, UserMixin):
     name = Column(String(50), nullable=True)
     username = Column(String(50), nullable=True, unique=True)
@@ -86,8 +96,10 @@ class User(BaseModel, UserMixin):
     joined_date = Column(DateTime, default=datetime.now())
     user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
     appointment = relationship('Appointment', backref='User', lazy=False)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True, default=1)
+    practitioner_id = Column(Integer, ForeignKey(
+        Practitioner.id), nullable=True, default=1)
     patient_id = Column(Integer, ForeignKey(Patient.id), nullable=True)
+
 
 class Appointment(BaseModel):
     __tablename__ = 'Appointment'
@@ -99,12 +111,14 @@ class Appointment(BaseModel):
     appointmentType = Column(String(50), nullable=True)
     reason = Column(String(50), nullable=True)
     patient_id = Column(Integer, ForeignKey(Patient.id), nullable=True)
-    practitioner_id = Column(Integer, ForeignKey(Practitioner.id), nullable=True)
+    practitioner_id = Column(Integer, ForeignKey(
+        Practitioner.id), nullable=True)
     active = Column(Boolean, default=True)
     user_id = Column(Integer, ForeignKey(User.id), nullable=True)
 
     def __str__(self):
         return self.name
+
 
 if __name__ == '__main__':
     with app.app_context():

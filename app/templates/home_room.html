@@ -36,7 +36,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Enter The Chat Room
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Enter
+            The Chat Room
           </h1>
           {% if error %}
           <div class="alter alter-danger text-center">
@@ -45,8 +46,8 @@
           {% endif %}
           <form method="post" class="form-signin">
             <div class="form-group">
-              <input type="text" id="name" name="name" value="{{ name }}" class="form-control pl-3" placeholder="Enter your name"
-                required autofocus style="border-radius: 10px">
+              <input type="text" id="name" name="name" value="{{ name }}" class="form-control pl-3"
+                placeholder="Enter your name" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group d-flex justify-content-center">
               <div class="form-check form-check-inline">
@@ -61,12 +62,15 @@
             </div>
 
             <div id="joinRoomSection" style="display: none;">
-              <input type="text" id="roomCode" name="code" value="{{ code }}" class="form-control pl-3 mb-4" placeholder="Enter Room Code" autofocus style="border-radius: 10px">
-              <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" name="join" style="width: 200px;">Join a Room</button>
+              <input type="text" id="roomCode" name="code" value="{{ code }}" class="form-control pl-3 mb-4"
+                placeholder="Enter Room Code" autofocus style="border-radius: 10px">
+              <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" name="join"
+                style="width: 200px;">Join a Room</button>
             </div>
 
             <div id="createRoomSection" style="display: none;">
-              <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" name="create" style="width: 200px;">Create a Room</button>
+              <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" name="create"
+                style="width: 200px;">Create a Room</button>
             </div>
           </form>
         </div>
@@ -91,12 +95,12 @@
   const joinRoomSection = document.getElementById('joinRoomSection');
   const createRoomSection = document.getElementById('createRoomSection');
 
-  joinRadio.addEventListener('change', function() {
+  joinRadio.addEventListener('change', function () {
     joinRoomSection.style.display = 'block';
     createRoomSection.style.display = 'none';
   });
 
-  createRadio.addEventListener('change', function() {
+  createRadio.addEventListener('change', function () {
     joinRoomSection.style.display = 'none';
     createRoomSection.style.display = 'block';
   });

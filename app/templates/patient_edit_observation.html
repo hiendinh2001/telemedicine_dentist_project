@@ -36,7 +36,8 @@
       </div>-->
       <div class="col-md-6 d-flex">
         <div class="about-wrap justify-content-center">
-          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit temperature
+          <h1 class="mb-3 text-center text-white" data-scrollax=" properties: { translateY: '70%', opacity: .9}">Edit
+            temperature
           </h1>
           {% if err_msg %}
           <div class="alter alter-danger text-center">
@@ -48,28 +49,32 @@
               <label>Temperature Status</label>
               <select class="form-control pl-3" name="statusObservation" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Temperature Status</option>
-                <option value="Amended +" {% if "Amended +" == observation.status %}selected{% endif %}>Amended +</option>
-                <option value="Preliminary" {% if "Preliminary" == observation.status %}selected{% endif %}>Preliminary</option>
-                <option value="Final" {% if "Final" == observation.status %}selected{% endif %}>Final</option>
+                <option value="Amended +" {% if "Amended +"==observation.status %}selected{% endif %}>Amended +</option>
+                <option value="Preliminary" {% if "Preliminary"==observation.status %}selected{% endif %}>Preliminary
+                </option>
+                <option value="Final" {% if "Final"==observation.status %}selected{% endif %}>Final</option>
               </select>
             </div>
             <div class="form-group">
               <label for="effectiveDateTime">Effective Date</label>
-              <input type="date" id="effectiveDateTime" name="effectiveDateTime" value="{% if observation.effectiveDateTime %}{{ observation.effectiveDateTime.strftime('%Y-%m-%d') }}{% endif %}" class="form-control pl-3" placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
+              <input type="date" id="effectiveDateTime" name="effectiveDateTime"
+                value="{% if observation.effectiveDateTime %}{{ observation.effectiveDateTime.strftime('%Y-%m-%d') }}{% endif %}"
+                class="form-control pl-3" placeholder="Vaccine Date" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label for="value">Temperature</label>
-              <input type="number" id="value" name="value" value="{{ observation.value }}" class="form-control pl-3" min="35" max="42" step="0.1"
-                placeholder="Temperature" required autofocus style="border-radius: 10px">
+              <input type="number" id="value" name="value" value="{{ observation.value }}" class="form-control pl-3"
+                min="35" max="42" step="0.1" placeholder="Temperature" required autofocus style="border-radius: 10px">
             </div>
             <div class="form-group">
               <label>Unit</label>
               <select class="form-control pl-3" name="unit" required style="border-radius: 10px">
                 <option value="" disabled selected hidden>Unit</option>
-                <option value="Cel" {% if "Cel" == observation.unit %}selected{% endif %}>Cel</option>
+                <option value="Cel" {% if "Cel"==observation.unit %}selected{% endif %}>Cel</option>
               </select>
             </div>
-            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit" style="width: 200px;">Edit</button>
+            <button class="btn btn-lg bg-white btn-block text-center mx-auto" type="submit"
+              style="width: 200px;">Edit</button>
           </form>
         </div>
       </div>

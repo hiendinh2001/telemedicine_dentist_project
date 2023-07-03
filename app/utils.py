@@ -1,4 +1,5 @@
-import json, os
+import json
+import os
 from app import app, db
 from app.models import User, UserRole, Patient, Immunization, Observation, Practitioner, Appointment
 from flask_login import current_user
@@ -10,21 +11,26 @@ import csv
 from _datetime import datetime
 from collections import OrderedDict
 
-def read_json(path): 
+
+def read_json(path):
     with open(path, "r") as f:
         return json.load(f)
+
 
 def load_patient(immunization_id=None, practitioner_id=None, observation_id=None, name=None, gender=None):
     patients = Patient.query.filter(Patient.active.__eq__(True))
 
     if immunization_id:
-        patients = patients.filter(Patient.immunization_id.__eq__(immunization_id))
+        patients = patients.filter(
+            Patient.immunization_id.__eq__(immunization_id))
 
     if practitioner_id:
-        patients = patients.filter(Patient.practitioner_id.__eq__(practitioner_id))
+        patients = patients.filter(
+            Patient.practitioner_id.__eq__(practitioner_id))
 
     if observation_id:
-        patients = patients.filter(Patient.observation_id.__eq__(observation_id))
+        patients = patients.filter(
+            Patient.observation_id.__eq__(observation_id))
 
     if name:
         patients = patients.filter(Patient.name.contains(name))
@@ -34,29 +40,38 @@ def load_patient(immunization_id=None, practitioner_id=None, observation_id=None
 
     return patients
 
+
 def load_user():
     return User.query.all()
+
 
 def load_immunization():
     return Immunization.query.all()
 
+
 def load_observation():
     return Observation.query.all()
+
 
 def load_practitioner():
     return Practitioner.query.all()
 
+
 def get_patient_by_id(patient_id):
     return Patient.query.get(patient_id)
 
-def get_immunization_by_id(immunization_id): 
+
+def get_immunization_by_id(immunization_id):
     return Immunization.query.get(immunization_id)
 
-def get_observation_by_id(observation_id): 
+
+def get_observation_by_id(observation_id):
     return Observation.query.get(observation_id)
+
 
 def get_practitioner_by_id(practitioner_id):
     return Practitioner.query.get(practitioner_id)
+
 
 def add_user_doctor(name, username, password, email, genderPractitioner, birthDatePractitioner, addressPractitioner, language, position, **kwargs):
     practitioner = Practitioner(name=name.strip(),
@@ -118,9 +133,11 @@ def add_user(name, username, password, email, genderPatient, birthDatePatient, a
     db.session.add(user)
     db.session.commit()
 
+
 def check_login(username, password, role=UserRole.PATIENT):
     if username and password:
-        password = str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+        password = str(hashlib.md5(
+            password.strip().encode('utf-8')).hexdigest())
 
         return User.query.filter(User.username.__eq__(username.strip()),
                                  User.password.__eq__(password),
@@ -129,6 +146,7 @@ def check_login(username, password, role=UserRole.PATIENT):
 
 def get_user_by_id(user_id):
     return User.query.get(user_id)
+
 
 def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, practitioner_id):
 
@@ -157,6 +175,7 @@ def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, em
     db.session.add(patient)
     db.session.commit()
 
+
 def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, practitioner_id):
     info = db.session.query(Patient).get(patient_id)
     if info:
@@ -169,6 +188,7 @@ def update_patient_info(patient_id, namePatient, genderPatient, birthDatePatient
 
         db.session.commit()
 
+
 def update_patient_immunization(immunization_id, statusVaccine, vaccineCode, occurrenceDateTime):
     immunization = db.session.query(Immunization).get(immunization_id)
     if immunization:
@@ -177,6 +197,7 @@ def update_patient_immunization(immunization_id, statusVaccine, vaccineCode, occ
         immunization.occurrenceDateTime = occurrenceDateTime
 
         db.session.commit()
+
 
 def update_patient_observation(observation_id, statusObservation, effectiveDateTime, value, unit):
     observation = db.session.query(Observation).get(observation_id)
@@ -187,6 +208,7 @@ def update_patient_observation(observation_id, statusObservation, effectiveDateT
         observation.unit = unit
 
         db.session.commit()
+
 
 def update_patient_practitioner(practitioner_id, namePractitioner, genderPractitioner, birthDatePractitioner, addressPractitioner, language):
     practitioner = db.session.query(Practitioner).get(practitioner_id)
@@ -199,11 +221,14 @@ def update_patient_practitioner(practitioner_id, namePractitioner, genderPractit
 
         db.session.commit()
 
+
 def delete_patient(patient_id):
     patient = db.session.query(Patient).get(patient_id)
     if patient:
-        immunization = db.session.query(Immunization).filter_by(id=patient.immunization_id).first()
-        observation = db.session.query(Observation).filter_by(id=patient.observation_id).first()
+        immunization = db.session.query(Immunization).filter_by(
+            id=patient.immunization_id).first()
+        observation = db.session.query(Observation).filter_by(
+            id=patient.observation_id).first()
 
         if immunization:
             db.session.delete(immunization)
@@ -213,14 +238,17 @@ def delete_patient(patient_id):
         db.session.delete(patient)
         db.session.commit()
 
+
 def load_appointment(practitioner_id=None, patient_id=None, user_id=None, from_date=None, to_date=None, appointmentType=None, reason=None):
     appointments = Appointment.query.filter(Appointment.active.__eq__(True))
 
     if practitioner_id:
-        appointments = appointments.filter(Appointment.practitioner_id.__eq__(practitioner_id))
+        appointments = appointments.filter(
+            Appointment.practitioner_id.__eq__(practitioner_id))
 
     if patient_id:
-        appointments = appointments.filter(Appointment.patient_id.__eq__(patient_id))
+        appointments = appointments.filter(
+            Appointment.patient_id.__eq__(patient_id))
 
     if user_id:
         appointments = appointments.filter(Appointment.user_id.__eq__(user_id))
@@ -232,15 +260,18 @@ def load_appointment(practitioner_id=None, patient_id=None, user_id=None, from_d
         appointments = appointments.filter(Appointment.date.__le__(to_date))
 
     if appointmentType:
-        appointments = appointments.filter(Appointment.appointmentType == appointmentType)
+        appointments = appointments.filter(
+            Appointment.appointmentType == appointmentType)
 
     if reason:
         appointments = appointments.filter(Appointment.reason == reason)
 
     return appointments
 
+
 def get_appointment_by_id(appointment_id):
     return Appointment.query.get(appointment_id)
+
 
 def add_appointment(dateApp, timeApp, appointmentType, reasonApp, practitioner_id, patient_id, user_id):
 
@@ -254,6 +285,7 @@ def add_appointment(dateApp, timeApp, appointmentType, reasonApp, practitioner_i
     db.session.add(appointment)
     db.session.commit()
 
+
 def update_appointment(appointment_id, dateApp, timeApp, appointmentType, reasonApp, practitioner_id):
     info = db.session.query(Appointment).get(appointment_id)
     if info:
@@ -265,11 +297,13 @@ def update_appointment(appointment_id, dateApp, timeApp, appointmentType, reason
 
         db.session.commit()
 
+
 def delete_appointment(appointment_id):
     appointment = db.session.query(Appointment).get(appointment_id)
 
     db.session.delete(appointment)
     db.session.commit()
+
 
 def update_practitioner_gender(practitioner_id, genderPractitioner):
     practitioner = db.session.query(Practitioner).get(practitioner_id)
@@ -278,6 +312,7 @@ def update_practitioner_gender(practitioner_id, genderPractitioner):
 
         db.session.commit()
 
+
 def update_practitioner_birthDate(practitioner_id, birthDatePractitioner):
     practitioner = db.session.query(Practitioner).get(practitioner_id)
     if practitioner:
@@ -285,12 +320,14 @@ def update_practitioner_birthDate(practitioner_id, birthDatePractitioner):
 
         db.session.commit()
 
+
 def update_practitioner_address(practitioner_id, addressPractitioner):
     practitioner = db.session.query(Practitioner).get(practitioner_id)
     if practitioner:
         practitioner.address = addressPractitioner.strip()
 
         db.session.commit()
+
 
 def update_practitioner_language(practitioner_id, language):
     practitioner = db.session.query(Practitioner).get(practitioner_id)
@@ -307,12 +344,14 @@ def update_patient_gender(patient_id, genderPatient):
 
         db.session.commit()
 
+
 def update_patient_birthDate(patient_id, birthDatePatient):
     patient = db.session.query(Patient).get(patient_id)
     if patient:
         patient.birthDate = birthDatePatient
 
         db.session.commit()
+
 
 def update_patient_address(patient_id, addressPatient):
     patient = db.session.query(Patient).get(patient_id)
@@ -322,14 +361,11 @@ def update_patient_address(patient_id, addressPatient):
         db.session.commit()
 
 
-import csv
-from collections import OrderedDict
-
-
 def export_csv():
     patients = Patient.query.filter(Patient.active.__eq__(True))
 
-    p = os.path.join(app.root_path, "data/patient-%s.csv" % str(datetime.now().strftime("%Y-%m-%d-%H-%M-%S")))
+    p = os.path.join(app.root_path, "data/patient-%s.csv" %
+                     str(datetime.now().strftime("%Y-%m-%d-%H-%M-%S")))
     with open(p, 'w', encoding="utf-8") as f:
         writer = csv.DictWriter(f,
                                 fieldnames=["Id", "Name", "Gender", "Birth Date",
