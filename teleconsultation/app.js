@@ -11,7 +11,7 @@ var path = require('path');
 app.use(express.static(path.join(__dirname,'./templates')));
 
 app.get('/', (req, res) => {
-  res.sendFile(__dirname + '/templates/chats.html');
+  res.sendFile(__dirname + '/templates/teleconsultations.html');
 });
 
 

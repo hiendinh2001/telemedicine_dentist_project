@@ -1,4 +1,3 @@
-import math
 from flask import render_template, request, redirect, url_for, session, jsonify, send_file, Response
 from app import app, login
 from app import utils
@@ -8,7 +7,6 @@ from flask_login import login_required
 from app.models import UserRole
 import os
 from datetime import date, datetime, timedelta
-import cv2
 import random
 from string import ascii_uppercase
 from flask_socketio import SocketIO, join_room, leave_room, send, emit
@@ -426,7 +424,7 @@ def user_register():
             else:
                 err_msg = 'The re-entered password is incorrect'
         except Exception as ex:
-            err_msg = 'Your identifier or email already exists' + str(ex)
+            err_msg = 'Your identifier or email already exists'
 
     return render_template('register.html',
                            err_msg=err_msg)
@@ -499,7 +497,6 @@ def appointment_list():
     reason = request.args.get('reason')
     patient_id = request.args.get('patient_id')
 
-    # affichage des rendez-vous du patient connecté, ou du médecin connecté
     if not user_id:
         if current_user.user_role == UserRole.PATIENT:
             patient_id = current_user.patient_id
@@ -514,7 +511,12 @@ def appointment_list():
                                           reason=reason,
                                           patient_id=patient_id)
 
-    return render_template('appointment.html', appointments=appointments, users=utils.load_user(), practitioners=utils.load_practitioner(), patients=utils.load_patient(), UserRole=UserRole)
+    return render_template('appointment.html', 
+                           appointments=appointments, 
+                           users=utils.load_user(), 
+                           practitioners=utils.load_practitioner(), 
+                           patients=utils.load_patient(), 
+                           UserRole=UserRole)
 
 
 @app.route("/fhir/Appointment/add", methods=['get', 'post'])
@@ -767,10 +769,10 @@ def disconnect():
     print(f"{name} has left the room {room}")
 
 
-@app.route("/SendMailDoctor")
-def send_mail_doctor():
+@app.route("/SendMail")
+def send_mail():
     # if current_user.user_role == UserRole.PATIENT:
-    return render_template('room_email_doctor.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
+    return render_template('room_email.html', practitioners=utils.load_practitioner(), UserRole=UserRole)
 
 # ------------------------ edit Info Practitioner ------------------------
 

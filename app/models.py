@@ -1,7 +1,7 @@
 from sqlalchemy import Column, Integer, Boolean, Float, String, Text, ForeignKey, Enum, DateTime, Time
 from sqlalchemy.orm import relationship, backref
 from app import db, app
-from datetime import datetime, time
+from datetime import datetime
 from flask_login import UserMixin
 from enum import Enum as UserEnum
 
@@ -97,7 +97,7 @@ class User(BaseModel, UserMixin):
     user_role = Column(Enum(UserRole), default=UserRole.PATIENT)
     appointment = relationship('Appointment', backref='User', lazy=False)
     practitioner_id = Column(Integer, ForeignKey(
-        Practitioner.id), nullable=True, default=1)
+        Practitioner.id), nullable=True)
     patient_id = Column(Integer, ForeignKey(Patient.id), nullable=True)
 
 
@@ -211,7 +211,7 @@ if __name__ == '__main__':
 
         pr1 = Practitioner(name='Null',
                            gender='Null',
-                           birthDate='2012-12-12',
+                           birthDate='2012-01-01',
                            address='Null',
                            language='Null',
                            position='Null',
@@ -264,7 +264,7 @@ if __name__ == '__main__':
         # db.session.add(pr9)
         # db.session.add(pr10)
 
-        # db.session.commit()
+        db.session.commit()
 
         o1 = Observation(status='Final',
                          effectiveDateTime='2021-12-12',

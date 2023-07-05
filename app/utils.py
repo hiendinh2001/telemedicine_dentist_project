@@ -6,9 +6,8 @@ from flask_login import current_user
 from sqlalchemy import func
 from sqlalchemy.sql import extract
 import hashlib
-from flask_login import current_user
 import csv
-from _datetime import datetime
+from datetime import datetime
 from collections import OrderedDict
 
 
@@ -73,7 +72,8 @@ def get_practitioner_by_id(practitioner_id):
     return Practitioner.query.get(practitioner_id)
 
 
-def add_user_doctor(name, username, password, email, genderPractitioner, birthDatePractitioner, addressPractitioner, language, position, **kwargs):
+def add_user_doctor(name, username, password, email, genderPractitioner, birthDatePractitioner, 
+                    addressPractitioner, language, position, **kwargs):
     practitioner = Practitioner(name=name.strip(),
                                 gender=genderPractitioner,
                                 birthDate=birthDatePractitioner,
@@ -97,7 +97,8 @@ def add_user_doctor(name, username, password, email, genderPractitioner, birthDa
     db.session.commit()
 
 
-def add_user(name, username, password, email, genderPatient, birthDatePatient, addressPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, **kwargs):
+def add_user(name, username, password, email, genderPatient, birthDatePatient, addressPatient, 
+             statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, **kwargs):
     immunization = Immunization(status=None if not statusVaccine else statusVaccine,
                                 vaccineCode=None if not vaccineCode else vaccineCode,
                                 occurrenceDateTime=None if not occurrenceDateTime else occurrenceDateTime)
@@ -148,7 +149,9 @@ def get_user_by_id(user_id):
     return User.query.get(user_id)
 
 
-def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, value, unit, practitioner_id):
+def add_patient(namePatient, genderPatient, birthDatePatient, addressPatient, emailPatient, 
+                statusVaccine, vaccineCode, occurrenceDateTime, statusObservation, effectiveDateTime, 
+                value, unit, practitioner_id):
 
     immunization = Immunization(status=statusVaccine.strip(),
                                 vaccineCode=vaccineCode.strip(),
